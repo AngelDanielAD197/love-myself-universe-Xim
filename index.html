@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Universo en Cartas — Love Myself</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Fira+Code:wght@400;500&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body class="dashboard-universo">
+
+    <div class="layout-principal">
+
+        <div class="fondo-estrellas"></div>
+        <div class="fondo-nebulosa"></div>
+
+        <aside class="sidebar-usuario">
+            <div class="avatar-laptop">
+                <div class="icon-bts-laptop">💻<span>BTS</span></div>
+            </div>
+            <div class="info-user">
+                <span class="label-usera">Universo de:</span>
+                <span class="nombre-user">Daniel</span>
+            </div>
+        </aside>
+
+        <main class="columna-centro">
+            <header class="header-grafo">
+                <h1>El Universo en Cartas</h1>
+                <h2>Love Myself Universe</h2>
+            </header>
+
+            <div class="panel-filtros">
+                <h3>Eras de Individuación</h3>
+                <ul class="lista-filtros">
+                    <li class="filtro-era active" data-era="todos">
+                        <span class="dot blanco-f"></span>✨ Ver Todo
+                    </li>
+                    <li class="filtro-era" data-era="soul">
+                        <span class="dot azul-f"></span>💙 The Universe of the Soul
+                    </li>
+                    <li class="filtro-era" data-era="shadows">
+                        <span class="dot morado-f"></span>🖤 Shadows, Selves & Tears
+                    </li>
+                    <li class="filtro-era" data-era="tbmil1">
+                        <span class="dot lila-f"></span>❤️ The Most Beautiful Moment of my Life Pt. 1
+                    </li>
+                    <li class="filtro-era" data-era="tbmil2">
+                        <span class="dot celeste-f"></span>💜 The Most Beautiful Moment of my Life Pt. 2
+                    </li>
+                    <li class="filtro-era" data-era="forever">
+                        <span class="dot verde-f"></span>💙 The Most Beautiful Moment of my Life Forever
+                    </li>
+                </ul>
+            </div>
+
+            <div id="canvas-grafo">
+                <div class="ecuacion-fondo eq-1">The Music is Life</div>
+                <div class="ecuacion-fondo eq-2">Beyond The Scene</div>
+                <div id="grafo-interactivo"></div>
+            </div>
+        </main>
+
+        <aside class="columna-derecha">
+            <div class="tarjeta-lectura-glass" id="visor-cartas">
+                <h2 id="carta-titulo">Carta Actual: Selecciona un nodo</h2>
+                
+                <div class="spotify-widget-container" id="spotify-wrapper">
+                    <div class="spotify-placeholder">
+                        <p>Reproductor de Audio Inteligente</p>
+                    </div>
+                </div>
+
+                <div class="cuerpo-carta-scroll" id="carta-contenido">
+                    <p class="instruccion-inicio">Haz clic en cualquier planeta o nodo del grafo para explorar su historia, sus conceptos psicológicos y su música asociada...</p>
+                </div>
+            </div>
+        </aside>
+
+        <footer class="footer-terminal">
+            <div class="terminal-box">
+                <span class="prompt">daniel@universo:~$</span>
+                <input type="text" id="terminal-input" placeholder="search 'help'" autocomplete="off">
+            </div>
+            <div class="creditos-academicos">
+                Desarrollado con Código HTML, CSS y JavaScript por Daniel, MAC, UNAM | 2026 | BTS: Music is Art, Life is Logic.
+            </div>
+        </footer>
+
+    </div>
+    <script src="js/grafo.js"></script>
+</body>
+</html>

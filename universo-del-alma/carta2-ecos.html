@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía I | Carta 2: Ecos de una infancia herida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo */
+        body {
+            background-color: #0b0914;
+            color: #d1cbdc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+            background: #0b0914;
+        }
+
+        /* Estilo para los Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.75);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Interfaz del Chat */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: La Carta con Scroll Independiente */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #f72585; /* Tono magenta/rosa para esta era emocional */
+            margin: 5px 0;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Lista de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Único en el Footer */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; /* Centralizado completamente */
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE DE LECTURA DE LA CARTA 2 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #6a6575; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre las emociones básicas, Paul Ekman, el fenómeno de Whalien 52 o las vivencias de Daniel en la primaria...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DE LA CARTA 2 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header class="header-lectura">
+                    <p style="color: #f72585; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; margin:0;">LOVE MYSELF: THE UNIVERSE OF THE SOUL</p>
+                    <h1>CARTA 2: ECOS DE UNA INFANCIA HERIDA</h1>
+                    <p style="color: #6a6575; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: rgba(255,255,255,0.05); margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "I'm a whalien who can't be heard" - Whalien 52, BTS
+                    </div>
+
+<p>Hola Xime,</p>
+    <p>Paul Ekman teoriza que existen seis emociones básicas: alegría, tristeza, miedo, ira, sorpresa y asco. Estas emociones aparecen desde el nacimiento, pero a medida que crecemos y nos volvemos más conscientes de nosotros mismos, empezamos a experimentar emociones más complejas.</p>
+    
+    <p>Pasar del kínder a la primaria puede parecer algo pequeño desde afuera, pero para un niño es una transición enorme. Para mí, fue un salto al vacío, un nuevo mundo lleno de incertidumbre... y de miedo.</p>
+    
+    <p>En 2012 ingresé a la primaria, en el turno vespertino. A mi mamá no le agradaba mucho el horario, pero aun así me mantuve allí durante seis años. El Daniel de seis años veía todo con ojos de emoción: me encantaba aprender y experimentar cosas nuevas. La primaria, al principio, fue eso: una aventura.</p>
+    
+    <p>El primer año fue una etapa de descubrimientos, aunque también comenzaron algunos inconvenientes físicos. Caminaba con el pie hacia adentro y me caía seguido. Me diagnosticaron una posible malformación en las rodillas. Empecé a usar zapatos ortopédicos y bandas especiales que envolvían mis piernas. También usaba taloneras en los calcetines y me vendaban las rodillas por las noches. A veces, simplemente no podía caminar sin dolor.</p>
+    
+    <p>Aun así, fue una etapa con pequeños momentos felices. Incluso llegué a tener novia, jajaja. Al final de ese primer grado, recibí un reconocimiento por mi desempeño académico. En ese momento no entendía su valor, pero ahora lo aprecio más.</p>
+    
+    <p>En 2014 me diagnosticaron miopía en un ojo y astigmatismo en el otro. Desde entonces comenzó a usar lentes. Fue ahí donde tal como lo teorizo Paul Ekman las emociones empezaron a volverse más complejas. Me sentía frustrado, a veces avergonzado, como si cada cambio físico que vivía fuera una nueva capa de rareza encima de mí.</p>
+    
+    <p>El bullying es un tema complejo y lastimosamente mi experiencia con el no fue buena. No solo por los lentes, sino también por ser alto, por usar zapatos ortopédicos, por las bandas en las piernas... era como si todo en mí resaltara como un blanco perfecto. A los ocho años tuve mi primera pelea. No solo porque me molestaran a mí, sino porque veia cómo maltrataban a mis amigos. Sentí una mezcla de rabia e impotencia.</p>
+    
+    <p>Los maestros solo regañaban, pero nada cambiaba. En el turno vespertino, estas situaciones eran comunes, y muchas veces la única salida era pelear. Esa pelea no terminó bien para mí.</p>
+    
+    <p>Me amenazaron con romperme los lentes, y yo... supliqué que no lo hicieran. Fue humillante. Y eso me dolio mucho en su momento.</p>
+    
+    <p>Mi mamá trabajaba mucho y no siempre estaba en casa, pero cuando sí, me escuchaba. Me decía que me defendiera, que no me dejara. Pero pelear nunca fue mi forma de resolver las cosas. Aun así, fingía que no me afectaba, que podía con todo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #778da9; background: rgba(119, 141, 169, 0.05); color: #415a77;">
+        Blue & Grey- BTS
+    </div>
+    
+    <p>Pero en el fondo sí me afectaba. Sembró inseguridades que, aunque en ese momento no lo parecían, con el tiempo crecerían en silencio. Fueron semillas que germinaron en el rincón más frágil de mi autoestima.</p>
+    
+    <div class="quote-bts" style="border-left-color: #e0e1dd; background: rgba(224, 225, 221, 0.05); color: #1b263b;">
+        Awake- BTS (Jin)
+    </div>
+    
+    <p>Esto lo cuento de una manera muy resumida, pero creo que es necesario decirlo. Porque reconocer estas heridas es parte de sanar. Porque incluso en medio del dolor, aún era ese niño curioso que buscaba aprender y entender el mundo.</p>
+    
+    <p>Gracias por estar aquí, leyéndome Xime.</p>
+    <p>Con cariño,</p>
+    <p>Dany</p>
+    
+    <div class="quote-bts" style="border-left-color: #0d1b2a; background: rgba(13, 27, 42, 0.05); color: #1b263b;">
+        Life- BTS (RM)
+    </div>
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA DE LA CARTA 2 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Carta</div>
+            <div class="musica-contenido">
+                
+                <!-- Whalien 52 - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2HMVg8AqrijDGKu0U5bVNH?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Blue & Grey - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7Ki0hse0IfXEcXUlpyECbJ?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Awake - BTS (Jin) -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3gxNkvcP8scSzL6mGznTn3?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR DEL ASISTENTE SIMULADO (CON CIENCIA Y PSICOLOGÍA ENRIQUECIDA) -->
+    <script>
+        const conocimientoAsistente = {
+            "ekman": "Paul Ekman es uno de los psicólogos más influyentes del siglo XX, pionero en el estudio de las emociones y sus expresiones faciales. Su teoría determinó que las 6 emociones básicas (alegría, tristeza, miedo, ira, sorpresa y asco) son biológicamente primitivas, universales y transculturales. Ekman demostró que estas respuestas emocionales evolucionaron para ayudarnos a sobrevivir, pero a medida que el sistema cognitivo madura en la infancia, dan paso a emociones complejas o secundarias (como la culpa, la vergüenza o la frustración) moldeadas por el entorno social.",
+            "emociones": "Paul Ekman es uno de los psicólogos más influyentes del siglo XX, pionero en el estudio de las emociones y sus expresiones faciales. Su teoría determinó que las 6 emociones básicas (alegría, tristeza, miedo, ira, sorpresa y asco) son biológicamente primitivas, universales y transculturales. Ekman demostró que estas respuestas emocionales evolucionaron para ayudarnos a sobrevivir, pero a medida que el sistema cognitivo madura en la infancia, dan paso a emociones complejas o secundarias (como la culpa, la vergüenza o la frustración) moldeadas por el entorno social.",
+            "primaria": "En 2012, Daniel ingresó a la primaria 'Manuel José Othón' en el turno vespertino, donde estudió durante seis años. Aunque inicialmente lo vivió con gran entusiasmo, curiosidad y un excelente desempeño académico (recibiendo un diploma en primer grado), la etapa se tornó compleja debido a retos físicos y experiencias de acoso escolar.",
+            "2012": "En 2012, Daniel ingresó a la primaria 'Manuel José Othón' en el turno vespertino, donde estudió durante seis años. Aunque inicialmente lo vivió con gran entusiasmo, curiosidad y un excelente desempeño académico (recibiendo un diploma en primer grado), la etapa se tornó compleja debido a retos físicos y experiencias de acoso escolar.",
+            "ortopedicos": "Durante el primer grado, a Daniel le diagnosticaron una posible malformación en las rodillas porque caminaba con los pies hacia adentro y sufría caídas frecuentes. Esto lo obligó a usar un doloroso y restrictivo tratamiento: zapatos ortopédicos, bandas especiales que envolvían sus piernas, taloneras en los calcetines y vendajes nocturnos en las rodillas.",
+            "rodillas": "Durante el primer grado, a Daniel le diagnosticaron una posible malformación en las rodillas porque caminaba con los pies hacia adentro y sufría caídas frecuentes. Esto lo obligó a usar un doloroso y restrictivo tratamiento: zapatos ortopédicos, bandas especiales que envolvían sus piernas, taloneras en los calcetines y vendajes nocturnos en las rodillas.",
+            "lentes": "En 2014, se le diagnosticó miopía en un ojo y astigmatismo en el otro, requiriendo el uso permanente de lentes. Psicológicamente, este cambio físico sumado al tratamiento ortopédico generó en Daniel sentimientos de frustración y vergüenza, percibiéndose a sí mismo con una 'capa de rareza'.",
+            "miopia": "En 2014, se le diagnosticó miopía en un ojo y astigmatismo en el otro, requiriendo el uso permanente de lentes. Psicológicamente, este cambio físico sumado al tratamiento ortopédico generó en Daniel sentimientos de frustración y vergüenza, percibiéndose a sí mismo con una 'capa de rareza'.",
+            "bullying": "Entre 2014 y 2015, Daniel sufrió maltrato escolar (bullying). Su estatura alta, los lentes y los aparatos ortopédicos lo convirtieron en blanco de burlas. A los 8 años, la impotencia y la falta de intervención efectiva de los maestros lo llevaron a involucrarse en una pelea para defender a otros compañeros, la cual derivó en una dolorosa humillación donde tuvo que suplicar para que no rompieran sus lentes.",
+            "acoso": "Entre 2014 y 2015, Daniel sufrió maltrato escolar (bullying). Su estatura alta, los lentes y los aparatos ortopédicos lo convirtieron en blanco de burlas. A los 8 años, la impotencia y la falta de intervención efectiva de los maestros lo llevaron a involucrarse en una pelea para defender a otros compañeros, la cual derivó en una dolorosa humillación donde tuvo que suplicar para que no rompieran sus lentes.",
+            "pelea": "A los 8 años, movido por la rabia y la impotencia al ver cómo maltrataban a compañeros cercanos, Daniel intervino en su primera pelea física. Ante la inacción escolar del turno vespertino, la situación escaló desfavorablemente, terminando en una experiencia traumática donde fue amenazado con la destrucción de sus lentes.",
+            "mama": "La madre de Daniel trabajaba largas jornadas y no siempre estaba en casa. Sin embargo, cuando estaba presente, le brindaba un espacio de escucha activa y le aconsejaba defenderse. Daniel optaba por fingir ante ella que nada le afectaba para protegerla o demostrar fortaleza, silenciando el daño emocional.",
+            "autoestima": "Las experiencias de acoso y desamparo sembraron inseguridades profundas que germinaron de forma silenciosa en la autoestima de Daniel. La carta plantea que visibilizar, recordar y validar estas heridas de la infancia es el primer paso indispensable dentro del proceso psicológico de sanación.",
+            "heridas": "Las experiencias de acoso y desamparo sembraron inseguridades profundas que germinaron de forma silenciosa en la autoestima de Daniel. La carta plantea que visibilizar, recordar y validar estas heridas de la infancia es el primer paso indispensable dentro del proceso psicológico de sanación.",
+            "whalien": "El término 'Whalien 52' acuñado por BTS hace referencia a la ballena de 52 hercios, un espécimen real único en el mundo que vaga por el océano cantando a una frecuencia mucho más alta que cualquier otra ballena (cuyo rango normal es de 15 a 25 Hz). Al no poder ser escuchada por sus pares, se le conoce como la ballena más solitaria del mundo. En la psicología del desarrollo infantil, este concepto es una metáfora perfecta del aislamiento y la alienación: el sentimiento profundo de un niño que expresa su dolor o su esencia, pero cuyo entorno es incapaz de sintonizar o validar su frecuencia emocional.",
+            "ballena": "El término 'Whalien 52' acuñado por BTS hace referencia a la ballena de 52 hercios, un espécimen real único en el mundo que vaga por el océano cantando a una frecuencia mucho más alta que cualquier otra ballena (cuyo rango normal es de 15 a 25 Hz). Al no poder ser escuchada por sus pares, se le conoce como la ballena más solitaria del mundo. En la psicología del desarrollo infantil, este concepto es una metáfora perfecta del aislamiento y la alienación: el sentimiento profundo de un niño que expresa su dolor o su esencia, pero cuyo entorno es incapaz de sintonizar o validar su frecuencia emocional.",
+            "canciones": "La banda sonora de este doloroso capítulo incluye 'Whalien 52' (metáfora de la soledad y la incomunicación), 'Blue & Grey' (una balada que explora la depresión, la ansiedad y el vacío expresados en colores), 'Awake' de Jin (el esfuerzo interno ante las limitaciones propias) y 'Life' de RM.",
+            "bts": "En esta carta, la discografía de BTS actúa como un catalizador clínico-emocional: 'Whalien 52' ilustra el aislamiento social; 'Blue & Grey' da forma a la tristeza profunda y la frustración; 'Awake' de Jin personifica la lucha resiliente en entornos adversos y 'Life' de RM acompaña la ambivalencia de la existencia."
+        };
+
+        const respuestasPorDefecto = [
+            "Ese concepto no se aborda en este capítulo de la infancia de Daniel. Prueba consultándome sobre 'Paul Ekman', 'Whalien 52', 'los zapatos ortopédicos' o 'el origen de sus inseguridades'.",
+            "Como archivo analítico de la Carta 2, solo proceso información vinculada a la transición a la primaria Manuel José Othón, la física del aislamiento sonoro o las seis emociones básicas.",
+            "Esa pregunta excede el marco temporal de este escrito. Te sugiero explorar los conceptos psicológicos presentes: el impacto del bullying, la maduración emocional o las metáforas de BTS para el dolor.",
+            "Para profundizar con rigor en este texto, puedes interrogarme sobre la base de la Trimestralidad de las emociones según Ekman o el significado clínico de sanar las heridas del pasado."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

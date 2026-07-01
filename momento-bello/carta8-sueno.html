@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Carta 8: Un sueño en vida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(17, 138, 178, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Contenedor de Imagen de Recuerdos */
+        .contenedor-imagen {
+            text-align: center;
+            margin: 40px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .contenedor-imagen img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .caption-imagen {
+            font-size: 0.9rem;
+            color: #8a8194;
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Análisis del Espejo Social</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Conexión establecida. Hola Xime. Puedes preguntarme sobre la confusión entre validación y apego, la elegancia ética en la asertividad del rechazo, o el impacto integrador del núcleo de cuatro amigas...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Analizar eventos de la Carta 8..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: CARTA 8: UN SUEÑO EN VIDA -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE PT1</p>
+                    <h1>Carta 8: Un sueño en vida</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "형이 슬프면 형이 아픈 것보다 내가 아파." — Begin, BTS (Jungkook)
+                    </div>
+
+<p>Octubre del 2021, los primeros días que me junte con Diana fueron a raíz de tareas pero después poco a poco íbamos conociéndonos mejor. De hecho saliendo de la Prepa me comencé a ir con ella a acompañarla a su casa, recuerdo que el primer día que salimos de la Prepa juntos, no hablamos en todo el camino jajaja. Aún tengo eso hecho presente en mi mente y más adelante le pedí disculpas por ese mal rato jajaja. En ese tiempo no me sabía comunicar bien con personas que no conocía.</p>
+    
+    <p>Pero lo que me alegro es que poco a poco fuimos hablando más, recuerdo que cada que pasaba una hora, los maestros nos dejaban salir a tomar 10 minutos de descanso y en esos pequeños ratos nos la pasábamos platicando. La verdad para serte sincero, me agrado mucho la sinergia que teníamos en ese tiempo.</p>
+    
+    <p>Poco a poco sin darme cuenta, íbamos construyendo un gran lazo de amistad entre ella y yo, era la primera vez que experimentaba un sentimiento como este, el sentir la calidez, la amabilidad y el apoyo de una persona. Era algo que no sabía que necesitaba.</p>
+    
+    <p>Un Lunes por curiosidad decidi ir a clases en la semana que no me tocaba, porque quería conocer a la otra mitad de mi grupo, conocer caras nuevas y ver quien estaba ahí, llegando al salón todos se me quedaron viendo, como diciendo ¿Y este quién es?, a lado de donde me senté estaba una niña de cabello ondulado que llevaba una mochila café, esa niña se llama <strong>Andrea</strong> y lo más curioso, fue que yo no le hable a ella, ella me hablo a mi jajaja. Cuando conocí a Andrea se me hizo una niña muy extrovertida, cuando me hablo, ella era la que llevaba las riendas de la conversación, era la primera vez que conocía a una chica así.</p>
+    
+    <div class="quote-bts" style="border-left-color: #8ecae6; background: rgba(142, 202, 230, 0.05); color: #219ebc;">
+        Lost Stars, BTS (Jung Kook)
+    </div>
+    
+    <p>Para finales del 2021, la Preparatoria nos organizó una bienvenida con temática navideña, recuerda que como actividad tenía que hacer un baile navideño con mi grupo o algo así, el punto es que recuerdo que cuando nos tocaba ensayar, nos separaban entre hombres y mujeres, a mí eso no me gustaba ya que con la única que hablaba era con Diana y a ninguno de los niños les había hablado.</p>
+    
+    <p>Llegamos a tal punto que nos mandábamos mensaje diario, incluso hasta compartíamos que comíamos hasta con foto y así jajaja, había veces en las que ella faltaba y yo me sentía muy solo cuando no iba. Había veces en la que le decía si se sentía cómoda conmigo, en ese tiempo tenía una autoestima muy baja, así que me autopercibía como alguten aburrido. Pero ella me daba palabras de aliento, diciéndome que no importaba de que hablaramos, que solo quería hablar conmigo y que todo lo que decía era importante y no sabes como eso impacto en mi corazón.</p>
+    
+    <p>Recuerdo que el día de nuestra presentación del baile navideño, nos llevaron al auditorio de la Prepa a darnos nuestra bienvenida, realizamos varias dinámicas, hubo música y muchas cosas las cuales disfrute, cuando nos sentamos juntos en los asientos, yo a cada rato volteaba a ver a Diana y veía esa alegría en ella que yo no me permitía expresar en esos momentos, ya que mi corazón aún estaba muy herido y no me permitía expresar emociones. Luego de eso fuimos a nuestro convivio que realizaron en el salón de clases, no recuerdo bien que hicimos, pero lo que si se es que me la pase muy bien ese día. Lastimosamente ese día me tuve que ir rápido corriendo ya que me marcaron diciéndome que le habia pasado un accidente a mi abuelita.</p>
+    
+    <p>Para cuando salimos de vacaciones en Diciembre, sentí unas ganas muy grandes de volver a ver a Diana, tal parecía que estaba muy apegado a ella a tal punto de que el 21 de ese mes le dije por mensaje que me gustaba.</p>
+    
+    <p>En la Psicología, la dependencia suele surgir para los que no conocen que es el amor. Lastimosamente en ese momento de mi vida confundí la validación y el sentirse querido con el amor. Afortunadamente me cruce con alguien que tiene valores éticos muy buenos y que me rechazo con una calma y elegancia donde no busco herir con su respuesta, sinceramente te puedo decir que fue el rechazo más bonito que he tenido jajaja.</p>
+    
+    <p>La verdad en ese tiempo mi mente aún seguía inestable, no hablaba con nadie de lo que me pasaba, solo con Diana y eso me llenaba el corazón. Aun así, agradezco que me regalara su amistad, actualmente es algo que valoro mucho más.</p>
+    
+    <p>Antes de que terminara el año, salimos por primera vez ella y yo. No recuerdo bien que hicimos pero si recuerdo algo de esa primera salida y es lo que me dijo luego de que yo te platicara sobre mis sueños: "Espero que todas tus metas y sueños se cumplan, luches por lo que más te gusta y seas feliz". Luego de eso nos tomamos una fotografía para el recuerdo.</p>
+
+    <div class="contenedor-imagen">
+        <img src="imagenes/primera-salida.jpg" alt="Fotografía del recuerdo con Diana, Diciembre 2021">
+        <div class="caption-imagen">Mi primera fotografía con Diana</div>
+    </div>
+
+    <div class="quote-bts" style="border-left-color: #3d3d3d; background: rgba(61, 61, 61, 0.05); color: #adb5bd;">
+        Wild Flower, RM
+    </div>
+    
+    <p><strong>Año 2022</strong>, cuando regresamos a clases todo seguía de maravilla entre ella y yo, platicábamos todos los días sobre cualquier cosa.</p>
+    
+    <p>En febrero del 2022, fuimos por primera vez de excursión. La Prepa había organizado una excursión a un campus del Politécnico pero no recuerdo bien cual. Recuerdo que Diana y yo nos habíamos organizado para sentarnos juntos y todo, pero justo ese día el perro orientador que tenía nos fue subiendo al autobús por número de lista, yo siempre he sido el primero de la lista y Diana era de las ultimas. Me acuerdo que como fui el primero en entrar al autobús me fui a sentar hasta atrás creyendo de que nos iban a sentar por número de lista, pero después de que fueron entrando uno por uno sentándose donde sea solo tenía que esperar a que entraras Diana, pero justo cuando ella entro y yo había levantado mi mano para que me viera, otro niño que estaba más enfrente que yo le dijo que se sentara con él y ya no vio mi mano. Luego de eso llego un chico preguntándome si estaba esperando a alguien, yo le dije que no y se sentó conmigo.</p>
+    
+    <p>Durante la mitad del viaje solo me limite a ver las películas que había descargado en mi teléfono para verlas con Diana, pero de pronto el chico cambio lugar con Andrea sentándose a mi lado. Andrea me comenzó a hacer la plática, la verdad no recuerdo bien de qué hablamos pero recuerdo que me la pase bien en esa segunda mitad del viaje.</p>
+    
+    <p>Cuando llegamos al IPN entramos a una Expo de licenciaturas, recuerdo que me encontré a Diana ya adentro de esa Expo y que recorrimos todos los stands que ofrecían información sobre las carreras universitarias. Recuerdo que en ese entonces Diana me dijo que quería estudiar una ingeniería y que me pregunto que quería estudiar yo, una pregunta que no supe responder en ese momento,</p>
+    
+    <p>Luego de eso nos llevaron a un parque, en el cual llegando luego luego Andrea tomo mi mano y nos salimos rápido del autobús, fuimos a comer a una pizzería y luego fuimos a una plaza cercana, la verdad es que si me divertí mucho con las ocurrencias que luego se aventaba y su risa contagiosa. De regreso de la excursión, seguimos platicando Andrea y yo hasta que me quede dormido. Cuando desperté ella ya estaba recargada en mi hombro bien dormidota y ya estábamos a punto de llegar a la Prepa. La verdad fue un día que no salió como planee pero que me divertí mucho y que pude conocer más a Andrea.</p>
+    
+    <p><strong>Marzo del 2022</strong>, en este mes sucedieron muchas cosas pero de las más destacadas están:</p>
+    <ul>
+        <li>Un día le hable a una niña que se llama <strong>Paloma</strong> porque llevaba una funda de un Anime que conocía, luego de eso si hablamos pero poco.</li>
+        <li>Un día llega a conmigo para invitarme a su fiesta de cumpleaños y como Diana estabas a lado de mi también te dijo a ella jajaja. Su invitación hacia mí me sorprendió ya que no había hablado mucho con ella pero por dentro tenía una sensación que no lograba disernir que era, hoy puedo decirte que esa sensación que sentía era felicidad pero en esos momentos no lo identificaba.</li>
+    </ul>
+    
+    <p>Total que como Diana iba a ir le dije que sí, cuando llego el día y fuimos a la fiesta, sentí una sensación que no te pudiera describir, ya que hace mucho tiempo que alguien no me invitaba a su fiesta de cumpleaños. Cuando entre a casa de Paloma y conocí a su mama y a su familia, se sentía una sensación de calidez y amabilidad en el ambiente que incluso fácilmente me podría sácar las lágrimas, quien iba a decir que esa misma sensación la iba a sentir contigo en el futuro Xime. Luego de un rato llego una chica de la cual no le preste tanta atención ese día, pero que en el futuro se convertiría en mi amor platónico de la Prepa, pero de ella hablaremos mas adelante. El punto es de que ese día igual me la pase genial.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f77f00; background: rgba(247, 127, 0, 0.05); color: #fcbf49;">
+        Peanut Butter & Tears, DPR IAN
+    </div>
+    
+    <p>En ese mismo mes de Marzo Diana había dejado de ir a clases por una semana porque se enfermo o algo así paso. El punto es de que ella no iba, por lo que al principio me la pasaba solito pero de pronto comenzó a hablar más con Paloma y con Andrea. Incluso un día que ya me iba a mi casa pensando que el día había terminado, me habla por teléfono Paloma para preguntarme donde estaba y que si me quería ir con ellas en la salida. En ese momento se me salió una lágrima del ojo y le dije con mucho entusiasmo que iba para allá. Desde ese día supe que se estaba formando algo grande aquí.</p>
+    
+    <p>Cuando Diana regreso a clases yo ya me hablaba bien con Paloma y con Andrea, ya solo faltabas ella en unirse, así que poco a poco se fue construyendo una de las mejores amistades de cuatro personas que tuve en la Prepa, ya para principios de Abril ya éramos muy amigos los cuatro.</p>
+    
+    <p>No sabes cómo disfrute estas fechas con ellas, me alegro de que la vida las pusiera en mi camino. Luego de eso disfrute mucho los siguientes meses con experiencias que me enriquecían como persona. Para Julio de ese año recuerdo que los cuatro nos despedimos con un abrazo agradeciendo el tiempo compartido y pidiendo de que segundo de Prepa fuera igual de bueno o mejor.</p>
+    
+    <p>Esta carta para mí es muy especial ya que relato como fue que conocí a estas personas que me ayudarían a no hundirme y me impulsarían a seguir avanzando. Desde que tengo memoria, la mayoría de mujeres que tengo presentes en mi vida me han demostrado que son personas increíbles, desde mi Madre, mi Abuelita hasta mis queridas amigas que estimo demasiado. Yo considero que son muy importantes para el desarrollo de este mundo, no es que un sexo se imponga sobre el otro si no que haya una coexistencia en donde ambas partes aporten. No sabes cómo me duele ver en las noticias mujeres desaparecidas que no pueden identificar, me parte el alma. Es por eso que pido de todo corazón que todas ustedes tengan vidas largas, encuentren el significado del amor y sean felices.</p>
+    
+    <p>Gracias por ser parte de mi historia y seguir leyéndome Xime, tqm.</p>
+    
+    <p>Dany.</p>
+    
+    <div class="quote-bts" style="border-left-color: #bf0603; background: rgba(191, 6, 3, 0.05); color: #700302;">
+        Jane Doe, Kenshi Yonezu & Hikaru Utada
+    </div>
+           </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: PAISAJE SONORO SUEÑO EN VIDA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El Despertar</div>
+            <div class="musica-contenido">
+                
+                <!-- Begin -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0bGJHUPR6ems9tzIljlPFR?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Lost Stars -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6jBz2yeNOZVI8aAe4QgNHn?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Wild Flower -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1AZjCZSGEjlxUufFQwSszF?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1GLBjXrpDJl8qFyhSCJvrd?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4oE7MyJhqSD3BaHRpNs8Nl?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "dependencia": "Clínicamente, cuando un adolescente experimenta baja autoestima y carece de esquemas previos de afecto incondicional, suele manifestar una 'confusión relacional'. Se tiende a decodificar la validación personal, la escucha atenta y la calidez (lo que Diana ofrecía en sus mensajes) como atracción romántica, buscando aferrarse a esa fuente de bienestar ante el miedo inconsciente al abandono.",
+            "autoestima": "Clínicamente, cuando un adolescente experimenta baja autoestima y carece de esquemas previos de afecto incondicional, suele manifestar una 'confusión relacional'. Se tiende a decodificar la validación personal, la escucha atenta y la calidez (lo que Diana ofrecía en sus mensajes) como atracción romántica, buscando aferrarse a esa fuente de bienestar ante el miedo inconsciente al abandono.",
+            "rechazo": "La respuesta de Diana el 21 de diciembre constituye un ejemplo perfecto de 'asertividad empática con contención emocional'. Al marcar un límite claro pero compasivo, protegió la integridad relacional de la amistad sin invalidar el sentir de Daniel. Esto transformó un potencial evento traumático de rechazo en un espacio de curación y seguridad psicológica.",
+            "confesion": "La respuesta de Diana el 21 de diciembre constituye un ejemplo perfecto de 'asertividad empática con contención emocional'. Al marcar un límite claro pero compasivo, protegió la integridad relacional de la amistad sin invalidar el sentir de Daniel. Esto transformó un potencial evento traumático de rechazo en un espacio de curación y seguridad psicológica.",
+            "andrea": "Andrea actúa bajo un perfil de personalidad con alta extroversión y prosocialidad. En el ambiente escolar, estos individuos funcionan como disruptores positivos para pares introvertidos. Al 'tomar las riendas' en el autobús y la excursión al IPN, Andrea redujo la carga de ansiedad social de Daniel, integrándolo de forma orgánica al micro-sistema dinámico del aula.",
+            "grupo": "La transición de marzo a abril de 2022 ilustra la consolidación de un 'endamiaje grupal de pares'. La ausencia temporal de Diana forzó a Daniel a diversificar sus lazos conectando con Paloma y Andrea. El regreso de Diana completó el cuarteto, un espacio vital de soporte simétrico donde los cuatro miembros compartían contención mutua y metas identitarias.",
+            "cuatro": "La transición de marzo a abril de 2022 ilustra la consolidación de un 'endamiaje grupal de pares'. La ausencia temporal de Diana forzó a Daniel a diversificar sus lazos conectando con Paloma y Andrea. El regreso de Diana completó el cuarteto, un espacio vital de soporte simétrico donde los cuatro miembros compartían contención mutua y metas identitarias.",
+            "paloma": "La llamada telefónica de Paloma en la salida de clases representa un potente 'refuerzo de pertenencia social'. Para alguien acostumbrado al aislamiento o a sentirse invisible, ser buscado activamente desencadena una respuesta afectiva profunda (las lágrimas de Daniel), validando su existencia e importancia dentro de la red del grupo.",
+            "excursion": "La excursión de febrero al Politécnico alteró de manera saludable las variables del entorno habitual de la escuela. Aunque el azar de las listas del maestro David y la intervención de Emanuel frustraron el plan de sentarse juntos, la contingencia abrió paso a la vinculación íntima con Andrea y a la posterior exploración vocacional en los stands.",
+            "begin": "La referencia a 'Begin' de BTS sintetiza perfectamente la transferencia empática en la amistad profunda: el sentimiento puro donde el bienestar propio está íntimamente ligado al del otro ('si tú sufres, me duele más a mí que si me doliera a mí mismo'). Refleja el pilar de apoyo mutuo que sostuvieron Daniel y Diana." 
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta excede los límites temáticos de la Carta 8. Prueba preguntándome sobre la dinámica psicológica de la baja autoestima, el valor adaptativo de la extroversión de Andrea o la consolidación del grupo de cuatro amigos.",
+            "Como analista del Universo de tu Alma, puedo explicarte cómo el rechazo asertivo de Diana protegió el lazo o el impacto emocional que tuvo la llamada de Paloma al romper el aislamiento de Daniel.",
+            "Para optimizar la lectura interactiva, te recomiendo consultar sobre la confusión clínica entre validación y amor, el significado de la excursión del IPN o la metáfora afectiva de 'Begin'.",
+            "Pregúntame sobre cómo se estructuraron los lazos de confianza mutua durante el primer año de prepa y el hermoso valor de cierre que Daniel dedica a las figuras femeninas de su vida."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

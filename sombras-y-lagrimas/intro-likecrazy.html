@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía II | Intro: Like Crazy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9; /* Tono grisáceo apagado de la era Tear */
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales Homogéneos */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff; /* Tono lila eléctrico para destacar la era de las Sombras */
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE DE LA SEGUNDA TRILOGÍA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes interrogarme sobre los mecanismos de evasión en Freud, la distracción de Pascal, el iOSLab de la UNAM, o la estructura analítica de Like Crazy...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DE INTRO: LIKE CRAZY -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>INTRO: LIKE CRAZY</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "I'd rather be lost in the lights, lost in the lights..." — Jimin, Like Crazy
+                    </div>
+
+   <p>Hola Xime:</p>
+    <p>Como ya sabes espero que te encuentres muy bien el día en que leas esto. El día en el que estoy escribiendo esto no me siento tan bien, como sabras M@c es una carrera linda pero a la vez estresante, aunque no has visto tanto esa parte de mí, también me suelo frustar mucho cuando las cosas no me salen bien. Sin embargo, con el tiempo he tratado de que esto no me afecte y he investigado como lidiar con el estrés. Una de las tantas cosas que hago para lidiar con esto es el despejar mi mente. Pero sabes, a veces siento que ha llegado a un punto donde me absorbe tanto que incluso le dedico la mayor parte del dia a mi carrera.</p>
+    
+    <p>Todos nos embriagamos de algo, algunos con adicciones, otros con el amor, el odio, la comida, el deseo, la fiesta, el dinero, el poder, el trabajo y otros como yo con la universidad o incluso no tanto con la universidad sino más bien con el conocimiento, que aunque algunos lo consideren bueno, puede en realidad no sea así ya que siento que estoy evadiendo muchas cosas de mí y de la realidad.</p>
+    
+    <p>Muchas personas han abordado el tema de la evasión a la realidad en muchos aspectos de nuestra vida, el psicoanalista Sigmund Freud teorizo que la mente humana se protege del dolor, la ansiedad y realidades desagradables para el individuo de manera natural, enviando la atención a otras cosas. Pascal también hablo del concept de la "distracción" como la forma en que los seres humanos se ocupan para no confrontar su propia existencia.</p>
+    
+    <p>Con el tiempo he entendido que las personas somos aún más complejas de lo que creía, tanto que muchos de nosotros no entendemos siquiera lo que está en nuestra cabeza. Y más aun cuando somos jóvenes que comienzan a descubrir la realidad de las cosas.</p>
+    
+    <p>La etapa de la adolescencia se considera una de las más caóticas en nuestra vida, tanto para nuestros padres como para nosotros, empezamos a dejar la ingenuidad de la infancia para enfrentarnos a nosotros mismos, adquirimos inseguridades y muchas otras cosas más que cada persona gestiona a su propio modo y manera de ver el mundo. Y es algo a lo que el joven Daniel esta por enfrentarse.</p>
+    
+    <p>"Love Myself: Shadows, Selves and Tears" es la segunda trilogía de esta historia, en el se abarcaran temas como el conflicto con uno mismo, la percepción del mundo a través de los ojos de un adolescente, inseguridades arraigadas que toman fuerza, la perdida, el amor, y el evento que sacudió al mundo entero.</p>
+    
+    <p>Esta segunda trilogía en comparación a la primera es más oscura, aspectos de mí que no quisiera mencionar pero que son necesarios para encontrar el perdón conmigo mismo y eventos que a día de hoy aún siguen rigiendo algunas de mis conductas sin darme cuenta.</p>
+    
+    <p>Esta trilogía estará acompañada de más música, el diseño inspirado en el álbum "Love Yourself Tear" y con toques de mi creatividad nace esta segunda serie de cartas.</p>
+    
+    <p>El tema musical central de esta introducción será es la canción "Like Crazy" del álbum Face de Jimin, una canción que expresa perfectamente este sentimiento de evasión y de miedo a enfrentarse a la realidad, algo que quizás esté haciendo con mi carrera. Desde hace tiempo esta canción es una de mis favoritas, no por nada es la más reproducida de mi playlist, me toca emocionalmente y el ritmo me hace sentir en las nubes cuando cierro los ojos.</p>
+    
+    <p>Espero te guste este trabajo y gracias por seguir leyéndome.</p>
+
+    
+    <!-- Cierre Intro -->
+    <div class="quote-bts" style="border-left-color: #ff4d6d; background: rgba(255, 77, 109, 0.05); color: #ff4d6d;">
+        "This will break me, this gonna break me..." _ Like Crazy (Jimin)
+    </div>
+            <p>Dany.</p>            
+                    
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: DISCOGRAFÍA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Intro</div>
+            <div class="musica-contenido">
+                
+                <!-- Like Crazy - Jimin -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3Ua0m0YmEjrMi9XErKcNiR?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE (FREUD, PASCAL, IOSLAB Y JIMIN) -->
+    <script>
+        const conocimientoAsistente = {
+            "freud": "Sigmund Freud propuso que el aparato psíquico recurre a mecanismos de defensa inconscientes para proteger al Yo del dolor existencial y de tensiones intolerables. En este contexto, la inmersión obsesiva en el estudio o el intelectualismo actúa como un mecanismo donde el foco de la libido y la atención se desplaza por completo hacia la teoría para postergar la confrontación de conflictos emocionales o traumas internos sin resolver.",
+            "mecanismo": "Sigmund Freud propuso que el aparato psíquico recurre a mecanismos de defensa inconscientes para proteger al Yo del dolor existencial y de tensiones intolerables. En este contexto, la inmersión obsesiva en el estudio o el intelectualismo actúa como un mecanismo donde el foco de la libido y la atención se desplaza por completo hacia la teoría para postergar la confrontación de conflictos emocionales o traumas internos sin resolver.",
+            "pascal": "El filósofo Blaise Pascal definió en sus 'Pensamientos' el concepto del divertimiento o distracción ('divertissement'). Afirmaba que los seres humanos se entregan febrilmente a actividades constantes (como el trabajo, el juego o el estudio) para no quedarse a solas en una habitación con sus propios pensamientos, evadiendo así la angustia inherente a la condición humana, la finitud y el vacío existencial.",
+            "distraccion": "El filósofo Blaise Pascal definió en sus 'Pensamientos' el concepto del divertimiento o distracción ('divertissement'). Afirmaba que los seres humanos se entregan febrilmente a actividades constantes (como el trabajo, el juego o el estudio) para no quedarse a solas en una habitación con sus propios pensamientos, evadiendo así la angustia inherente a la condición humana, la finitud y el vacío existencial.",
+            "ioslab": "El iOS Development Lab (iOSLab) de la UNAM es un espacio de alta especialización tecnológica enfocado en el desarrollo de aplicaciones móviles para el ecosistema Apple. Para Daniel, representa una meta académica ambiciosa y un salto hacia la ingeniería de software aplicada, requiriendo un dominio robusto de lógica de programación y diseño estructural de interfaces.",
+            "app": "El iOS Development Lab (iOSLab) de la UNAM es un espacio de alta especialización tecnológica enfocado en el desarrollo de aplicaciones móviles para el ecosistema Apple. Para Daniel, representa una meta académica ambiciosa y un salto hacia la ingeniería de software aplicada, requiriendo un dominio robusto de lógica de programación y diseño estructural de interfaces.",
+            "like crazy": "La pista principal 'Like Crazy' (del álbum en solitario 'FACE' de Jimin) funciona como el eje temático de esta Intro. Explora la dolorosa decisión de perderse en las luces brillantes y el ruido de una realidad alterada para no hacer frente a la cruda pérdida y las heridas de la identidad, sintonizando perfectamente con la sutil autocrítica de Daniel sobre refugiarse en el conocimiento continuo.",
+            "jimin": "La pista principal 'Like Crazy' (del álbum en solitario 'FACE' de Jimin) funciona como el eje temático de esta Intro. Explora la dolorosa decisión de perderse en las luces brillantes y el ruido de una realidad alterada para no hacer frente a la cruda pérdida y las heridas de la identidad, sintonizando perfectamente con la sutil autocrítica de Daniel sobre refugiarse en el conocimiento continuo.",
+            "evasion": "La evasión en esta carta se deconstruye no a través de vicios mundanos, sino mediante el 'intelectualismo' o la acumulación académica. El asistente interpreta este fenómeno como un escudo cognitivo: utilizar las matemáticas, la IA y los proyectos de programación como un refugio lógico-formal seguro para evitar la turbulencia afectiva característica de la transición adolescente.",
+            "realidad": "La evasión en esta carta se deconstruye no a través de vicios mundanos, sino mediante el 'intelectualismo' o la acumulación académica. El asistente interpreta este fenómeno como un escudo cognitivo: utilizar las matemáticas, la IA y los proyectos de programación como un refugio lógico-formal seguro para evitar la turbulencia afectiva característica de la transición adolescente.",
+            "trilogia": "La segunda trilogía ('Shadows, Selves and Tears'), inspirada estéticamente en 'Love Yourself 轉 Tear' de BTS, marca el descenso hacia las zonas más oscuras e introspectivas de la biografía de Daniel. Abordará de forma directa los conflictos identitarios, las inseguridades profundas en la adolescencia, las pérdidas emocionales y eventos globales de gran impacto.",
+            "tears": "La segunda trilogía ('Shadows, Selves and Tears'), inspirada estéticamente en 'Love Yourself 轉 Tear' de BTS, marca el descenso hacia las zonas más oscuras e introspectivas de la biografía de Daniel. Abordará de forma directa los conflictos identitarios, las inseguridades profundas en la adolescencia, las pérdidas emocionales y eventos globales de gran impacto."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta se aparta de las notas existenciales de la Intro. Puedes interrogarme sobre las tesis de evasión de Freud y Pascal, la proyección hacia el iOSLab, o el análisis analítico de 'Like Crazy'.",
+            "Como módulo de soporte de la Trilogía II, mi base teórica se enfoca en el análisis de las Sombras del Yo, los mecanismos psicológicos de defensa mediante el estudio, o el trasfondo de la era Tear.",
+            "Para no romper el pacto de lectura, te sugiero examinar los conceptos del divertimento existencial o los motivos de Daniel para pausar su entrenamiento vacacional en IA en CU.",
+            "Cada línea en esta introducción prepara el terreno para la era de la adolescencia. Si indagas sobre 'mecanismos de defensa' o la lírica de Jimin, desglosaré su vinculación con el manuscrito."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

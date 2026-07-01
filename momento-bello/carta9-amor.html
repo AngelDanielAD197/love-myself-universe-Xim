@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Carta 9: El amor e inicio de una redefinición</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(17, 138, 178, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Psique & Identidad</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Conexión establecida. Hola Xime. Puedes preguntarme sobre la reconfiguración de la amistad por el noviazgo, el impacto del rechazo de Julia en las gradas, la mimetización adaptativa de gustos o el origen de la crisis de identidad...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Analizar dinámicas de la Carta 9..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: CARTA 9 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE PT2</p>
+                    <h1>Carta 9: El amor e inicio de una redefinición</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+    <p>Antes de irme de vacaciones en Julio del 2022 tienes que saber algo y es que desde que si recuerdas, en el cumpleaños de Paloma conocí a una chica que más adelante cobraría relevancia, pues esa chica se llama Julia, pues resulta que me la empecé a encontrar más seguido en la escuela. A tal punto de que me comenzó a llamar la atención cada que la veía a lo lejos (iba en un salón distinto al mio), ella por supuesto no me topaba todavía pero pronto eso cambiaria ya que un día antes de salir de vacaciones le dije a Paloma que me pasara el número de Julia para poderla contactar por mensaje, luego de eso ese mismo día en la tarde tome valor y le mande mi primer "Hola" a Julia, marcando así el inicio de esta historia.</p>
+    
+    <p>En Julio del 2022, Paloma me invito a una salida al cine junto con Andrea y Diana, fuimos a ver la película de los Minions 2, recuerdo que fue la primera vez que salí con amigos al cine y lo sentí mágico. Disfrute mucho ver la película con ellas a mi lado.</p>
+    
+    <p>Durante las Vacaciones de Julio y Agosto me la pase platicando con Julia por mensaje. Nuestras conversaciones eran muy típicas como los clásicos ¿Cómo estás? y ¿Qué estás haciendo?. La verdad era que no tenía mucha experiencia en conversaciones en ese entonces, así que no sabía cómo romper el hielo y pasar más allá de esas preguntas. Aun así, disfrutaba mucho como me platicaba su día a día durante ese tiempo. También de repente Paloma era la que organizaba las saliditas a desayunar, me encantaban este tipo de planes ya que nunca había experimentado algo así y cada vez que nos juntábamos, sentía una calidez y tranquilidad indescriptibles.</p>
+    
+    <div class="quote-bts" style="border-left-color: #e9c46a; background: rgba(233, 196, 106, 0.05); color: #264653;">
+        So Beautiful, DPR IAN
+    </div>
+    
+    <p>Para cuando ingrese de nuevo a la prepa, recuerdo que estaba muy emocionado por volver a ver a mis amigas por lo que al entrar a mi nuevo salón, vi a Diana ya sentada en las butacas y la abrace como si no la hubiera visto en un año. Luego de eso llego Paloma y Andrea y nos sentamos los cuatro juntos.</p>
+    
+    <p>Las siguientes semanas fueron mágicas, reíamos, platicábamos y pasábamos tiempo juntos en los recesos de clases. Era una dinámica que a mí me agradaba mucho y que disfrutaba como no tienes idea. De vez en cuando Paloma se encontraba con Julia y se saludaban mientras estaba con nosotros, yo todavía no tenía el valor para hablarle a Julia, cada que la veía me ponía todo tímido y las palabras no me salían, así que tontamente no le hablaba cuando nos encontrábamos en persona pero si por mensaje.</p>
+    
+    <div class="quote-bts" style="border-left-color: #023e8a; background: rgba(2, 62, 138, 0.05); color: #0077b6;">
+        Closer To You, Jungkook
+    </div>
+    
+    <p>Recuerdo que en este tercer semestre nos volvió a tocar el mismo maestro de Matemáticas y nos pasaron a varios alumnos de un grupo disuelto anteriormente. La dinámica de ese maestro era la misma, si resolvías correctamente el ejercicio te sacaba del salón, regularmente salíamos Diana y yo y aprovechábamos ese ratito para platicar.</p>
+    
+    <p>Todas estas cosas que vivíamos para mí era como estar en un sueño del cual no quería despertar, sin embargo esta dinámica estaba a punto de cambiar ya que un día saliendo de resolver un ejercicio y ver a Diana salir después de mí, me acerque con mucho entusiasmo a platicar con ella como siempre lo habíamos hecho, pero por alguna razón ese día me dijo que me esperara y que luego hablábamos para después irse con un chico a platicar con él.</p>
+    
+    <p>Así fue por una semana entera para que en la siguiente semana luego de eso, nos dijeras que ese chico y Diana ya eran novios y si mis cálculos no me fallan, esto sucedió entre los meses de Septiembre u Octubre del 2022. Luego de este acontecimiento, nuestra dinámica como amigos cambiaria ya que si algo se de una relación es que, lo que más se le dedica a ella es el tiempo, un tiempo que tanto se puede aprovechar para construir algo bueno como te puede perjudicar.</p>
+    
+    <p>Cada vez pasábamos menos tiempo juntos, a tal punto de que cuando salíamos de la prepa, Diana ya no se iba con nosotros, en los recesos ya no estaba con nosotros e incluso algunas veces se cambiaba de lugar a donde estaba el. Sabía que era algo normal ya que eso implicaba estar en una relación pero por dentro si sentía algo de tristeza.</p>
+    
+    <div class="quote-bts" style="border-left-color: #b1a7a6; background: rgba(177, 167, 166, 0.05); color: #660708;">
+        Twin, Jennie
+    </div>
+    
+    <p>Durante este periodo seguí hablando con Julia por mensaje pero un día me entere por Paloma que a Julia le resultaba extraño hablar conmigo ya que hablábamos bien por mensaje pero no hablábamos nada en persona y de cierta manera tenía razón. Así que las siguientes veces que veía a Julia gracias a Paloma, mínimo la saludaba. Hubo un día que Paloma se encontró con Julia en la salida y que por algo que paso, no recuerdo bien que, me quede a solas por un momento con Julia así que aproveche y tuve mi primera conversación en persona con ella. Seguramente para ella fue algo común pero para mí fue dar un brinco a experimentar algo nuevo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #588157; background: rgba(88, 129, 87, 0.05); color: #344e41;">
+        Handlebars, Jennie & Dualipa
+    </div>
+    
+    <p>Así pasaron las dias hasta que un día, llega Paloma conmigo y me dice que me tiene una mala noticia y esa noticia era que Julia le dijo a Paloma que yo no era de su interés y que no estaba buscando nada en especial conmigo. Eso me cayó como balde de agua fría, le dije a Paloma que me diera un momento para asimilarlo y me fui a unas gradas de futbol para respirar y soltar unas lágrimas.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ee6c4d; background: rgba(238, 108, 77, 0.05); color: #293241;">
+        Nerves, DPR IAN
+    </div>
+    
+    <p>Al día siguiente le dije a Paloma que le dijera a Julia que la esperaba en las gradas en el receso, que quería platicar con ella en persona. Ese día en el receso me salí rápido del salón ya que no le había dicho nada a Paloma y Andrea, llegue rápido a las gradas y me senté a esperar a Julia, pasaba el tiempo tan lento que ese receso lo sentí interminable y más porque Julia no aparecía y como me lo temía, nunca llego. Cuando llegue al salón de nuevo, Paloma me pregunto que a donde me había metido y yo con una cara de tristeza y sin querer decirle nada le dije que en el baño.</p>
+    
+    <div class="quote-bts" style="border-left-color: #00b4d8; background: rgba(0, 180, 216, 0.05); color: #03045e;">
+        Hummingbird, Metro Boomin & James Blake
+    </div>
+    
+    <p>A finales de Octubre, Paloma me dijo que si salíamos a recorrer las Pirámides, yo no me sentía con muchos ánimos de ir hasta que me dijo que iba a ir Diana también. Al final le dije que si a Paloma pero cuando llego el día, me surgió uno de esos imprevistos que tienes que atender en el momento y que lamentablemente desarmo mi plan de ese día, es por eso que ese día les dije que mejor fueran ellas tres y que disfrutaran su día. Luego de eso me desocupe hasta casi 3 horas después de haberles dicho eso, yo pensé que ya hasta estaban en sus casas pero aun así mande mensaje preguntando como estaban y su respuesta me alivio como no tienes idea ya que me dijeron que aun las podía alcanzar ya que tenían planeado ir a comer todavía, así que las fui a alcanzar, ese día lo disfrute bastante y como siempre viviendo experiencias nuevas con ellas ya que por primera vez probé la comida china y lo mejor es que fue junto a ellas.</p>
+    
+    <p>Para diciembre de ese año hicimos nuestro baile de fin de año, yo en lo personal detestaba bailar pero tenía que hacerlo ya que era obligatorio, en el futuro esta idea evolucionaria a otra cosa. Yo para ese entonces ya había vuelto a platicar con Julia luego de un par de semanas en las cuales no le había escrito. A pesar de la respuesta de Julia en el pasado decidió aun así aferrarme y por una vez en mi vida pelear por algo pero esta vez con algunos cambios ya que decidí sumergirme en todo lo que le gustaba a Julia, supe que le gustaba Harry Potter, pues me vi toda la saga. Supe que le encantaba Stranger Things, pues contrate Netflix en mi celular y me vi todas las temporadas. Supe que le gustaba One direction, pues comencé a escuchar One direction también. Todo con un solo objetivo y ese era, tener temas de conversación para poder hablar de una manera más profunda con ella.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f25c54; background: rgba(242, 92, 84, 0.05); color: #f25c54;">
+        Start a War, Jennie
+    </div>
+    
+    <p>Todo esto era porque yo quería que Julia conociera a mi verdadero yo y no la versión superficial que solo vio de mí. Sin embargo, pronto comenzaría un conflicto conmigo mismo ya que comenzó a preguntarme como podía mostrarle mi verdadero yo y escavando más profundo me pregunte si siquiera podría definirme quien soy. Me di cuenta que en realidad no tenía la certeza de quien era en realidad y que en esos momentos marco un punto de inflexión en mi vida.</p>
+    
+    <div class="quote-bts" style="border-left-color: #6c757d; background: rgba(108, 117, 125, 0.05); color: #343a40;">
+        Glassy Sky, Yutaka Yamada
+    </div>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El Espejismo</div>
+            <div class="musica-contenido">
+                
+                <!-- LMLY - Jackson Wang -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3kPoV6L9vXpbxoM4Ux0KnX?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- So Beautiful - DPR IAN -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6syar8JKCt3R9ZBl11zmgI?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Closer To You - Jungkook -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/06Qo2fYR2KS1F7bL338iVT?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/5DIZg9QqSdzgHmkZ2k2F1a?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/08dD8Lk7VUea38YnsMzOP7?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2qwplOI7upNGwg2mLVrraw?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6HexNTb392JS071DoTGo0y?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6SaSFVlIQC1L6Fh1QKLeFi?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/67ColSQSTMboSIc6Cw6p88?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "noviazgo": "El inicio del noviazgo entre Diana y Fernando introduce el concepto de 'reconfiguración del tiempo social'. En la adolescencia, el primer amor romántico desplaza temporalmente la prioridad de los lazos de amistad del micro-sistema. Para Daniel, experimentar este distanciamiento gradual (en recesos y salidas) genera un micro-duelo por la pérdida de la rutina protectora previa.",
+            "julia": "La interacción con Julia ilustra la discrepancia común entre la 'intimidad digital' y la 'inhibición en persona'. Los mensajes escritos proveían un entorno seguro libre de la ansiedad social que congelaba a Daniel en los pasillos de la escuela. El posterior rechazo asimilado en las gradas de fútbol funciona como un golpe directo a una autoestima aún en proceso de consolidación.",
+            "gradas": "El episodio de las gradas y la cita fallida representan un evento de desamparo aprendido y evasión interpersonal por parte de Julia. El receso 'interminable' refleja cómo la percepción del tiempo se dilata bajo estados de estrés emocional agudo. Esconder la tristeza ante Paloma y Andrea bajo la excusa del baño muestra una resistencia inicial a externalizar la vulnerabilidad.",
+            "mimetizacion": "El esfuerzo de Daniel por consumir masivamente la saga de Harry Potter, Stranger Things y One Direction se define en psicología como 'asimilación adaptativa de intereses' o 'mimetismo relacional'. Ante la falta de un autoconcepto sólido, el adolescente adopta la matriz cultural del objeto de su afecto para construir un puente artificial de validación.",
+            "identidad": "La pregunta de cierre de Daniel ('¿siquiera podría definirme quién soy?') marca el inicio clínico de una crisis de identidad (Erikson). Al intentar vaciar su mente en los gustos ajenos, choca con el vacío de su propia definición. Este doloroso punto de inflexión es el catalizador necesario que a largo plazo impulsa el nacimiento de su identidad orientada al logro.",
+            "piramides": "La escapada tardía a San Juan para alcanzar al grupo y probar la comida china por primera vez actúa como un potente 'bálsamo reparador'. Demuestra la resiliencia del cuarteto de amigos: a pesar de los imprevistos y el desánimo previo de Daniel por el rechazo de Julia, el micro-sistema mantiene sus puertas abiertas para reintegrarlo y contenerlo.",
+            "gleason": "Las clases de Gleason representan el último espacio de complicidad simétrica pura que quedaba entre Daniel y Diana. Salir juntos del salón tras resolver correctamente los ejercicios matemáticos era el ancla de su antigua rutina; por ello, la interrupción de ese momento por la aparición de Fernando en las escaleras dolió profundamente."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta excede los límites temáticos de la Carta 9. Prueba preguntándome sobre la crisis de identidad de Daniel, la mimetización de gustos por Julia o el impacto del noviazgo de Fernando y Diana.",
+            "Como analista del Universo de tu Alma, puedo explicarte la psicología detrás del mimetismo cultural en el cortejo adolescente o el micro-duelo por el distanciamiento de tus amigas.",
+            "Para guiarte en la lectura de este punto de inflexión, sugiero consultar sobre el vacío existencial que detonó el rechazo en las gradas o el valor adaptativo de la comida china en San Juan.",
+            "Pregúntame sobre cómo el conflicto con Julia obligó a Daniel a cuestionarse por primera vez quién era su 'verdadero yo'."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

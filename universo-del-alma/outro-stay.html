@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía I | Outro: Stay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo */
+        body {
+            background-color: #0b0914;
+            color: #d1cbdc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+            background: #0b0914;
+        }
+
+        /* Estilo para los Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.75);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Interfaz del Chat */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: La Carta con Scroll Independiente */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #a393eb; /* Tono lila/púrpura místico para el Outro de la Era */
+            margin: 5px 0;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Lista de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Único en el Footer */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE DE LECTURA DEL OUTRO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #6a6575; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre la influencia de Ignacio Solares, la estructura del proyecto, las cartas a Paloma, o el trasfondo conceptual de Serendipity y Stay...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DEL OUTRO -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header class="header-lectura">
+                    <p style="color: #a393eb; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; margin:0;">LOVE MYSELF: THE UNIVERSE OF THE SOUL</p>
+                    <h1>OUTRO: STAY</h1>
+                    <p style="color: #6a6575; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: rgba(255,255,255,0.05); margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "Right here stay..." - Stay, BTS
+                    </div>
+
+    <p>Hola Xime:</p>
+    <p>Primero que nada, muchas gracias por leer esta serie de cartas y una disculpa por las faltas de ortografía que se me pasaron. Bueno para cerrar esta primera trilogía de cartas de daré algunos datos extra sobre la creación de estas cartas y al final un mensaje para ti.</p>
+    
+    <p>Este proyecto ya lo tenía en mente desde hace tiempo, solo que nunca me había atrevido a hacerlo y mucho menos puesto a pensar a como ejecutarlo. La idea surgió hace más de un año, más específicamente a inicios del 2024, desde antes me encantaban leer las biografías de cantantes y personajes históricos pero en ese año hice un curso de cómo escribir un libro y me contaron que hay personas que escriben sus experiencias de vida en libros. Ese dato me llamo mucho la atención y a raíz de esto me dio la idea de que estaría bien que redactara mi propia vida en un libro. La idea se quedó en mi cabeza pero nunca la desenvolví.</p>
+    
+    <p>Las cartas siempre han sido una manera de comunicación que me ha fascinado, siento que es la mejor manera en la que puedo expresar mis ideas, no por nada he redactado fácil unas 40 cartas en estos últimos 2 años en la cual el 90% han sido a personas muy cercanas a mí, incluyéndote.</p>
+    
+    <p>En ese mismo 2024, dos meses antes de salir de la Preparatoria a una buena amiga le entregue una serie de doce cartas donde le exponía la filosofía que había adquirido con el tiempo y el cómo este grupo de amigos que forme fue una de las mejores cosas que me paso en la vida, terminando esa serie con una carta titulada "The last Letter" que le entregue la última vez que salimos a desayunar juntos a una semana de irme a la ciudad, como sabiendo que después de ese día se nos haría más difícil juntarnos para salir. Tiempo después ella me dijo que esa carta si le saco unas lágrimas.</p>
+    
+    <p>Luego a principios de este año, en un momento donde me sentí muy solo, retome la idea de crear mi libro que contara mi vida. Al principio era un libro personal que estaba escribiendo para mí, sin embargo ese objetivo evolucionaria a algo más. Con el fin de compartirle esta historia a una de mis amigas que estudia en politécnico y que también estaba pasando por un momento difícil, cree este formato en forma de cartas, con un mejor diseño e incluyendo temas musicales que acompañan a la historia.</p>
+    
+    <p>A lo que quiero llegar es que también quería hacer algo simbólico contigo, tengo poco tiempo de conocerte pero el tiempo que he compartido contigo me ha permitido ver la maravillosa persona que eres y lo mucho que has representado para mí en esta segunda parte del año. Lo medite mucho pero al final decidí confiarte mi vida a base de estas cartas</p>
+    
+    <p>Pero no quería que fuera tan ordinario, comencé a entrelazar ideas y a actuar este proyecto para entregarte algo de calidad y que visualmente sea atractivo. Es así como inspirado en el formato de redacción del libro "Cartas a una joven psicóloga" del maestro Solares, el diseño visual de los álbumes "Love Yourself" de BTS, junto con mi creatividad y el uso de herramientas digitales, la música y el profundo aprecio que le tengo a las cartas nace esta primer trilogía.</p>
+    
+    <p>Como ya te habrás dado cuenta, esta primera trilogía narra la primera etapa de mi vida: la infancia. En el se tratan temas como mis primeras experiencias con el mundo, enfermedades, el primer amor, el sentimiento de sentirse diferente, mis primeras experiencias con el bullying, la curiosidad a los ojos de un niño y la ingenuidad característica de la infancia.</p>
+    
+    <p>Los temas musicales que elegí en esta trilogía fue más por sus letras, las canciones principales están citadas al principio de cada carta, en ellas trato de reflejar el mensaje central que está redactando la carta.</p>
+    
+    <p>Inner Child, canción principal de la primera carta, es una canción dirigida de mi yo de ahora a mi yo niño.</p>
+    
+    <p>Whailen 52 es una canción muy simbólica, aunque el ritmo no me llama tanto, la historia que narra sobre una ballena que canta a una frecuencia distinta por el basto océano sin ser comprendida me atrapo. Y más cuando supe que está basada en una historia real.</p>
+    
+    <p>Run es una canción que refuta muy bien esos sentimientos genuinos que sientes cuando estas joven y que musicalmente es una de mis favoritas.</p>
+    
+    <p>Otras canciones agregadas complementan partes de mi vida que no pueden ser expresadas con palabras, algunas dirigidas a otras personas como Let me Know y la mayoría complementando la historia narrada e incluso unas dirigidas hacia mi directamente.</p>
+    
+    <p>Las únicas cartas que tienen el título del nombre de una canción son la Intro y el Outro, que curiosamente estos términos se utilizan para iniciar y terminar un álbum musical. Y que también curiosamente son las canciones que están dirigidas de mi para ti.</p>
+    
+    <p>Serandipity como ya te había contado es un término que se suele utilizar al encontrar algo inesperado pero a la vez único y valioso. Aunque la canción utiliza conceptos amorosos, mi concepto del amor es más libre y amplio. Algo que te explicare más adelante.</p>
+    
+    <p>Y esta última canción Stay te la dedico ampliamente y sin filtros, el tema principal de este Outro y con el que me quedo en mi corazón.</p>
+    
+    <p>Gracias por seguirme en esta exploración al Universo del Alma.</p>
+    
+    <p>Dany.</p>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA DEL OUTRO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora del Outro</div>
+            <div class="musica-contenido">
+                
+                <!-- Stay - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0TdWVbcerMAcvljXrl9gpG?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR DEL ASISTENTE SIMULADO (LITERATURA, PSICOLOGÍA Y MÚSICA POTENCIADA) -->
+    <script>
+        const conocimientoAsistente = {
+            "solares": "Ignacio Solares fue un destacado escritor, periodista y editor mexicano. Su renombrada obra narrativa y epistolar 'Cartas a una joven psicóloga' utiliza una correspondencia imaginaria y fluida para desglosar de forma didáctica e íntima las corrientes psicológicas, el inconsciente y las complejidades de la mente humana. Daniel adopta este formato epistolar-literario para estructurar un diálogo transparente y directo con Diana, usando la narrativa personal como un canal de revelación y catarsis.",
+            "psicologa": "Ignacio Solares fue un destacado escritor, periodista y editor mexicano. Su renombrada obra narrativa y epistolar 'Cartas a una joven psicóloga' utiliza una correspondencia imaginaria y fluida para desglosar de forma didáctica e íntima las corrientes psicológicas, el inconsciente y las complejidades de la mente humana. Daniel adopta este formato epistolar-literario para estructurar un diálogo transparente y directo con Diana, usando la narrativa personal como un canal de revelación y catarsis.",
+            "paloma": "Paloma ('Palo') es una figura clave en la génesis de esta obra. Fue una de las primeras personas en leer un fragmento del libro inicial de Daniel en 2024 e impulsó la idea de que plasmara su biografía. Dos meses antes de concluir la Preparatoria, Daniel le obsequió una serie filosófica de doce cartas sobre el valor de su grupo de amigos, cerrando con 'The last Letter' antes de que él partiera a realizar sus estudios profesionales en la ciudad.",
+            "palo": "Paloma ('Palo') es una figura clave en la génesis de esta obra. Fue una de las primeras personas en leer un fragmento del libro inicial de Daniel en 2024 e impulsó la idea de que plasmara su biografía. Dos meses antes de concluir la Preparatoria, Daniel le obsequió una serie filosófica de doce cartas sobre el valor de su grupo de amigos, cerrando con 'The last Letter' antes de que él partiera a realizar sus estudios profesionales en la ciudad.",
+            "origen": "La idea original emergió a principios de 2024 tras la redacción de un borrador compartido con un círculo muy cerrado de amigas (Diana, Andrea, Julia y Paloma). El desarrollo técnico y formal del formato digital e interactivo se consolidó entre febrero y marzo de 2025, transformando cartas originalmente universitarias en una retrospectiva biográfica completa y profundamente íntima.",
+            "proyecto": "La idea original emergió a principios de 2024 tras la redacción de un borrador compartido con un círculo muy cerrado de amigas (Diana, Andrea, Julia y Paloma). El desarrollo técnico y formal del formato digital e interactivo se consolidó entre febrero y marzo de 2025, transformando cartas originalmente universitarias en una retrospectiva biográfica completa y profundamente íntima.",
+            "serendipity": "En el plano conceptual y lingüístico, una 'serendipia' es un hallazgo afortunado, valioso e inesperado que ocurre cuando no se está buscando. Musicalmente, es la pista que abre esta correspondencia (Intro). Daniel resignifica el tema interpretado por Jimin para proyectar un amor libre, amplio y de profunda gratitud hacia la presencia fortuita pero determinante de sus Amigas en su vida.",
+            "stay": "La canción 'Stay' cumple la función lírica y estructural de Outro en este primer bloque. Representa una dedicatoria directa, transparente y sin filtros de Daniel hacia Diana. Su mensaje nuclear ('quédate justo aquí') actúa como un ancla emocional y un pacto de permanencia y lealtad que resiste el paso del tiempo y las ineludibles transiciones existenciales de la juventud.",
+            "whalien": "El fenómeno biológico real de la ballena de 52 Hz se reportó por primera vez en el norte del Pacífico. Al emitir un canto en una frecuencia inaccesible para otros cetáceos, ejemplifica a nivel clínico-psicológico el aislamiento existencial: la vivencia de comunicar el sufrimiento interno en una longitud de onda que el entorno inmediato no logra decodificar.",
+            "ballena": "El fenómeno biológico real de la ballena de 52 Hz se reportó por primera vez en el norte del Pacífico. Al emitir un canto en una frecuencia inaccesible para otros cetáceos, ejemplifica a nivel clínico-psicológico el aislamiento existencial: la vivencia de comunicar el sufrimiento interno en una longitud de onda que el entorno inmediato no logra decodificar.",
+            "infancia": "Este Outro sintetiza de forma integral la Era de la Infancia abordada en las tres primeras cartas. Los ejes transversales del bloque incluyen el análisis retrospectivo del dolor (Carta 1), las repercusiones psicológicas del bullying y las afecciones del cuerpo (Carta 2), y la reconexión epistémica mediante la curiosidad científica, el arte y el afecto familiar seguro (Carta 3).",
+            "trilogia": "Este Outro sintetiza de forma integral la Era de la Infancia abordada en las tres primeras cartas. Los ejes transversales del bloque incluyen el análisis retrospectivo del dolor (Carta 1), las repercusiones psicológicas del bullying y las afecciones del cuerpo (Carta 2), y la reconexión epistémica mediante la curiosidad científica, el arte y el afecto familiar seguro (Carta 3)."
+        };
+
+        const respuestasPorDefecto = [
+            "Esa consulta no se vincula a las notas de diseño o al trasfondo de este Outro. Puedes preguntarme sobre la influencia literaria de Solares, el rol de Paloma, o el significado conceptual de 'Serendipity' y 'Stay'.",
+            "Mi base de datos para este cierre se especializa en la estructura técnica del proyecto, el volumen de correspondencia de Daniel (más de 30 cartas en dos años), y los marcos teóricos de las canciones elegidas.",
+            "Para mantener el rigor analítico de la obra, te sugiero interrogarme sobre el concepto extendido del amor según Daniel o cómo se entrelazan la música de BTS y el formato epistolar interactivo.",
+            "El Outro representa la declaración de gratitud. Consúltame sobre el origen del proyecto en 2024 o el análisis del término 'Serendipia' para obtener un desglose profundo."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

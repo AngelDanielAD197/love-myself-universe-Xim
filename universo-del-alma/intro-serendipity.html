@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía I | Intro: Serendipity (Modo Inmersivo)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo */
+        body {
+            background-color: #0b0914;
+            color: #d1cbdc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* CAMBIO CLAVE: Redimensionamiento del Workspace */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+            background: #0b0914;
+        }
+
+        /* Estilo Común para los Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.75);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Interfaz del Chat */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: La Carta con Scroll Independiente */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #48cae4;
+            margin: 5px 0;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Lista de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botones de Navegación del Footer */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15); /* Línea sutil con el morado del proyecto */
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px); /* Pequeño efecto de flotación */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE VIRTUAL DE LECTURA (SIMULADOR) -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <!-- Se agregó el ID chat-box para controlar las inyecciones de texto -->
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #6a6575; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes hacerme preguntas sobre los conceptos analíticos de Jung, el tiempo o las canciones de esta era...]
+                </p>
+            </div>
+            <!-- Se quitó el 'disabled' y se añadió el ID junto con el evento onkeydown -->
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DE LA CARTA -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header class="header-lectura">
+                    <p style="color: #7209b7; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; margin:0;">LOVE MYSELF: THE UNIVERSE OF THE SOUL</p>
+                    <h1>INTRO: SERENDIPITY</h1>
+                    <p style="color: #6a6575; margin: 0; font-size: 0.9rem;"> Dedicado a Xim</p>
+                    <hr style="border:0; height:1px; background: rgba(255,255,255,0.05); margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "All this is no coincidence..." - Serendipity, Jimin
+                    </div>
+                    <p>Hola Xime,</p>
+    <p>Como siempre, espero de corazón que te encuentres súper bien. Hoy estamos a finales del 2025 y ya falta poco para que termine el año. Como verás, esta carta no es tan ordinaria como parece, y eso es porque en mi cabeza germinó una idea.</p>
+    
+    <p>Desde hace tiempo siento que el tiempo se me pasa demasiado rápido, tanto que a veces no percibo la duración de los días. ¿En qué momento pasó más de un año desde que salí de la prepa? He sido testigo de cómo el tiempo no perdona, y de cómo puede acabar con una persona de la noche a la mañana. Aunque piense que mi vida es larga, puede que, en un instante, se acabe sin previo aviso.</p>
+    
+    <p>Ximena, sabes que te estimo mucho, y es por eso que quiero compartirte algo muy especial y personal de la cual ya te había platicado.</p>
+    
+    <div class="quote-bts" style="border-left-color: #b5179e; background: rgba(181, 23, 158, 0.05); color: #7209b7;">
+        Hold Me Tight _ BTS
+    </div>
+    
+    <p>"Love Myself: The Universe of The Soul" es el título de una serie de cartas que te estaré compartiendo, junto con un viaje musical a través de uno de los grupos que más he amado en esta etapa de mi vida: BTS. Más que una simple boyband, llegaron a mí en un momento en el que los necesitaba. Sus canciones trascienden lo musical; se convierten en un viaje complejo, íntimo y muchas veces doloroso hacia el descubrimiento de uno mismo. También nos invitan a comprender el sentimiento más profundo del ser humano: el amor, y el viaje que implica vivirlo.</p>
+    
+    <p>Para mí, la música es más que solo música. Es una experiencia que se siente con el alma y el cuerpo; un idioma para expresar, compartir y recordar lo que somos.</p>
+    
+    <p>Y justamente eso es lo que quiero hacer contigo. Inspirada en algunos de los álbumes más significativos de esta boyband —y combinando algo que amo profundamente: escribir— nació esta Serie de Cartas, como un intento por responder una pregunta esencial:</p>
+    
+    <p class="pregunta-final"><strong>¿Quién soy?</strong></p>
+    
+    <p>Partamos desde el principio. Así que Xime, me encantaría compartirte quién soy... y cómo la vida de cada persona es un libro.</p>
+    
+   <p class="cierre-historia">Pues esta... esta es mi historia.</p>
+                </div>
+
+                <footer>
+                     <div class="btn-navegacion">
+                         <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA (LINKS DE SPOTIFY COMPLETAMENTE INTACTOS) -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Carta</div>
+            <div class="musica-contenido">
+                
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/61RvEx7GLYRHQhG7ldjJo1?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2SKBwYW23iHoB7CrYSeyC9?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR DEL ASISTENTE SIMULADO INTELIGENTE -->
+   <!-- MOTOR DEL ASISTENTE SIMULADO INTELIGENTE (ENFOCADO EN ESTA CARTA) -->
+    <script>
+        // Diccionario de conocimiento basado estrictamente en el contenido de esta carta
+        const conocimientoAsistente = {
+            "carta": "Esta carta es la introducción al proyecto 'Love Myself: The Universe of The Soul'. Fue escrita en abril de 2025 y está dedicada a Julia como el inicio de un viaje personal, analítico y musical.",
+            "proyecto": "El proyecto se titula 'Love Myself: The Universe of The Soul'. Es una serie de cartas que combinan reflexiones personales con un viaje musical a través de las canciones de BTS, explorando el descubrimiento de uno mismo y el viaje que implica vivir el amor.",
+            "tiempo": "Daniel expresa una profunda inquietud personal: siente que el tiempo pasa demasiado rápido, al punto de no percibir la duración de los días (notando que ya pasó un año desde que salieron de la prepa). Reflexiona sobre cómo el tiempo no perdona y la vida se puede acabar en un instante sin previo aviso.",
+            "bts": "Para Daniel, BTS trasciende lo musical. Llegaron en un momento en que los necesitaba y sus canciones representan un viaje complejo, íntimo y doloroso hacia el autodescubrimiento y la aceptación del amor propio.",
+            "musica": "En esta carta se menciona que la música es una experiencia que se siente con el alma, se asocia a recuerdos entrañables y tiene el poder de ayudarnos a sanar heridas que creíamos cerradas.",
+            "Paulina": "Pau es la persona a quien Daniel estima mucho y a quien le dedica este viaje tan especial y personal, deseando que disfrute la lectura tanto como él disfruta escribirla.",
+            "coincidencia": "La carta abre con la cita de Jimin en Serendipity: 'All this is no coincidence' (Todo esto no es una coincidencia). Funciona como la premisa de que este encuentro y este proyecto tienen un propósito más profundo.",
+            "canciones": "La banda sonora de esta carta incluye 'Intro: Serendipity' de Jimin (BTS) y la canción 'Hold Me Tight', las cuales marcan el tono emocional e íntimo de esta introducción."
+        };
+
+        // Respuestas por defecto adaptadas al contexto cerrado de la carta
+        const respuestasPorDefecto = [
+            "Ese detalle no se menciona explícitamente en esta carta. Prueba preguntándome sobre 'el tiempo', 'el proyecto', 'la música' o 'BTS' para analizar lo que Daniel escribió aquí.",
+            "Como asistente de esta lectura, solo puedo guiarte sobre los hechos de esta introducción de 2025. Intenta consultar sobre la dedicatoria a Diana o el significado de la música.",
+            "Interesante pregunta, pero para mantener la inmersión en 'Intro: Serendipity', enfoquémonos en lo que narra el texto: el paso del tiempo, el origen del proyecto o sus canciones.",
+            "Cada palabra en esta carta fue elegida con cuidado. Si me preguntas sobre 'el tiempo' o 'el origen del proyecto', podré darte una perspectiva exacta de lo que Daniel plasmó aquí."
+        ];
+
+        // Escucha si el usuario presiona la tecla Enter
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        // Gestiona el flujo del chat
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            // Inserta el mensaje del usuario de inmediato
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = ""; // Limpia el cuadro de texto
+
+            // Simula un delay orgánico de procesamiento (550ms)
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        // Algoritmo de emparejamiento de intenciones
+        function generarRespuesta(pregunta) {
+            // Limpia el texto de acentos y mayúsculas para evitar fallos de coincidencia
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            // Recorre el diccionario buscando palabras clave incluidas en la consulta
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            // Selecciona una respuesta aleatoria si no hay coincidencia
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        // Renderiza los globos con estilos CSS dinámicos
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            // Estilos del globo de texto
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Mantiene el scroll al fondo
+        }
+    </script>
+</body>
+</html>

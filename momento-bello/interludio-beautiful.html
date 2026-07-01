@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Interludio: ¿Qué es la Felicidad?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(17, 138, 178, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Análisis Existencial</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Conexión establecida. Hola Xime. Puedes consultarme sobre la metáfora existencial del fuego artificial, la función adaptativa de la rutina, la perspectiva humanista de la felicidad o el preludio conceptual de la Parte 2...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Analizar conceptos del Interludio..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: INTERLUDIO: ¿QUÉ ES LA FELICIDAD? -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE PT2</p>
+                    <h1>Interlude: ¿Qué es la Felicidad?</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        Black Swan Orchestral — BTS
+                    </div>
+
+                    <p>Aunque suene como una pregunta simple, la verdad es algo que me ha costado responder durante mucho tiempo, actualmente quizá ya pueda darle una definición, pero en ese entonces apenas lo estaba descubriendo.</p>
+
+                    <p>Los fuegos artificiales siempre han cautivado mi atención y han sido una de las cosas que más me ha gustado ver. Me gustan mucho ya que aparecen in la oscuridad, levantan su destello hacia el cielo para luego detonar en una lluvia de colores iluminando la noche para luego desvanecerse poco a poco.</p>
+
+                    <p>Se dice que los fuegos artificiales son un espejo de nuestra propia existencia y siento que es verdad. La vida está llena de momentos efímeros que ahora trato de disfrutar, un fuego artificial no se ve de día. Necesita el cielo negro para brillar. En la vida los pequeños momentos (una risa con amigos, un café perfecto, un abrazo) destacan precisamente porque el resto de la vida suele ser rutina. Son fugaces como un fuego artificial. No podemos pretender que la vida sea un fuego artificial eterno (sería agotador y dejaría de ser especial). La rutina es el telón de fondo necesario para que esos momentos brillen.</p>
+
+                    <p>Cuando un fuego artificial ilumina el cielo, el momento es instantáneo, dura poco pero por unos instantes la imagen de ese fuego queda grabada in tu mente. En la vida esos momentos fugaces dejan una huella emocional. Aunque el momento físico ya pasó, la luz que dejó en tu memoria te sigue iluminando tiempo después.</p>
+
+                    <p>Si lo veo desde esa perspectiva, la felicidad no debería ser un estado permanente, sino una colección de esos pequeños instantes y esos instantes le dan sentido a lo que vivo, es por eso que aún no quiero morir, aunque a veces quiera renunciar a eso.</p>
+
+                    <p>Bienvenida a 'Love Myself: The most beautiful moment of my life pt2' en donde exploraremos cómo fue para mí vivir este segundo año de Preparatoria, cómo fueron mis crisis de identidad, qué lecciones aprendí y cómo fue para mí vivir en esta etapa el sentimiento más complejo del ser humano: el amor.</p>
+
+                    <p>Gracias por seguir leyéndome y te invito a embarcarte en esta segunda dupla de cartas.</p>
+
+                    <p style="font-style: italic; color: #8a8194; margin-top: 30px;">Carpe Diem.</p>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: PAISAJE SONORO INTERLUDIO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El Espejo</div>
+            <div class="musica-contenido">
+                
+                <!-- Black Swan Orchestral -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6wH3AP7b01vpzKYRJhreMy?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "fuego": "La analogía del 'fuego artificial' se alinea con la perspectiva existencial de la transitoriedad. La belleza y el impacto de la luz requieren inherentemente del vacío y la oscuridad (la rutina o los momentos difíciles) para manifestarse de forma significativa. Un brillo perpetuo causaría saturación sensorial, destruyendo su naturaleza especial.",
+            "artificial": "La analogía del 'fuego artificial' se alinea con la perspectiva existencial de la transitoriedad. La belleza y el impacto de la luz requieren inherentemente del vacío y la oscuridad (la rutina o los momentos difíciles) para manifestarse de forma significativa. Un brillo perpetuo causaría saturación sensorial, destruyendo su naturaleza especial.",
+            "felicidad": "Desde el enfoque de la Psicología Positiva (Martin Seligman), la felicidad no se define como una homeostasis emocional plana o permanente, sino como una acumulación consciente de experiencias de 'fluir' (flow) y micro-momentos de conexión. La huella mnémica de estos instantes es lo que dota de sentido a la narrativa biográfica en el largo plazo.",
+            "rutina": "La rutina actúa psicológicamente como un 'telón de fondo' indispensable o línea base. Sin una estructura predecible, repetitiva y neutra, el cerebro perdería el contraste adaptativo necesario para registrar la alegría o el asombro. La estabilidad de la rutina es la que permite la emergencia de la discontinuidad dichosa.",
+            "efimero": "Los momentos efímeros (abrazos, risas, complicidades) poseen un alto valor de fijación emocional gracias a su brevedad. Al ser conscientes de su fugacidad, la atención selectiva se maximiza, codificando la experiencia con una intensidad superior a la de los entornos permanentes.",
+            "pt2": "La Parte 2 de esta trilogía marca la transición de Daniel hacia el segundo año de prepa. Psicológicamente representa una etapa de individuación más compleja: se abandonan las barreras primarias de aislamiento para encarar crisis de identidad profundas y la vulnerabilidad absoluta que conlleva experimentar el amor.",
+            "carpe": "La máxima 'Carpe Diem' (aprovecha el día) resume la postura resiliente que Daniel adopta al final del interludio. Funciona como un recordatorio terapéutico para anclarse en el presente absoluto, contrarrestando la ideación de renuncia mediante la recolección activa de destellos cotidianos.",
+            "swan": "La mención de 'Black Swan' (especialmente en su formato orquestal) simboliza el miedo profundo a perder la pasión o el sentido de lo que nos mantiene vivos, pero al mismo tiempo representa la aceptación de las sombras internas como parte esencial del arte de existir."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta excede los límites reflexivos del Interludio. Intenta preguntarme sobre la metáfora del fuego artificial, la función de la rutina o el significado de la transición a la Parte 2.",
+            "Como analista del Universo de tu Alma, puedo explicarte la base de la psicología positiva tras la recolección de micro-momentos o el trasfondo estético de 'Black Swan'.",
+            "Para guiarte en esta pausa filosófica, te sugiero consultar sobre por qué la felicidad no debe ser un estado permanente o el valor existencial detrás del 'Carpe Diem'.",
+            "Pregúntame sobre cómo los contrastes emocionales (la luz y la oscuridad) estructuran las ganas de seguir construyendo una historia de vida."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

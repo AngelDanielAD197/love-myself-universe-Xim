@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Carta 11: Romper con los sesgos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Estilo Oscuro y Atmosférico */
+        body {
+            background: linear-gradient(135deg, #06040a 0%, #0b0816 50%, #12091f 100%);
+            background-attachment: fixed;
+            color: #b3a9bc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 290px 1fr 410px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Estilos Generales de Paneles Laterales */
+        .panel-lateral {
+            background: rgba(14, 11, 24, 0.75);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* PANEL IZQUIERDO: Dinámica Cognitiva y Vocacional */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.3);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #0e0b18;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Lectura de la Carta 11 */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .cuerpo-lectura p { margin-bottom: 25px; }
+        
+        /* Bloques de Citas Musicales (DPR IAN al estilo del proyecto) */
+        .quote-bts {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 20px;
+            margin: 35px 0;
+            line-height: 1.5;
+        }
+
+        /* Pie de página con botón ÚNICO maestro de salida */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar-unico {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 30px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-explorar-unico:hover { 
+            color: #06040a; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.4);
+            transform: translateY(-1px);
+            cursor: pointer;
+        }
+
+        /* PANEL DERECHO: Reproductores del álbum Dear Insanity */
+        .musica-contenido {
+            flex: 1;
+            padding: 15px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0e0b18;
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: INTERFAZ DE ANÁLISIS COGNITIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Psicología & Flujo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #554d63; font-style: italic; margin-bottom: 12px;">
+                    [Análisis de sesgos de aprendizaje activo. Temas disponibles para Ximena: El 'State of Flow', la ruptura de creencias innatas, la dualidad Daniel/Angel o el test vocacional de Inteligencias Múltibles...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Desarmar limitaciones mentales..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO INTEGRO DE LA CARTA 11 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE FOREVER</p>
+                    <h1>Carta 11: Romper con los sesgos</h1>
+                    <p style="color: #554d63; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #332a40; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+ <p>La espiritualidad la concibo en estos momentos como una elección propia donde se trata la búsqueda de significado, un propósito o una conexión con algo más grande que uno mismo. Lastimosamente, muchas personas (incluyendo a mi yo de este tiempo) confundimos la espiritualidad con religión, dos conceptos que son totalmente diferentes y que sirven para introducirse a experiencias nuevas, pensamiento crítico sobre uno mismo e incluso abrirse a las experiencias oníricas para poder soñar en grande.</p>
+    
+    <div class="quote-bts" style="border-left-color: #7209b7; background: rgba(114, 9, 183, 0.05); color: #f72585;">
+        "Two minutes left 'til midnight" _ Welcome To The Other Side, DPR IAN
+    </div>
+    
+    <p>Julio del 2023, un día a principios de este mes Paloma me hace una invitación un poco peculiar, pero que se quedaría en mi memoria y corazón para siempre, pues me invito a acompañarla junto con unos familiares a una capilla/iglesia cristiana que quedaba rumbo a Hidalgo, yo acepte su invitación con curiosidad.</p>
+    
+    <p>Cuando llego el día y llegamos, mis primeras impresiones del lugar fueron unas que no me esperaba ya que no parecía un lugar cristiano para nada, pues había globos, luces de color neón, una mesa con dulces, un stand para tomarte fotografías, artículos de batucada y muchas sillas, parecía más un lugar de fiestas. Recuerdo que Paloma me llevo a que nos pintáramos la cara con pinturas de color neón y que nos tomamos algunas fotos, luego de eso inicio el evento donde me lleve una grata sorpresa ya que en vez de haber un padre o algo por el estilo, había un grupo de personas platicando sobre sus historias personales y como la fe los llevo a una redención.</p>
+    
+    <p>Conforme más iba transcurriendo el tiempo, mas comprendía el propósito de creer y que en realidad tenía una idea equivocada de esto. Luego de las pláticas, un chico se subió al podio y dio las gracias a todos los que se dieron la oportunidad de conocer y a romper prejuicios y que creer no necesariamente significa dejar de ser felices, luego de eso empezó la fiesta, donde movieron todas las sillas y empezó la batucada donde todos empezaron a bailar, lo único de lo que me arrepiento ese día es de no haber bailado bien con Paloma, ya que mi timidez no me lo permitió en ese entonces. Ese día me lleve una gran lección sobre los prejuicios que a veces tenemos por no darnos la oportunidad de conocer y sobre que significa creer.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f4a261; background: rgba(244, 162, 97, 0.05); color: #e76f51;">
+        Skins, DPR IAN
+    </div>
+    
+    <p>En ese mismo mes de Julio llego mi cumpleaños donde esta vez ya había planeado junto con Andrea celebrarlo juntos (Andrea cumple en el mismo mes), el plan era invitar a todos a comer pizza y pasar un rato juntos. Recuerdo que por esas fechas yo ya tenía un dinero guardado para ese día, pero cuando llego el día por la mañana mi madre había agarrado parte de ese dinero argumentando que luego me lo devolvía. Yo me puse muy mal ya que ese dinero ya estaba destinado para celebrar mi cumpleaños en la tarde de ese día. Me acuerdo que ese mismo día fui a ver a Paloma diciéndole que no podría ir a mi propio cumpleaños por ese hecho, dándole un sobre con el poco dinero que me quedo para que se lo diera a Andrea y que le ayudara en algo. Sin embargo, ella comprendió mi situación, me dio palabras de aliento para que dejara la idea de no ir a mi propio cumpleaños e incluso su mami doña July se ofreció a prestarme dinero. Todo esto solo reafirmaba más lo muy afortunado que era de tenerlas a mi lado. Ese día lo disfrute mucho, lo único que me acomplejo un poco es de que todas las personas que invite habían ido menos una, Julia.</p>
+    
+    <div class="quote-bts" style="border-left-color: #e9c46a; background: rgba(233, 196, 106, 0.05); color: #264653;">
+        So I Dance, DPR IAN
+    </div>
+    
+    <p>Durante las vacaciones de Julio y Agosto me fui con mis tíos a la ciudad, recuerdo que en esas vacaciones mi tía (que es Psicóloga) me formulo la pregunta que me perseguiría todo tercer año de Preparatoria, ¿Qué vas a estudiar saliendo de la Prepa?, algo que si había pensado pero no del todo, cuando le dije a mi tía que no sabía, ella me dijo que ya solo me quedaba un año o menos para pensarlo, ya que solo me faltaba un año para salir, algo que me dejo helado y que en realidad no había discernido. Ella me ayudo haciéndome un test vocacional donde se sorprendería al ver mis resultados y ver que tengo distintos enfoques a las áreas de conocimiento viendo que mi problema no era que no supiera que estudiar, si no que me gustaban tantas cosas que no me podía decidir, es en ese entonces donde me comienza a platicar sobre las Inteligencias Múltiples, un tema que retomare más adelante.</p>
+    
+    <div class="quote-bts" style="border-left-color: #023e8a; background: rgba(2, 62, 138, 0.05); color: #0077b6;">
+        Winterfall, DPR IAN
+    </div>
+    
+    <p>Cuando volví a ingresar a mi último año de Prepa el ambiente cambió por completo, desde el día 1 la orientadora nos puso los pies en la tierra y nos dejó en claro nuestro propósito para este último año, que sería el prepararnos para el que sería uno de los exámenes más importantes de nuestras vidas, el de ingreso a nivel superior. Y no pararía ahí ya que estas primeras semanas iniciando el semestre, la materia de Matemáticas me daría una cachetada de realidad al darme cuenta que en realidad no tenía los conocimientos que se requerían para cursar lo que vendría, el Cálculo.</p>
+    
+    <p>Cabe recalcar que nunca me considere bueno en la escuela y mucho menos en matemáticas, sin embargo si me defendía bien y eso era suficiente para mí en el pasado, pero cuando llegue a inicios de este 5to semestre, el buen maestro me dio la profanada de mi vida donde cada que llegaba su clase me tocaba ver como por primera vez no entendía nada de lo que se me explicaba y por ende los ejercicios no me salían. Recuerdo que cada que acababa su clase me deprimía tanto que mejor no salía a los recesos de clases.</p>
+    
+    <p>Intente ser y estudiar como mis compañeras y compañeros que si le estaban entendiendo al maestro, sin embargo por más de que trataba, no podía. Eso me afecto tanto que en mi primer parcial salí tan bajo que ha sido mi peor calificación que tuve en la Prepa. Eso me desmotivo bastante pero hubo algo que hizo que no cayera por completo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #588157; background: rgba(88, 129, 87, 0.05); color: #344e41;">
+        No Blueberries, DPR IAN
+    </div>
+    
+    <p>Desde que conocí el Anime siempre ha tenido un impacto en mi persona, regularmente solía ver pura acción pero en ese entonces comenzó a buscar historias complejas con un impacto psicológico y social profundo. Uno de ellos fue uno llamado Blue Lock, este es un Anime de deporte, en concreto de futbol pero con una narrativa muy ingeniosa y fuera de lo ordinario ya que más que el deporte, se muestra un experimento deportivo donde encierran a muchos jugadores en unas instalaciones (tipo squid game o los juegos del hambre pero en versión deporte) en donde conforme va avanzando la historia, se muestra la evolución psicológica individual de cada personaje, reconociendo sus fortalezas y que los hace únicos y mostrándome que las limitaciones no son físicas si no mentales.</p>
+    
+    <p>Algo del programa que se me quedo muy grabado es que cada personaje en vez de copiar una sola fórmula para pasar sus desafíos, entendieron que sus cuerpos y mentes no eran las mismas que la de los demás, la fórmula que le funcionaba a uno no necesariamente le funcionaba a los demás. Por lo tanto, ellos creaban su propia fórmula para poder crecer en base a sus cualidades únicas e identificando sus virtudes para llevarlas al siguiente nivel y avanzar. Eso me dio la idea de que en esa materia quizá el maestro no era el problema, si no yo.</p>
+    
+    <p>Lo que hice en las siguientes semanas fue algo extraordinario ya que comencé a profundizar más sobre cómo funcionaba la mente, conforme más avanzaba, mas descubría cosas desconocidas para mí. Un concepto que me fascino por completo fue la teoría del Flujo o The State of Flow presentada por el psicólogo Mihaly donde él explica que existe un estado mental de concentración máxima llamada Flow donde el individuo se sumerge tanto en una actividad que el resto del mundo desaparece de su cabeza, como si la llevara a otra dimensión donde solo son él y la actividad que esta realizando, se dice que personas que han experimentado este estado se eleva su rendimiento en la actividad y alcanza otros niveles. Cuando yo leí sobre esto me sorprendí mucho ya que tenía aplicaciones no solo en el deporte sino también en cualquier otra actividad que el individuo disfrute.</p>
+    
+    <p>Algo que no sabía en esos momentos es que para entrar en el Flow se necesita de una meta que sea clara y que sea alcanzable para el individuo, y justamente en esos momentos fue lo que hice ya que por primera vez me fije una meta clara que quería alcanzar, quería tener el nivel y las habilidades que me faltaban para poder superar este desafío.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ee6c4d; background: rgba(238, 108, 77, 0.05); color: #293241;">
+        Dont Go Insane, DPR IAN
+    </div>
+    
+    <p>Me vi muchos videos en YouTube sobre Matemáticas y practicaba con cuanto ejercicio me encontrase, al principio fue complicado porque no podía resolver nada de lo que encontraba, pero conforme los errores se acumulaban, también el aprendizaje se consolidaba, brindándome una nueva perspectiva sobre cómo resolverlos.</p>
+    
+    <p>Después de muchos fracasos, un día en clase de Matemáticas nos dejaron ejercicios sobre cómo encontrar dominios de funciones, al intentar resolver el primer ejercicio por el método tradicional, no me daba un resultado concreto, voltee a ver a Diana y la vi con la misma cara de confusión que tenía yo, estaba a punto de rendirme otra vez pero, en vez de frustrarme y dejarlo todo como siempre lo había hecho, decidí pensar y ver el ejercicio desde otra perspectiva y me di cuenta de que tenía un truco para resolverlo. Al entregarle mi ejercicio al profesor, por primera vez sentí un sentimiento liberador al ver que sellaba mi ejercicio indicando de qué estaba correcto.</p>
+    
+    <p>Cuando resolvías un ejercicio bien, el profesor te decía que te salieras del salón para que no le pasaras el resultado a tus compañeros. Cuando salí afuera del salón después de resolverlo, vi que el profesor empezó a explicar su resolución y que no había salido nadie más. Recuerdo bien que luego de que termino su explicación, grito desde dentro que me pasara y que cuando entre, vi el rostro de sorpresa de varios al ser el único que lo había resuelto.</p>
+    
+    <p>Luego de eso me emocione demasiado, a tal punto de que los siguientes ejercicios los resolví de manera magistral, en ningún momento estaba operando, solo que en esos momentos estaba tan inspirado que sentía que lo podía ver todo, respondiendo los ejercicios en tiempo record. Recuerdo que en el último ejercicio que le entregue al maestro y que vio que estaba correcto, me volteo a ver con un rostro de afirmación y pregunto cómo me llamaba, yo en esos momentos me sentía muy bien y entendí que algo en mi había cambiado y como símbolo de ese cambio decidí decirle mi primer nombre. "Mucho gusto profesor, me llamo Angel". Ese día Diana me felicito por mi logro, diciéndome que este día me había superado.</p>
+    
+    <div class="quote-bts" style="border-left-color: #00b4d8; background: rgba(0, 180, 216, 0.05); color: #03045e;">
+        Bad Cold, DPR IAN
+    </div>
+    
+    <p>Esto es una conjetura mía, pero mi teoría es de que tal vez y solo tal vez, ese día estaba tan inspirado que pude entrar en el Flow que teorizaba Mihaly, haciendo que todo esto fuera posible. Ese día rompí un sesgo en mi persona que me había limitado toda la vida, siempre había pensado que las personas eran buenas en algunas cosas de manera nata, pensaba que solo algunos destacaban porque tenían un "don innato" que hacía que para ellos fuera más sencillo, pero me di cuenta de que estaba en un completo error al creer que alguien es bueno "porque si", ignorando los demás aspectos y excusándome con eso, claro eso era más fácil.</p>
+    
+    <p>Yo nunca me considere alguien bueno en Matemáticas así que este hecho marco un punto de inflexión en donde sin darme cuenta, me estaba demostrando que podía pelear en este terreno y que las habilidades que yo consideraba "innatas" se podían aprender.</p>
+    
+    <div class="quote-bts" style="border-left-color: #6c757d; background: rgba(108, 117, 125, 0.05); color: #343a40;">
+        Violet Crazy, DPR IAN
+    </div>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar-unico">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: PAISAJE SONORO (ÁLBUM DEAR INSANITY) -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El otro lado</div>
+            <div class="musica-contenido">
+                
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2ZR0hXJR1pvpb6loEYirHX?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6pqnm6ETZBIISxENuLOcht?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0Ov2HJSYNS4UTITRO3RQSd?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4WdDXnj1AxoRpuX7eEvFCh?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4lpvCG7eNzHAXwvMxWUNjz?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/5LWWAw887ODAUvR2LR1kDg?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3r12kEJCa3rUTUTqCUuOhR?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7sSCYdK8Weo2HhxPDMuvDX?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE COGNITIVO -->
+    <script>
+        const respuestasCarta = {
+            "flow": "El 'State of Flow' (Mihály Csíkszentmihályi) ocurre cuando el nivel de desafío se alinea perfectamente con las habilidades del individuo. Al fijarse una meta clara y aislar las distracciones, Daniel desactivó la frustración y activó una concentración absoluta, resolviendo los dominios de funciones en tiempo récord.",
+            "angel": "El uso del nombre 'Angel' actúa como un anclaje psicológico de autoafirmación. Mientras que 'Daniel' albergaba la timidez y los pasatiempos, 'Angel' emergió frente al profesor Gabino como la faceta disciplinada, competitiva y determinada a dominar las ciencias matemáticas.",
+            "sesgo": "El sesgo del 'don innato' es una defensa cognitiva común: creer que el talento es fijo evita el dolor del esfuerzo y el fracaso. Al resolver el ejercicio que nadie más pudo, Angel descubrió la mentalidad de crecimiento, entendiendo que la habilidad matemática se construye a través del error.",
+            "blue lock": "Al igual que el experimento de Blue Lock, Angel entendió que no debía clonar las fórmulas de estudio de Leonardo o Fernanda. Tenía que aislar sus propias variables cognitivas, analizar sus errores acumulados en YouTube y diseñar un método adaptado a su propia mente.",
+            "inteligencias": "La teoría de las Inteligencias Múltiples de Howard Gardner, sugerida por su tía psicóloga, liberó a Daniel de la etiqueta de 'no ser bueno en la escuela'. Le demostró que poseer intereses multifacéticos no era falta de dirección, sino un perfil cognitivo de alta adaptabilidad."
+        };
+
+        const defaultsCarta = [
+            "Para explorar este punto de inflexión, pregúntame sobre el 'State of Flow', el nacimiento del nombre Angel, o la ruptura del sesgo del talento innato.",
+            "Esta carta marca la transición de Daniel a Angel. Puedes interrogarme sobre la metáfora de Blue Lock o el impacto del test de Inteligencias Múltiples.",
+            "El examen de cálculo del profesor Gabino fue el catalizador. Pregúntame cómo se produce el estado de concentración máxima o cómo se rompen las limitaciones mentales."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 500);
+        }
+
+        function generarRespuesta(pregunta) {
+            const limpia = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in respuestasCarta) {
+                if (limpia.includes(clave)) {
+                    return respuestasCarta[clave];
+                }
+            }
+
+            const rand = Math.floor(Math.random() * defaultsCarta.length);
+            return defaultsCarta[rand];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.08)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.12)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#cbc4d6";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

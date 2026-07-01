@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía I | Carta 3: Descubrir la luz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo */
+        body {
+            background-color: #0b0914;
+            color: #d1cbdc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+            background: #0b0914;
+        }
+
+        /* Estilo para los Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.75);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Interfaz del Chat */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: La Carta con Scroll Independiente */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #06d6a0; /* Verde brillante que representa vitalidad y el descubrimiento de la luz */
+            margin: 5px 0;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Lista de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Único en el Footer */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE DE LECTURA DE LA CARTA 3 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #6a6575; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes interrogarme sobre el despertar cognitivo de Daniel en 2016-2017, la biblioteca pública, la psicología de la exploración artística, o la era HYYH de BTS...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DE LA CARTA 3 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header class="header-lectura">
+                    <p style="color: #06d6a0; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; margin:0;">LOVE MYSELF: THE UNIVERSE OF THE SOUL</p>
+                    <h1>CARTA 3: DESCUBRIR LA LUZ</h1>
+                    <p style="color: #6a6575; margin: 0; font-size: 0.9rem;">Dedicado a Ximena
+                    <hr style="border:0; height:1px; background: rgba(255,255,255,0.05); margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "Run, run, run again / I can't stop running." - BTS, Run
+                    </div>
+
+<p>Hola, Xime:</p>
+    <p>Los años 2016 y 2017 fueron, sin duda, de los más bonitos de mi infancia. Ingresé a cuarto año de primaria y comenzaron a añadirse materias nuevas, como Geografía e Historia. Fue esta última la que capturó mi atención por completo. La idea de conocer cómo surgió el ser humano me parecía fascinante, y poco a poco fui cayendo en el encantamiento del conocimiento.</p>
+    
+    <p>Por esas fechas, ya me regresaba solo de la escuela siguiendo los sabios consejos de la abuelita. Como mamá trabajaba mucho, aprendí a desenvolverme en la calle desde pequeño. Me gustaba ir a la biblioteca del centro, donde había una sala con computadoras y acceso a internet. Como en casa no tenía ni celular ni conexión, ese espacio se volvió mágico para mí. Investigaba, leía enciclopedias de prehistoria y tuve mis primeros acercamientos con la tecnología. Fue ahí donde, sin saberlo, empezó mi amor por aprender.</p>
+    
+    <p>En 2017, ya con 10 años, viví una experiencia completamente nueva: el primer amor. Estaba en quinto grado cuando conocí a una niña que me gustó desde el primer momento. Como el salón tenía bancas doles, siempre nos sentábamos juntos, nos pasábamos papelitos y empezamos a hablar por WhatsApp pues ya contaba con uno, era mi primer celular. Aunque nunca fuimos nada, fue mi primer 'casi algo'. Y fue hermoso. Un amor de niños, sincero y puro.</p>
+    
+    <p>Ese año también tuve una de las mejores vacaciones de mi vida. Me fui a la CDMX con mi primo, a casa de mis tíos. Fue un mes lleno de aventuras: conocí muchos lugares, viajé en metro por primera vez y recibí consejos de mi tío sobre cómo moverme por la ciudad, consejos que hoy agradezco muchísimo. Era libertad, aprendizaje y emoción condensados en un solo verano donde solo queria arder y disfrutar.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f77f00; background: rgba(247, 127, 0, 0.05); color: #fcbf49;">
+        Fire-BTS
+    </div>
+    
+    <p>Y así llegó el último año de primaria. Esta etapa fue algo más compleja. Solo me interesaban materias como Matemáticas, Ciencias e Historia, y el resto me parecía irrelevante. No prestaba atención y eso pronto se reflejó en mis calificaciones. Siempre me preguntaba: ¿por qué tengo que estudiar lo que no me gusta?</p>
+    
+    <p>La respuesta llegó de la forma más inesperada. En una clase de Artes, el profesor nos pidió dibujar a una estrella del cine de oro mexicano. Aunque no me gustaba dibujar, no tenía opción, así que hice el dibujo lo mejor que pude. Al tiempo, el profesor me llamó y me dijo que había elegido mi dibujo para una exposición de Día de Muertos. Me felicitó. Y en ese momento, descubrió una nueva habilidad en mí. Fue ahí cuando entendí por qué es importante explorar distintas áreas del conocimiento: para descubrir en qué eres bueno, qué te gusta, qué te mueve por dentro.</p>
+    
+    <p>En 2018 finalicé la primaria. Mis tíos fueron mis padrinos, celebramos con una fiesta familiar hermosa. Ese día sentí de forma muy clara el amor genuino que existe en mi familia. Un amor que se experimenta en la infancia, cuando todo parece más simple, pero también más verdadero.</p>
+    
+    <p>Xime, esta carta cierra un capítulo: la infancia. A partir de aquí, las cosas comenzarán a cambiar y lastimosamente no sera para bien. Muchas de las cosas que vivi en mi infancia ya no las recuerdo y eso se debe a que mi mente no quiere recordar, mas adelante sabras el motivo de esto. Me perdi de muchas cosas en mi infancia ya que la mayor parte del tiempo estaba en casa con mi abuelita, a mi madre casi no la veia y muchas cosas las tuve que aprender solo, sin embargo no considero que mi infancia haya sido mala, y como dice Run de BTS, yo seguire corriendo incluso si nose cual sera el destino al que llegue. Y tú estarás ahí leyendo, como siempre.</p>
+    
+    <p>Con cariño,</p>
+    <p>Dany</p>
+    
+    <div class="quote-bts" style="border-left-color: #8ecae6; background: rgba(142, 202, 230, 0.05); color: #219ebc;">
+        Young forever- BTS
+    </div>
+                
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA DE LA CARTA 3 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Carta</div>
+            <div class="musica-contenido">
+                
+                <!-- Run - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3G1aAxWS2Nd17FQs4PWV6X?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Fire - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0aE3V0zgSD2YwkEHW42gxG?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Young Forever - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6BskTMfDjXVzeqQHOau5Vi?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR DEL ASISTENTE SIMULADO (EPISTEMOLOGÍA Y PSICOLOGÍA ENRIQUECIDA) -->
+    <script>
+        const conocimientoAsistente = {
+            "encantamiento": "El 'encantamiento del conocimiento' describe un fenómeno epistemológico y psicológico crucial en la infancia media: el despertar de la motivación intrínseca por aprender. Cuando Daniel descubrió asignaturas como Historia y Geografía en 2016, experimentó lo que la psicología cognitiva define como un 'desplazamiento de la curiosidad perceptiva hacia la curiosidad epistémica'. Este motor interno transforma el aprendizaje en un fin por sí mismo, donde la asimilación del pasado humano se convierte en un mapa para entender el propio lugar en el mundo.",
+            "conocimiento": "El 'encantamiento del conocimiento' describe un fenómeno epistemológico y psicológico crucial en la infancia media: el despertar de la motivación intrínseca por aprender. Cuando Daniel descubrió asignaturas como Historia y Geografía en 2016, experimentó lo que la psicología cognitiva define como un 'desplazamiento de la curiosidad perceptiva hacia la curiosidad epistémica'. Este motor interno transforma el aprendizaje en un fin por sí mismo, donde la asimilación del pasado humano se convierte en un mapa para entender el propio lugar en el mundo.",
+            "biblioteca": "Al carecer de teléfono celular y conectividad residencial en ese periodo, la biblioteca del centro —con sus enciclopedias impresas y ordenadores públicos— se convirtió en un entorno de andamiaje cognitivo y un santuario tecnológico. Sociológicamente, representa el espacio donde Daniel forjó su autonomía, aprendiendo a investigar de forma autodidacta y a canalizar su hiper-curiosidad natural hacia la prehistoria y los primeros entornos digitales.",
+            "tecnologia": "Al carecer de teléfono celular y conectividad residencial en ese periodo, la biblioteca del centro —con sus enciclopedias impresas y ordenadores públicos— se convirtió en un entorno de andamiaje cognitivo y un santuario tecnológico. Sociológicamente, representa el espacio donde Daniel forjó su autonomía, aprendiendo a investigar de forma autodidacta y a canalizar su hiper-curiosidad natural hacia la prehistoria y los primeros entornos digitales.",
+            "2016": "Los años 2016 y 2017 se describen como los más luminosos y significativos de la infancia de Daniel. Este bienio estuvo marcado por el ingreso a cuarto y quinto grado de primaria, la autonomía al caminar solo por la calle bajo el cuidado indirecto de su abuelita, la inmersión digital en la biblioteca pública y la vivencia de su primer amor infantil.",
+            "2017": "Los años 2016 y 2017 se describen como los más luminosos y significativos de la infancia de Daniel. Este bienio estuvo marcado por el ingreso a cuarto y quinto grado de primaria, la autonomía al caminar solo por la calle bajo el cuidado indirecto de su abuelita, la inmersión digital en la biblioteca pública y la vivencia de su primer amor infantil.",
+            "amor": "A los 10 años, en quinto de primaria, Daniel experimentó su primer amor o 'casi algo'. Psicológicamente, los afectos a esta edad se caracterizan por una profunda pureza y simetría emocional (compartir bancos dobles, intercambiar notas físicas y los primeros diálogos a través de su primer celular vía WhatsApp). Este hito representa un modelo relacional sano y sincero, desprovisto de los sesgos y proyecciones de la adultez.",
+            "vacaciones": "El verano de 2017 representó una etapa de expansión espacial y psicológica. Al mudarse temporalmente a la CDMX con su primo y sus tíos, Daniel experimentó la metrópoli a través del metro y el aprendizaje de la navegación urbana guiado por su tío. Este viaje simboliza en el texto la conquista de la libertad personal, la autonomía y la excitación existencial condensada en el deseo de 'arder y disfrutar'.",
+            "cdmx": "El verano de 2017 representó una etapa de expansión espacial y psicológica. Al mudarse temporalmente a la CDMX con su primo y sus tíos, Daniel experimentó la metrópoli a través del metro y el aprendizaje de la navegación urbana guiado por su tío. Este viaje simboliza en el texto la conquista de la libertad personal, la autonomía y la excitación existencial condensada en el deseo de 'arder y disfrutar'.",
+            "dibujo": "La experiencia en la clase de Artes constituye un ejemplo claro del principio constructivista sobre la exploración multifacética. El dibujo azaroso de una estrella del cine de oro mexicano, seleccionado posteriormente para una muestra del Día de Muertos, funcionó como un catalizador de autoeficacia. Al recibir la validación de su profesor, Daniel reestructuró la resistencia hacia lo que no le gustaba, entendiendo que la educación diversificada sirve para mapear y visibilizar talentos y vocaciones latentes.",
+            "artes": "La experiencia en la clase de Artes constituye un ejemplo claro del principio constructivista sobre la exploración multifacética. El dibujo azaroso de una estrella del cine de oro mexicano, seleccionado posteriormente para una muestra del Día de Muertos, funcionó como un catalizador de autoeficacia. Al recibir la validación de su profesor, Daniel reestructuró la resistencia hacia lo que no le gustaba, entendiendo que la educación diversificada sirve para mapear y visibilizar talentos y vocaciones latentes.",
+            "2018": "En 2018 Daniel concluyó su educación primaria. La graduación, apadrinada por sus tíos y celebrada en una fiesta íntima, actuó como un ritual de cierre emocional. Este evento consolidó en su memoria la certeza de un amor familiar incondicional y genuino, marcando el límite exacto donde termina la simplicidad de la infancia.",
+            "infancia": "La infancia en este relato se estructura en tres momentos: el riesgo temprano y el olvido selectivo (Carta 1), el dolor del aislamiento provocado por factores físicos y sociales (Carta 2), y la reconexión con la luz mediante la curiosidad, el arte y el afecto seguro (Carta 3). La conclusión de la primaria en 2018 cierra este ciclo psicológico e inicia la inevitable transición identitaria y existencial hacia la adolescencia.",
+            "run": "La canción 'Run' introduce el leitmotiv de la persistencia ininterrumpida frente al cambio. A nivel existencial, representa la energía cinética de la juventud: la urgencia de avanzar y seguir corriendo, asumiendo los tropiezos inevitables como parte orgánica de la trayectoria vital.",
+            "fire": "La canción 'Fire' encarna la pulsión vital desatada durante el verano de 2017 en la Ciudad de México. Simboliza el estado de ebullición psicológica donde el joven individuo busca quemar las limitaciones previas, entregándose por completo al disfrute de la autonomía y el autodescubrimiento dinámico.",
+            "young": "La pista 'Young Forever' de BTS encapsula la atmósfera melancólica y reconfortante del final de la infancia. Funciona como un himno a la resiliencia temporal: el compromiso íntimo de mantener el espíritu de asombro, curiosidad y pureza del niño interior ileso a pesar del ineludible e incierto paso del tiempo.",
+            "bts": "En este cierre, la discografía de BTS enmarca el concepto de HYYH (The Most Beautiful Moment in Life): 'Run' define la marcha incesante del crecimiento; 'Fire' captura la pasión por la libertad y el aprendizaje empírico; y 'Young Forever' preserva la esencia del niño observador y curioso ante el fin de la infancia."
+        };
+
+        const respuestasPorDefecto = [
+            "Ese concepto pertenece a etapas posteriores o ajenas a este manuscrito. Enfóquemos el análisis en el florecimiento intelectual de Daniel en 2016, su exploración en la biblioteca o el descubrimiento de su talento artístico.",
+            "Como dispositivo de análisis de la Carta 3, mi base de datos abarca el despertar epistémico de Daniel, la psicología del primer amor a los 10 años, la geografía de su libertad en la CDMX o la conclusión de la primaria en 2018.",
+            "Para no vulnerar la progresión del texto, te sugiero interrogarme sobre los marcos epistemológicos de esta carta: los motivos detrás de la resistencia escolar, la función pedagógica del arte o la metáfora de la infancia como un refugio verdadero.",
+            "Cada evento en este cierre de ciclo es un ancla luminosa. Si me consultas sobre 'el encantamiento del conocimiento' o el significado de la resiliencia en 'Young Forever', obtendrás un desglose analítico riguroso."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

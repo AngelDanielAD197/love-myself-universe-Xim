@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Intro: The Most Beautiful Moment in Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .cuerpo-lectura ul {
+            margin-top: 15px;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+        .cuerpo-lectura li {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(17, 138, 178, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Análisis de la Era HYYH</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Conexión establecida. Hola Xime. Puedes consultarme sobre el impacto de los vínculos afectivos seguros en la adolescencia, el proceso psicoterapéutico de la escritura autobiográfica o el significado transicional de la era HYYH...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Analizar dinámicas de la etapa..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: INTRO: THE MOST BEAUTIFUL MOMENT IN LIFE -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE</p>
+                    <h1>INTRO: THE MOST BEAUTIFUL MOMENT IN LIFE</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+    <p>Hola Xime, primero que nada te agradezco de corazón que hayas llegado hasta aquí. La Preparatoria es una etapa en la vida de las personas donde el impacto de ella puede influir tanto positiva, como negativamente. Ya que es una etapa de grandes desafíos donde nosotros como personas empezamos a desarrollar cierta autonomía y a crear nuestro propio criterio del mundo,</p>
+    
+    <p>Love Myself: The Most Beutiful Moment of my Life es el título que le di a esta tercera serie de cartas inspirado en el la trilogía de albums de BTS Love Yourself. A diferencia de sus antecesoras esta no es una trilogía de cartas sino una serie de cartas donde lesmenuzo esta bella etapa de mi vida, la Preparatoria.</p>
+    
+    <p>En esta tercera serie de cartas tratare como fue para mí llegar hasta este punto, como fue que me fui deshaciendo de estas máscaras, que fue lo que aprendí durante este tiempo, que fue lo que me limito, como poco a poco fui encontrándome y lo más importante, como fue que conocí a las personas que me enseñaron que la vida también tiene sus cosas buenas, de las que aprendí muchas cosas y de las que me impulsaron a seguir avanzando.</p>
+    
+    <p>Relatare todas las cosas importantes que viví, los aprendizajes que me dejo el tiempo y como fue convivir con esas buenas amistades que me fui encontrando en esta época.</p>
+    
+    <p>Como son recuerdos que tengo más frescos, dividiré esta serie de cartas en tres partes, donde en cada parte habrá dos cartas que relataran un año de mi vida en este periodo, por lo que serían un total de 6 cartas y no 3 ya que tendría el mismo problema que la carta num 6 donde me extendí demasiado. Por lo que entonces quedaría así:</p>
+    <ul>
+        <li><strong>Love Myself: The Most Beautiful Moment of my Life pt.1:</strong> donde relataré el inicio de esta etapa, cómo conocí a mis buenas amigas y cuál fue el impacto en mí de estas nuevas experiencias.</li>
+        <li><strong>Love Myself: The Most Beautiful Moment of my Life pt.2:</strong> donde trataré cómo fue mi segundo año de prepa, cómo fueron mis experiencias en el amor y el cómo me costó encontrar mi propia voz.</li>
+        <li><strong>Love Myself: The Most Beautiful Moment of my Life Forever:</strong> será el cierre de esta serie de cartas donde trataré cómo gracias a las personas que conocí pude enderezar mi camino, cómo fue el proceso de iniciar mi autodescubrimiento, la incertidumbre por la universidad y concluirá en el último viaje de despedida que tuve con mis amigas antes de que cada quien tomara su propio camino.</li>
+    </ul>
+    
+    <p>Esta serie de cartas terminara con una etapa importante de mi vida y dará çierre a esta serie de cartas que estado escribiendo todo este tiempo. Me alegra que aun sigas leyendo esto y te invito a que me acompañes a este último viaje al pasado.</p>
+    
+    <p>Con cariño.</p>
+    
+    <p><strong>Dany</strong></p>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA HYYH -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Paisaje Sonoro: Juventud</div>
+            <div class="musica-contenido">
+                
+                <!-- I NEED U -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7HhZAKSvFWz4bT5jsZLPeq?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+               
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE (ENFOQUE ADOLESCENCIA Y VÍNCULOS) -->
+    <script>
+        const conocimientoAsistente = {
+            "amistad": "En la psicología del desarrollo, las amistades íntimas durante la adolescencia tardía actúan como un 'andamiaje social seguro'. El grupo de amigas que Daniel describe provee la validación emocional necesaria para que un joven comience a desmontar los mecanismos de defensa rígidos (máscaras) construidos ante traumas previos, permitiendo la exploración de la identidad auténtica.",
+            "amigas": "En la psicología del desarrollo, las amistades íntimas durante la adolescencia tardía actúan como un 'andamiaje social seguro'. El grupo de amigas que Daniel describe provee la validación emocional necesaria para que un joven comience a desmontar los mecanismos de defensa rígidos (máscaras) construidos ante traumas previos, permitiendo la exploración de la identidad auténtica.",
+            "mascaras": "El proceso de 'deshacerse de las máscaras' equivale en el marco humanista al tránsito hacia la congruencia existencial. Tras haber utilizado fachadas de aislamiento o dureza para sobrevivir a etapas hostiles, el entorno seguro de la Preparatoria permite relajar la armadura neurótica, integrando las sombras del pasado sin necesidad de fingir.",
+            "preparatoria": "La etapa de la escuela preparatoria constituye el epicentro del proceso de individuación teorizado por Jung. Es el espacio donde el individuo confronta la crisis de identidad frente a la confusión de roles, logrando, a través de la interacción con pares significativos, consolidar un sentido de continuidad del Yo y autonomía.",
+            "prepa": "La etapa de la escuela preparatoria constituye el epicentro del proceso de individuación teorizado por Jung. Es el espacio donde el individuo confronta la crisis de identidad frente a la confusión de roles, logrando, a través de la interacción con pares significativos, consolidar un sentido de continuidad del Yo y autonomía.",
+            "escritura": "La recapitulación escrita de la historia personal funciona en terapia como una técnica de re-narración cognitiva. Al estructurar sus memorias en tomos y compartirlas con Diana, Daniel exterioriza los eventos cargados de afecto, transformando la memoria implícita desorganizada en un relato explícito con sentido de dirección y cierre evolutivo.",
+            "cartas": "La recapitulación escrita de la historia personal funciona en terapia como una técnica de re-narración cognitiva. Al estructurar sus memorias en tomos y compartirlas con Diana, Daniel exterioriza los eventos cargados de afecto, transformando la memoria implícita desorganizada en un relato explícito con sentido de dirección y cierre evolutivo.",
+            "hyyh": "La era 'The Most Beautiful Moment in Life' (Hwa Yang Yeon Hwa) simboliza la paradoja de la juventud: la coexistencia de la belleza más pura con la fragilidad del dolor y la incertidumbre. Clínicamente, representa la resiliencia en su estado activo, donde el individuo reconoce que el florecimiento no surge de la ausencia de heridas, sino de la capacidad de brillar junto a ellas.",
+            "octubre": "La mención de octubre de 2021 establece un anclaje temporal de cuatro años de sincronía relacional entre Daniel y Diana. En la psicología relacional, la permanencia de un vínculo a lo largo de transiciones vitales críticas (como el paso por la preparatoria y el ingreso a la universidad) provee un sentido de estabilidad y base segura inestimable.",
+            "2021": "La mención de octubre de 2021 establece un anclaje temporal de cuatro años de sincronía relacional entre Daniel y Diana. En la psicología relacional, la permanencia de un vínculo a lo largo de transiciones vitales críticas (como el paso por la preparatoria y el ingreso a la universidad) provee un sentido de estabilidad y base segura inestimable."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta se sitúa fuera del foco de análisis de esta Intro. Puedes preguntarme sobre la psicología del apego seguro en la preparatoria, la re-narración autobiográfica o el simbolismo existencial de la era HYYH.",
+            "Como módulo analítico de la Trilogía III, mi función es desglosar la transición hacia el florecimiento personal, las dinámicas de grupo relacionales y el desmantelamiento de las máscaras defensivas.",
+            "Para preservar la coherencia del espacio de lectura, te sugiero explorar los conceptos de validación entre pares, la estructura de la memoria constructiva o el significado clínico de 'The Most Beautiful Moment in Life'.",
+            "Pregúntame sobre el valor terapéutico de compartir este viaje al pasado o cómo las conexiones humanas ayudan a enderezar el camino del Yo en momentos de crisis."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

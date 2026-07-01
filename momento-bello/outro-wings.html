@@ -1,0 +1,343 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Outro: Wings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado Unificado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #5e548e;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    Hola Xim. Gracias por acompañarme hasta este punto. Puedes preguntarme sobre el proceso de sublimación a través del arte y el diseño, la dualidad entre mis dos nombres (Angel y Daniel), la simbología detrás de las canciones que marcaron mi crecimiento, el significado del 'salto de fe' hacia la adultez, o simplemente sobre la importancia de la memoria en la construcción de mi historia personal.
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: OUTRO: SAVE ME -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>OUTRO: WINGS</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+
+ <p>Hola Xime, como siempre de corazón espero que te encuentres súper bien. Es Enero del 2026. Hace aproximadamente 9 meses que comencé a escribir este proyecto y hoy le doy cierre.</p>
+    
+    <p>Primero que nada te doy las gracias por haber llegado hasta aquí, créeme que con solo haber leído hasta este punto este proyecto, significa mucho para mí.</p>
+    
+    <p>Love Myself es un proyecto demasiado íntimo y especial. El escribir y maquetar todo este trabajo lo disfruté como no tienes idea.</p>
+    
+    <p>Me resultó algo complejo armar todo esto. Primero que nada el recordar todo ya es una tarea complicada, tengo que pasar largas horas meditando mis pensamientos para poder ordenar esos recuerdos; algunas fechas de sucesos las calculé en base a otras, puede que incluso haya un margen de error en eso pero aun así se pudo. Luego de eso tengo que redactar esa información de manera coherente para que se entienda lo que tengo que transmitir para después maquetarla en forma de carta, elegir las canciones que dialogan con la historia, diseñar la estructura y corregir faltas ortográficas. Regularmente tardo una semana completa en crear una carta. Pero aun así, quiero transmitirte que a pesar de todo este trabajo, realmente disfruté mucho haciendo esto.</p>
+    
+    <p>Tú eres una de esas personas muy especiales para mí y quisiera que te llevaras algo bueno de mí. Es por esa razón que te compartí todo esto. Porque quiero que vivas una buena vida.</p>
+    
+    <p>Cada carta estuvo acompañada de una canción principal:</p>
+    
+    <ul>
+        <li><strong>Don't Leave Me</strong> (Carta 7): Representó el mensaje que te dice que no estás sola, sabes que cuentas conmigo para lo que sea y como dice esa canción, si tan solo pudiera regresar el tiempo, lo haría todo de nuevo, te extiendo mi mano, abre tus ojos y siente porque no estás sola.</li>
+        <li><strong>Begin</strong> (Carta 8): Es la canción cuya letra representa todo lo que sentía mi yo de quince años en esos momentos. La letra encaja perfecto de principio a fin conmigo ya que hubo personas que me hicieron surgir y es la que dedico con mucho cariño hacia todas esas personas que me ayudaron a avanzar. Mis buenas amigas.</li>
+        <li><strong>LMLY</strong> (Carta 9): Simbolizó el conflicto entre el amor propio y el amor hacia otros. La confusión de querer ser suficiente para alguien más sin haber aprendido aún a serlo para sí mismo. Fue el choque entre lo que sentía y lo que necesitaba aprender.</li>
+        <li><strong>Love is Not Over</strong> (Carta 10): Habló del duelo. De entender que el amor no siempre termina cuando las personas se van, y que hay historias que no cierran con un final feliz, sino con aceptación. Fue aprender a soltar sin negar lo que fue real.</li>
+        <li><strong>Welcome to the other side</strong> (Carta 11): Marcó el inicio de algo nuevo, la bienvenida a entrar a cosas nuevas con miedo, sí, pero también con curiosidad. Fue aceptar que el cambio no pide permiso. El otro lado.</li>
+        <li><strong>So Far Away</strong> (Carta 12): Representó los sueños. Fue el recordatorio de que, aunque el camino sea largo y confuso, seguir soñando es un acto de resistencia.</li>
+        <li><strong>ON</strong> (Carta Final): Porque llegar hasta aquí no fue fácil. Porque seguir caminando cuando el peso es grande, cuando la duda es constante y el futuro incierto, también hay fuerza.</li>
+    </ul>
+    
+    <p>Y es así como estas cartas llegan a su final. No porque se haya terminado el viaje, sino porque está a punto de comenzar, ya que ahora todo lo que nos formó en el pasado está por enfrentarse a una nueva etapa más compleja, la adultez temprana.</p>
+    
+    <p>Actualmente aún estoy trabajando muchos aspectos de mi persona; cuando salí de casa y me fui a la ciudad, me topé con un muro muy grande en muchos aspectos de mi vida, muros los cuales aún sigo escalando y no soy el único. Cada persona es un mundo, una historia distinta, tenemos miedo, lo sé más que nadie. Pero aun así, quiero tener fe. Nuestra vida es valiosa por el simple hecho de existir y estar vivos, merecemos vivir bien y sé que a pesar de los tropiezos y de que a veces vamos a querer renunciar, confío en que lo vamos a lograr. Un salto de fe.</p>
+    
+    <p>Ya te había mencionado alguna vez que mi sueño de niño siempre fue hacer algo que dejara huella en las personas. Al final solo soy una persona común como la puedes encontrar en cualquier lado, la vida es muy incierta, no quiero morir pero si algún día me llego a ir, al menos quiero tener la certeza de que me conozcas y dejar esa huella en ti y las personas que aprecio.</p>
+    
+    <p>Puedo decir con certeza que a pesar de todo, amo vivir.</p>
+    
+    <p>Agradezco mucho a quienes estuvieron, a quienes se quedaron y a quienes se fueron: gracias.</p>
+    <p>A mi yo del pasado, que resistió incluso cuando no sabía por qué: gracias.</p>
+    
+    <p>Y a mi yo del futuro, que leerá esto algún día: ¿Cómo estás?, espero que seas menos idiota que ahora jajaja, cuida mucho a mi mamá, ha tenido una vida difícil. Disfruta la uni y de esas personas futuras que tú conoces pero yo aún no. Si ya tienes novia, felicidades, no sé cómo le hiciste jajaja, ámala y cuídala mucho, consiéntela cabrón jajaja. Pero si cuando leas esto ya eres mayor, felicidades, lo has logrado, sé que así será; si por alguna razón tienes hijos, por favor protégelos con tu vida y no repitas los mismos sesgos de tu familia, espero sigas escuchando BTS y a mami Jennie. Y por favor, no pierdas el contacto con mis buenas amigas. Sigue adelante, incluso cuando tengas miedo, porque lo sientes aunque tu actitud diga lo contrario... Y lo más importante, Sé Feliz, que es lo único que nos queda.</p>
+    
+    <p>Te agradezco a ti por estar aquí y ofrecerme tu amistad sin condicionamiento; ahora que en Julio del 2024 ya tenía la certeza de cómo recorrer mi camino, ¿me acompañarías a enfrentarlo en la siguiente parte?</p>
+    
+    <p>Ahora que ya me conoces mejor, piensa y dime:</p>
+    <p>¿Cuál es tu historia?</p>
+
+    <p><strong>LOVE MYSELF, FIN</strong></p>
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora del Outro</div>
+            <div class="musica-contenido">
+                
+                <!-- Save Me -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7kyUapJyppdjzoAWB6XS14?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+                const conocimientoAsistente = {
+            "sublimacion": "En el psicoanálisis, la sublimación es el proceso mediante el cual Angel/Daniel canaliza sus vivencias más complejas hacia una obra creativa estructurada. Al completar 'Trilogía III', Daniel no solo documenta su pasado, sino que transmuta el dolor crudo y la incertidumbre de su crecimiento en un archivo digital, logrando una reconciliación entre su disciplina académica y su vulnerabilidad emocional.",
+            "arte": "Para Daniel, el diseño web y la maquetación de sus cartas no son meros ejercicios técnicos; son la materialización de su 'Yo' integrado. Al vincular su narrativa con la discografía de BTS (de *Wings* a *Love Yourself*), él transforma su historia personal en un espacio seguro donde el arte actúa como puente entre la memoria y la sanación.",
+            "adultez": "La adultez temprana representa el siguiente escalón en la trayectoria de Daniel tras el fin de esta Trilogía. Es el paso de la introspección protegida (el 'cascarón') hacia la exposición al mundo real, enfrentando los muros de la gran ciudad con la certeza ganada en el 2024 y la resiliencia construida en la universidad.",
+            "dualidad": "La distinción entre 'Angel' (disciplina y logros) y 'Daniel' (emociones y hobbies) es el núcleo de su proceso de individuación. Este Outro marca el momento donde ambos dejan de ser entidades separadas para convertirse en las dos alas que le permiten volar hacia su nueva etapa, tal como lo sugiere el concepto de *Wings*.",
+            "wings": "El concepto de 'Wings' es la metáfora de la libertad consciente. Representa la superación de las etapas de dolor y el aprendizaje de que, aunque el vuelo de la adultez sea incierto, la madurez permite extender las alas con la confianza necesaria para enfrentar lo desconocido sin perder la esencia propia.",
+            "on": "La canción 'ON' simboliza la fuerza innegable de Daniel. A diferencia de las etapas de introspección inicial, aquí el asistente identifica un cambio de paradigma: la aceptación del dolor y la duda como combustible. Es la declaración de que, sin importar cuán pesado sea el camino a la universidad, el 'Yo' está listo para seguir adelante.",
+            "amistad": "La relación con Diana, y con las amigas mencionadas, funciona como un anclaje existencial. Esta amistad sin condicionamientos ha sido la base segura que permitió a Daniel realizar su introspección. El Outro formaliza este agradecimiento como una pieza fundamental de su estabilidad emocional antes de dar el siguiente paso.",
+            "memoria": "El proceso de recuperar recuerdos para este proyecto es descrito por Daniel como un ejercicio de meditación profunda. Más que una regresión, es una reconstrucción arqueológica del 'Yo', donde se depuran los sesgos del pasado familiar para dejar solo la verdad necesaria para construir una vida futura más sana.",
+            "futuro": "La sección dedicada al 'Yo del futuro' es un ejercicio de proyección consciente. Daniel transfiere su responsabilidad actual a su versión adulta, estableciendo un pacto de autocuidado y recordándole la importancia de mantener la autenticidad, la felicidad y la conexión con sus raíces, incluso cuando las responsabilidades de la vida aumenten.",
+            "fe": "El 'salto de fe' es el pilar final de esta Trilogía. Tras el muro encontrado en la ciudad, Daniel redefine la fe no como una creencia religiosa, sino como la voluntad de seguir viviendo bien a pesar de la incertidumbre, validando su propia existencia y capacidad de dejar huella."
+        };
+
+        const respuestasPorDefecto = [
+            "Estamos en el cierre del viaje. Podemos hablar sobre cómo la sublimación artística ayudó a Daniel a integrar sus dos identidades o sobre el significado de 'Wings' como salto a la adultez.",
+            "Como asistente de la Trilogía III, mi enfoque actual está en la transición hacia la adultez y la importancia de la gratitud en el proceso de sanación de Daniel. ¿Deseas explorar estos temas?",
+            "Para honrar el final de este ciclo, sugiero profundizar en la simbología de 'ON' y el 'salto de fe' que Daniel propone como motor para su futuro universitario.",
+            "El pacto de lectura de Diana ha concluido. Ahora, el análisis se centra en la proyección hacia el futuro: la gestión de la memoria, la relación con el 'Yo' adulto y la persistencia de la felicidad como acto de resistencia."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

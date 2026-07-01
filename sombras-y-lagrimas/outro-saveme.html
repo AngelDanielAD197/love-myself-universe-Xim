@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía II | Outro: Save Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado Unificado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #5e548e;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre la psicología de las terapias de regresión, el mecanismo de defensa contra recuerdos abrumadores, la simbología de las canciones elegidas o el proceso de sanación a través de la sublimación...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: OUTRO: SAVE ME -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>OUTRO: SAVE ME</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts" style="border-left-color: #7209b7;">
+                        "Save me, save me / I need your love before I fall..." — Save Me, BTS
+                    </div>
+
+   <p>Hola Xime, como ya sabes primero que nada quiero agradecerte por haber leído esta segunda trilogía de cartas y haber llegado hasta aquí. En este Outro quisiera exponerte el motivo por el cual realizo estas cartas, porque las diseñe así y porque elegí las canciones que están en ellas.</p>
+    
+    <p>Como ya sabes uno de los motivos por el cual realice este proyecto es por una terapia de regresión en la cual me vi obligado a recordar todos los sucesos importantes en mi vida. Este tipo de terapias son mágicas, ya que el terapeuta guía al paciente a un estado de relajación profunda, como un tipo de trance para revivir recuerdos pasados.</p>
+    
+    <p>Como te lo explico en la Intro de esta trilogía, el cerebro cuando se siente en una situación de dolor, trata de desviar la atención a otra cosa, pero algo que no te mencione es que muchas de las veces donde hay niveles altos de estrés y emociones fuertes, el cerebro trata de ocultar esos recuerdos para proteger a la persona de las emociones abrumadoras.</p>
+    
+    <p>Ahora bien, otro objetivo y creo que es el principal del porque te estoy compartiendo todo esto es el que con la creación de este proyecto puedo entenderme mejor a mí mismo, cada carta no solo narra hechos, sino que explora como me sentía y que aprendí en esos momentos. Aunque la historia es mía, también busco que el tono y la estructura permita a que quien lo lea pueda verse reflejado, sentir empatía e incluso que conecte con sus propias experiencias, transformar el dolor en arte también es parte de sanar y perdonar.</p>
+    
+    <p>La estética de esta carta está inspirada en el álbum "Love Yourself Tear" de BTS, con esas tonalidades oscuras y color de letras características del álbum. El tono de estas cartas es más serio y crudo, ya que expongo toda las cosas que hice durante este periodo y como poco a poco me fui perdiendo, por algo conforme más avanzando en las cartas, mas desgarros hay en su diseño.</p>
+    
+    <p>Las canciones al principio son puramente de BTS pero más adelante se ven invadidas por canciones más pesadas, incluso hasta cambiando de color, marcando o haciendo más explícito el cambio.</p>
+    
+    <p>Los temas musicales centrales que elegí en esta trilogía fueron más personales, con ritmos más pesados y con letras que hablan de la soledad, las máquinas personales y como es estar perdido.</p>
+    
+    <p>Fake Love es un tema de BTS que habla sobre un amor en el cual el protagonista se ve obligado a ocultar su verdadero yo y usar una máscara fingiendo ser alguien más, algo que encaja perfectamente con esta historia.</p>
+    
+    <p>Tear es un tema que juega con el doble significado ya que el titulo traducido del inglés seria "Lagrima" pero también significa "desgarro". La letra cantada por la rap line de BTS expone el dolor de una desilusión de un amor falso.</p>
+    
+    <p>Life Goes On es un tema donde la letra refleja el dolor de la incertidumbre y la perdida. Esta canción en particular fue lanzada durante la pandemia de COVID_19 y maneja muy bien la manera en que se sintió esta etapa.</p>
+    
+    <p>Las canciones secundarias de esta trilogía son muy variadas, cada una acompaña la situación que se vivió en ese momento donde las letras lo acompañan.</p>
+    
+    <p>Tambien el término "Selves" es un concept que se puede traducir como "yoes" y que es una palabra que se utiliza en psicología para referirse a las diferentes identidades que forman parte de la personalidad del individuo.</p>
+    
+    <p>Después de esta etapa de mi vida, quedaba ahora un largo camino que recorrer para quitarme las máscaras y limitaciones que me había impuesto. Para todas las personas la vida es inherentemente una búsqueda de significado y es un concepto con el que me case durante toda la Prepa, hasta que conforme pasaba el tiempo fue evolucionando ese concepto.</p>
+    
+    <p>Afortunadamente la vida me tenía algo bueno preparado, ya que encontraría a personas que impulsarían este desarrollo y las cuales estimo mucho. Que me enseñarían que significa querer a alguien y lo que es amar, algo que sería vital para poder hacer alusión al título de estas cartas y aunque me perdi entre las sombras, descubri que incluso en la oscuridad, mi alma aun brillaba.</p>
+    
+    <p>Gracias por leerme Ximena.</p>
+    
+    <p>Dany &lt;3</p>
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora del Outro</div>
+            <div class="musica-contenido">
+                
+                <!-- Save Me -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7bxGcILuAjkZzaveU28ZJS?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "regresion": "La terapia de regresión reconstructiva utiliza técnicas de hipnosis clínica o relajación profunda consciente para guiar al sujeto a través de un estado de trance ligero. Esto permite acceder de forma segura a estratos de la memoria episódica que albergan recuerdos de la infancia y adolescencia temprana que la mente consciente ha archivado o deformado bajo capas defensivas.",
+            "trance": "La terapia de regresión reconstructiva utiliza técnicas de hipnosis clínica o relajación profunda consciente para guiar al sujeto a través de un estado de trance ligero. Esto permite acceder de forma segura a estratos de la memoria episódica que albergan recuerdos de la infancia y adolescencia temprana que la mente consciente ha archivado o deformado bajo capas defensivas.",
+            "cerebro": "En neuropsicología, cuando un individuo se expone a altos niveles de estrés emocional o trauma, el eje hipotálamo-hipofisario-adrenal libera cortisol de forma masiva. Esta saturación hormonal puede generar un proceso de amnesia psicógena o represión selectiva, donde el cerebro oculta recuerdos altamente dolorosos para evitar que el Yo colapse ante emociones abrumadoras.",
+            "ocultar": "En neuropsicología, cuando un individuo se expone a altos niveles de estrés emocional o trauma, el eje hipotálamo-hipofisario-adrenal libera cortisol de forma masiva. Esta saturación hormonal puede generar un proceso de amnesia psicógena o represión selectiva, donde el cerebro oculta recuerdos altamente dolorosos para evitar que el Yo colapse ante emociones abrumadoras.",
+            "sublimacion": "En el psicoanálisis freudiano, la sublimación es un mecanismo de defensa maduro que consiste en canalizar impulsos, dolores o traumas latentes hacia actividades social y artísticamente valiosas. Al redactar su biografía e integrar la música y el diseño, Daniel realiza un ejercicio activo de sublimación: transforma el dolor crudo de su historia en una obra de arte interactiva para sanar y encontrar perdón.",
+            "arte": "En el psicoanálisis freudiano, la sublimación es un mecanismo de defensa maduro que consiste en canalizar impulsos, dolores o traumas latentes hacia actividades social y artísticamente valiosas. Al redactar su biografía e integrar la música y el diseño, Daniel realiza un ejercicio activo de sublimación: transforma el dolor crudo de su historia en una obra de arte interactiva para sanar y encontrar perdón.",
+            "tear": "El concepto 'Tear' encierra una sutil dualidad lingüística y psicológica en el álbum de BTS de 2018. Por un lado, hace referencia a 'lágrima' (el dolor líquido del quebranto emocional); por el otro, a 'desgarro' (el acto violento de romper una tela, un lazo o la propia máscara del Yo). Ambas acepciones enmarcan perfectamente el tono de las cartas 4, 5 y 6.",
+            "save me": "La canción 'Save Me' (lanzada originalmente en el álbum 'The Most Beautiful Moment in Life: Young Forever') funciona como el núcleo emocional de este Outro. Representa el ruego interno y vulnerable de Daniel de ser rescatado de su propio abismo y de las limitaciones impuestas por su máscara defensiva, actuando además como la declaración de gratitud hacia la incondicionalidad de Diana.",
+            "fake love": "El concepto de 'Fake Love' de BTS mapea el dilema de la Persona en Jung: aniquilar y ocultar el verdadero yo interno con tal de preservar una ilusión de aceptación o protegerse del desprecio social. Para Daniel, es el himno de la máscara adoptada durante el segundo año de secundaria para escapar del bullying anterior.",
+            "prepa": "La transición hacia la Preparatoria en la biografía de Daniel simboliza la búsqueda existencial de significado tras el confinamiento de la pandemia. El asistente analiza esta etapa como el proceso de individuación en el que Daniel empieza a romper sus propias máscaras restrictivas, apadrinado por nuevos entornos y amigos sanos que le enseñan el verdadero significado de amar."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta se aparta de los temas de síntesis de este Outro. Puedes preguntarme sobre la psicología de la regresión, el mecanismo de ocultamiento del cerebro, el doble significado de 'Tear' o el concepto de sublimar el dolor en arte.",
+            "Como asistente especializado de la Trilogía II, mi base teórica se enfoca en las dinámicas de la máscara protectora, la sanación existencial en la Preparatoria y la deconstrucción analítica de las canciones secundarias.",
+            "Para respetar de forma estricta el pacto de lectura, sugiero indagar sobre la función catártica de estas cartas biográficas o cómo Daniel planeó el diseño inspirado en 'Love Yourself 轉 Tear'.",
+            "Pregúntame sobre la represión consciente de la memoria, la lírica de 'Save Me' o el proceso psicológico de sanación para desglosar este capítulo de cierre."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

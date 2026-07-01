@@ -1,0 +1,94 @@
+/* Estilos independientes para la lectura de cartas */
+body.body-carta {
+    background-color: #0b0914 !important; /* Forzamos el fondo oscuro de tu universo */
+    color: #e0e0e0;
+    font-family: 'Comfortaa', sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+    display: block; /* Evita que herede flexbox del index */
+}
+
+.contenedor-carta {
+    max-width: 750px;
+    margin: 60px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(114, 9, 183, 0.2); /* Sutil borde morado era */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.header-carta h1 {
+    font-size: 2.2rem;
+    color: #48cae4; /* Tu azul cian característico */
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.meta-carta {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    color: #a393eb;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
+}
+
+.cita-musical {
+    border-left: 3px solid #7209b7;
+    padding-left: 15px;
+    color: #5cf2bd;
+    font-style: italic;
+    margin: 25px 0;
+    background: rgba(92, 242, 189, 0.05);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 0 8px 8px 0;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 40px;
+    color: #48cae4;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.btn-volver:hover {
+    color: #5cf2bd;
+    transform: translateX(-5px);
+}
+
+/* Botones de Navegación del Footer */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15); /* Línea sutil con el morado del proyecto */
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px); /* Pequeño efecto de flotación */
+            cursor: pointer;
+        }

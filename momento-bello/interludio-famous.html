@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Interludio II: Famous Last Words</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #06040a 0%, #0b0816 50%, #12091f 100%);
+            background-attachment: fixed;
+            color: #b3a9bc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(14, 11, 24, 0.75);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente Onírico */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.3);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #0e0b18;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura del Interludio */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        
+        /* Estilos del pie con flujo de navegación dual */
+        .btn-navegacion {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+            gap: 20px;
+        }
+        .btn-explorar {
+            color: #8a8194;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.01);
+            transition: all 0.3s ease;
+        }
+        .btn-explorar:hover { 
+            color: #fff; 
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+        }
+        .btn-explorar.siguiente {
+            color: #48cae4;
+            border-color: rgba(72, 202, 228, 0.3);
+            background: rgba(72, 202, 228, 0.02);
+        }
+        .btn-explorar.siguiente:hover {
+            color: #06040a;
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* PANEL DERECHO: Espacio Musical */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0e0b18;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Oniria & Inconsciente</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #554d63; font-style: italic; margin-bottom: 12px;">
+                    [Fase REM activa. Hola Xim. Puedes consultarme sobre los mecanismos de la parálisis muscular, la concepción freudiana del inconsciente o la base estética y conceptual de 'Dear Insanity' de DPR IAN...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Explorar el Mundo Onírico..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DEL INTERLUDIO -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE FOREVER</p>
+                    <h1>Interlude II: Famous Last Words</h1>
+                    <p style="color: #554d63; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #332a40; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <p>¿Qué hay más allá de la conciencia?</p>
+
+                    <p>Pasamos la mayor parte de nuestra vida despiertos, pero es cuando dormimos que nuestra mente se muestra sin máscaras, el tiempo se distorsiona, el ruido del día se desvanece, la lógica deja de obedecer y comienza a responder a lo que sentimos.</p>
+
+                    <p>Cuando dormimos, se entra en un estado de descanso en el que el cuerpo y la mente se recargan después del día. Durante este proceso, el cerebro se mantiene activo, procesando información y consolidando recuerdos. Lo increíble de esto es que a nivel físico el cuerpo se repara y fortalece y a nivel mental se procesan emociones, aprendizajes y lo más interesante, se producen los sueños.</p>
+
+                    <p>Existe una fase del descanso llamada Fase REM en donde el cerebro está en una actividad tan alta que incluso es similar a cuando estamos despiertos, con la diferencia de que los músculos en esta fase están paralizados. Es en esta fase donde ocurren los sueños, esas historias bizarras que crea nuestra mente, como el cerebro está procesando recuerdos e ideas, a veces esas ideas se entrelazan y combinan en una sola imagen, lo que resulta en esos sueños fuera de lo lógico.</p>
+
+                    <p>Sigmund Freud los define como una ventana hacia el inconsciente, un terreno sin explorar de nuestra mente que guarda los deseos, recuerdos y emociones más profundas, muchas veces reprimidas u olvidadas. Se ha descubierto que el inconsciente se comunica con nosotros a través de metáforas, muchas veces vistas en los sueños.</p>
+
+                    <p>Se teoriza que existe en nosotros algo llamado "Mundo Onírico", este término se utiliza para referirse al mundo de los sueños, un universo imaginario que no obedece las leyes del mundo real y que alberga cada persona por separado, moldeado por sus propias experiencias, deseos y miedos, con un nivel de simbolismo indescriptible y que aún desconocemos pero que visitamos cada noche al dormir.</p>
+
+                    <p>El álbum “Dear Insanity” del artista DPR IAN utiliza este concepto como base visual para armar su universo de canciones, algunas de ellas que serán usadas en esta última parte. Bienvenida a Love Myself: The Most Beautiful Moment of my Life Forever, la culminación de esta etapa de mi vida en donde abarcaremos mis reflexiones finales, mis sueños, la incertidumbre del futuro, cómo me di cuenta de lo que necesitaba en realidad y lo más importante, cómo es que termino esta increíble etapa de Preparatoria con el viaje que se quedó en mi corazón.</p>
+
+                    <p>Todo esto incluso hasta pareció haber salido de mi Mundo Onírico, así que dime ¿Cuál es tu sueño?</p>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA (DPR IAN) -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Paisaje Sonoro: Dear Insanity</div>
+            <div class="musica-contenido">
+                
+                <!-- Don't Go Insane - DPR IAN -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6wlAUkgJjEH1xLblEeiko2?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE ONÍRICO -->
+    <script>
+        const conocimientoAsistente = {
+            "rem": "La fase REM (Rapid Eye Movement) se caracteriza por una desincronización EEG que emula la vigilia. La parálisis muscular periférica (atonía muscular) es un mecanismo biológico de protección para evitar que el cuerpo actúe físicamente los eventos hiper-realistas y caóticos procesados en la corteza cerebral.",
+            "freud": "Para Sigmund Freud, el sueño es la vía regia hacia el inconsciente. Postula que el 'contenido manifiesto' (lo que recordamos del sueño) es una fachada censurada y metafórica del 'contenido latente' (los deseos e impulsos reprimidos que la mente consciente no tolera despierta).",
+            "onirico": "El 'Mundo Onírico' opera fuera del principio de realidad de la física clásica. Funciona mediante condensación (unir varios conceptos o personas en una sola imagen) y desplazamiento (transferir la carga emocional de un hecho real a un símbolo aparentemente insignificante).",
+            "ian": "El álbum 'Dear Insanity' de DPR IAN utiliza la distorsión del Mundo Onírico como un espejo de la psique humana. Sus texturas visuales e hilos musicales representan el desvanecimiento de las máscaras diurnas y el viaje caótico de confrontar los propios miedos sin el filtro de la lógica social.",
+            "mascara": "Al dormir, la 'Persona' o máscara social se disuelve por completo. La mente ya no necesita gastar energía sosteniendo un guion o un rol social para encajar, permitiendo que las verdaderas mareas emocionales e inseguridades emerjan de forma pura.",
+            "sueño": "La pregunta final de Daniel ('¿Cuál es tu sueño?') expande el concepto: no habla solo del descanso biológico, sino del motor existencial que Diana debe encontrar una vez que las ilusiones del pasado queden atrás en la culminación de la preparatoria."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta pertenece al plano consciente diario. Prueba interrogándome sobre el simbolismo del Mundo Onírico, la Fase REM, las metáforas de Freud o el trasfondo de DPR IAN.",
+            "El inconsciente se comunica mediante metáforas abstractas. Puedes preguntarme cómo se caen las máscaras al dormir o qué función tiene la parálisis muscular.",
+            "Para analizar la transición de Daniel hacia el cierre de la preparatoria, explora los conceptos de la Fase REM o la base artística de 'Dear Insanity'.",
+            "La lógica deja de obedecer en este interludio. Pregúntame sobre la ventana al inconsciente de Freud o el significado profundo del viaje onírico de Daniel."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.08)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.12)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#cbc4d6";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

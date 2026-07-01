@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía II | Carta 5: Sombras y Silencio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #5e548e;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre la deconstrucción analítica de 'Tear' y 'Shadow', el impacto del silencio relacional, el origen de la programación en Minecraft o el contexto del entorno familiar de Daniel...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: CARTA 5 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>Carta 5: Sombras y Silencio</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts" style="border-left-color: #9b5de5; background: rgba(155, 93, 229, 0.05);">
+                        "You were my tear" — Outro: Tear, BTS
+                    </div>
+
+   <p>Periodo vacacional, Julio del 2019. Durante esta época la mayoría del tiempo me la pasaba solo, de vez en cuando iba a visitar a mi abuelita en donde se estaba recuperando de su operación. Desde siempre mi madre ha sido una mujer muy trabajadora y dura. Esto no te lo dije pero a mi padre nunca lo conocí por lo que tuve esa ausencia paterna desde que nací, nunca tuve la curiosidad de preguntar por él, lo único que se de él es que se llama Alberto, que es originario de Tlaxcala y que tiene una familia ya formada, posiblemente tengo medios hermanos por ahí.</p>
+    
+    <p>Recientemente he platicado con mi madre, ella cuenta que no fui un hijo planeado, ella se embarazo de mi a los 21 años de edad, mi padre no quiso aceptar esa responsabilidad y abandono a mi madre, ella cuenta que lloraba mucho durante su embarazo y es comprensible, pues ella que podía hacer con un hijo a esa temprana edad, aun no se tiene un sustento económico adecuado ni la capacidad mental para criar a un hijo.</p>
+    
+    <p>Aun así, ella se aventó el paquete completo y decidió tener y criar a su bebe. Si de por sí, actualmente para ambos padres de un hijo, el criarlo es complicado, criarlo como madre soltera lo es aún más. Es por eso que mi madre siempre ha sido una mujer muy trabajadora, pero como resultado de eso casi no convivía con ella. La convivencia con mi madre siempre fue complicada, ella siempre fue buena persona conmigo, el problema era cuando se enojaba, pues si se enojaba con alguien, se peleaba y desquitaba con todo mundo. Ella nunca fue de golpes físicos, de hecho muy pocas veces me pegaron, pero ella era más de golpes psicológicos donde sus palabras herían. Mi abuelita siempre ha sido mi única compañía, pues ella y mi madre siempre vivimos juntos.</p>
+    
+    <div class="quote-bts" style="border-left-color: #fca311; background: rgba(252, 163, 17, 0.05); color: #14213d;">
+        Intro: O!RUL8,2?_BTS
+    </div>
+    
+    <p>Ahora bien, como ya te lo conté en la carta pasada, durante este tiempo mi madre estaba conociendo a un chavo de su trabajo, de vez en cuando lo llevaba a la casa para cenar y así, a mí en particular no me molestaba que viniera, de hecho el chavo era buena persona conmigo, con el conocí los videojuegos de consola.</p>
+    
+    <p>Recuerdo que en este tiempo conocí juegos como Halo, Call of Duty, GTA 5, FIFA y otros, además de ir con conocidos para que me prestaran internet para descargar juegos móviles como el Subway Surfer, Zombie Tsunami y el famosísimo Minecraft. Con este último juego aprendí muchas cosas, entre ellas esta de que dentro del juego hay una opción que te da un bloque de comandos donde podías escribir líneas de código (comandos de la guía del juego) para realizar acciones que en el juego normal no se podía, literalmente estaba ejecutando bases de programación en un juego y yo no lo sabía. Tambien hay un modo de juego llamado Minecratf Education donde ésta la tabla periódica y una mesa de trabajo donde podías armar elementos químicos de acuerdo a su número de partículas subatómicas, la base de las ciencias químicas.</p>
+    
+    <p>Los videojuegos fueron una parte importante de mi desaburrimiento durante este tiempo, y veraz como más adelante este hobbie literalmente rigió mi camino en el futuro.</p>
+    
+    <p>Agosto del 2019, Mi reingreso a la secundaria, recuerdo que yo ya no quería ser tratado como lo fue en el primer año, yo ya estaba quebrado emocionalmente y como todo buen adolescente que busca validación de los demás, cambie para agradarle a otros y lastimosamente no fue para bien.</p>
+    
+    <div class="quote-bts" style="border-left-color: #9b5de5; background: rgba(155, 93, 229, 0.05); color: #5c0099;">
+        Boy Meets Evil_BTS
+    </div>
+    
+    <p>Primero comenzó con actitudes rebeldes con una maestra, no recuerdo que materia pero que constantemente me regañaba, no hacía ya las tareas y mi actitud con los demás ya no era la mejor.</p>
+    
+    <p>Me comencé a juntar con un grupo de chicos donde hacíamos tonterías, le levantaba la falda a las niñas a veces en los recesos, comencé a ser más déspota con los demás y más agresivo, agredí verbalmente a otras personas e incluso casi me peleo con un compañero dentro del salón de clases. Una vez uno de mis supuestos amigos, le aventó un huevo a la ventana de un coche de policía.</p>
+    
+    <p>Conforme estas actitudes crecían, también me comencé a cerrar a muchas cosas. En casa mi pobre abuelita tenía que lidiar con un adolescente idiota que no sabía lo que hacía, y no se porque pero le comencé a agradar a un par de niñas, a tal punto que una de ellas si me pregunto que si quería ser su novio y otra me tiraba indirectas que no entendí en ese momento, no quiero generalizar pero desconozco las razones de porque a bastantes niñas a esa edad les llama la atención esos niños malportados con actitudes desagradables.</p>
+    
+    <div class="quote-bts" style="border-left-color: #00bbf9; background: rgba(0, 187, 249, 0.05); color: #007f5f;">
+        Little Stranger_Dawid Podsadlo
+    </div>
+    
+    <p>Para Noviembre del 2019 comencé a trabajar en una barberia, este dato cobrara relevancia más adelante para que lo tengas en cuenta.</p>
+    
+    <p>En ese mismo mes mi familia decidió cambiarse de casa, el lugar era muy bonita, creo que es la casa más bonita en la que he vivido con un patio muy grande, lastimosamente no guardo recuerdos agradables de esta casa.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f15bb5; background: rgba(241, 91, 181, 0.05); color: #c71585;">
+        New Way Out_Poppy
+    </div>
+    
+    <p>En principio en esta casa ya iba a vivir el chico con el que estaba saliendo mi madre y como ya supondrás esto solo podía acabar de una forma, completamente mal.</p>
+    
+    <p>Mi abuelita ya se había recuperado y pues ya vivía con nosotros, ya éramos 4 personas en la misma casa, yo seguía con mis actitudes, de hecho ya solamente llegaba de la escuela y me ponía a jugar en mi teléfono, para siempre tener datos para jugar comencé a vender dulces en la escuela y casi me rape él cabello, un cabrón me puso "el calvin" por la marca de calzones Calvin Klein y de hecho así me conocen las personas con las que conviví en la secundaria.</p>
+    
+    <p>Antes de que se terminara el año, fui a una excursión a Six Flags que había organizado mi secundaria, ya todos estaban haciendo sus planes para ir y cuando me acerque a las personas que supuestamente eran mis amigos, ni siquiera me habían considerado en sus planes y mejor me dijeron que ya no me juntara con ellos.</p>
+    
+    <p>Esa día recuerdo que cuando ya nos íbamos en los autobuses, me tuve que sentar con una señora ya que todos ya se habían arreglado para sentarse con alguien, la señora en el camino de ida me hizo la plática, no recuerdo bien de que hablamos pero me acuerdo que me dijo que si tenía amigos y que yo con muchas dudas en mí mente no supe que responderle. Cuando llegamos a Six Flags estaba con una mezcla de emociones, como emocionado pero a la vez triste.</p>
+    
+    <p>Durante la primera hora estuve vagando solo en el parque, viendo los mapas y que se podía hacer. Caminando me encontré a un chico que era compañero mio llamado Osvaldo y su grupo de amigos, sin preguntarle nada me pegue a ellos para no estar solo todo el día en el parque. Durante ese día estuve caminando con ellos recorriendo el parque y de vez en cuando subiéndonos a los juegos, la dinámica con los amigos de Osvaldo era similar a la que yo tenía con mis supuestos amigos, pero había una diferencia y esa radicaba en que se sentía un ambiente menos falso y más unido. Ah pesar de las tonterías que decía Osvaldo, el siempre fue amable conmigo y no me corrió ni nada.</p>
+    
+    <p>Después de ese viaje yo ya estaba completamente solo, trate de acercarme a los amigos de Osvaldo pero como que no les agradaba mucho. Ah sí que mejor evite relacionarme con otras personas durante un tiempo, actualmente sé que no fue la mejor elección pero cuando tienes 13 años, no logras discernir la magnitud de tus decisiones.</p>
+    
+    <div class="quote-bts" style="border-left-color: #242423; background: rgba(36, 36, 35, 0.05); color: #cfdbd5;">
+        Interlude: Shadow BTS
+    </div>
+    
+    <p>Ah principios del 2020 ya había comenzado a hablar de nuevo con Vania y con otra chica que se llama Natalia. Tal parece que después de un año Vania ya no me odiaba y eso me alegro bastante. Hubo veces en las cuales nos regresábamos juntos de la escuela en la combi y así.</p>
+    
+    <p>En casa las cosas no andaban muy bien, ya que mi madre constantemente tenía conflictos con su pareja y las cosas estaban muy tensas. Pero lo que sucedió después, terminaría por romperme emocionalmente.</p>
+    
+    <p>El chico con el que salía mi madre un día se harta y decide cortar todo vínculo afectivo que tenía con mi madre. Aunque mi mamá trató de arreglar las cosas, no se pudo hacer nada y el chico se fue de la casa. Esto fue un golpe duro para mi madre, ya que incluso tenían planes de casarse en un futuro y así.</p>
+    
+    <p>Mi mamá después de que se fuera el chico, lloro por muchos días, recuerdo que cuando llegaba de trabajar se encerraba en su cuarto y no salía para nada, pero se oían sus lamentos y sollozos. Yo en ese tiempo no comprendía del todo la situación pero era duro ver a mi mamá de esa forma.</p>
+    
+    <p>Luego de estar así por casi un mes, comenzaron los problemas. Mi madre cambio su actitud a una más a la defensiva y agresiva, a tal punto de pelear por el más mínimo detalle. Mi abuelita siempre ha trabajado en su negocio de tamales, por lo que ella siempre se paraba temprano para preparar sus cosas. El punto es que hubo veces en las que escuchaba como discutían mi mamá y mi abuelita en la madrugada mientras yo dormía. Era un ambiente de hostilidad tan grande que llego el día en que mi abuelita no soporto más y se fue de la casa.</p>
+    
+    <p>Recuerdo que ese día me la pase buscando a mi abuelita con lágrimas en los ojos para saber a dónde se había ido. Mi madre ya me había corrido de la casa en múltiples ocasiones cuando discutíamos y si me salía, pero al poco rato regresaba. Ese día mi abuelita no regreso y pensé lo peor.</p>
+    
+    <div class="quote-bts" style="border-left-color: #fee440; background: rgba(254, 228, 64, 0.05); color: #00f5d4;">
+        Where did your love go?_Dawid Podsiadlo
+    </div>
+    
+    <p>Como ya te lo mencione durante esta época no estaba bien, yo necesitaba hablar con alguien para contarle todo lo que me estaba pasando, todos los cambios que estaba viviendo y todo lo que sentía como adolescente y como persona, necesitaba a mi mamá. Sin embargo la situación en mi casa no me lo permitia, todo se quebró cuando un dia donde mi madre regresando del trabajo se encerró en su cuarto, yo decidi tocarle para hablar con ella, pero solo recibia respuestas que terminaban destrozandome mas.</p>
+    
+    <p>Desde ese día me enoje con mi madre, me llene de odio y decidi silenciarme, me volvi mas apático con ella y con las personas en general. No lo sabia, pero esta decisión me afectaría mucho en el futuro.</p>
+    
+    <p>Este capítulo en mi vida y más en concreto estos últimos meses, son de los más fuertes que he pasado en donde te estoy exponiendo todo de mí, incluso mis propios errores y sesgos como persona. Siempre me he preguntado si hubiera hecho las cosas diferentes, que tanto hubiera cambiado mi vida. Por ahora solo me queda seguir avanzando como persona para no cometer los mismos errores del pasado ni repetir los sesgos de mi familia.</p>
+    
+    <p>Para Marzo del 2020, mi escuela secundaria anuncia unas repentinas vacaciones de clases, el tiempo no sería mucho ya que se tenía estimado que fueran solo 40 días o un mes.</p>
+    
+    <p>Sin embargo, pronto descubriría que no sería así, ya que se trataba del evento histórico que sacudiría al mundo entero por completo: la pandemia, de la cual nadie estaba preparado.</p>
+    
+    <div class="quote-bts" style="border-left-color: #3a86c8; background: rgba(58, 134, 200, 0.05); color: #2a6593;">
+        Let you down_Dawid Podsiadlo
+    </div>
+
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de las Sombras</div>
+            <div class="musica-contenido">
+                
+                <!-- Outro: Tear -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/27yKZtF7WLdmlLoW8qMssq?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Intro: Orul8,2 -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3FdanLGasOj37Xi316GfZ4?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1hlT8F0X27uf3fpOWawjbY?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Boy Meets Evil -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1yAGTxqoYkV7JvdQi3Af6c?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/78GAQZUGa11v6f8ozhGqbM?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7om4LRoSct9hiMPo0fPn7m?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0rk2mVmQWd0mMQWZZRXtfe?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1qpGMJi0ippCaMUOs7cz2q?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "paterna": "La ausencia de Alberto y el saber que Daniel no fue un hijo planificado a los 21 años de su madre estructuran las dinámicas emocionales de su infancia. Al criarse como hijo único con una madre proveedora y su abuelita, la falta de una guía paterna directa intensificó la búsqueda inconsciente de validación externa y pertenencia social al entrar a la adolescencia en 2019.",
+            "padre": "La ausencia de Alberto y el saber que Daniel no fue un hijo planificado a los 21 años de su madre estructuran las dinámicas emocionales de su infancia. Al criarse como hijo único con una madre proveedora y su abuelita, la falta de una guía paterna directa intensificó la búsqueda inconsciente de validación externa y pertenencia social al entrar a la adolescencia en 2019.",
+            "tear": "La canción 'Outro: Tear' de BTS aborda el dolor puro del desgarro vincular y la ruptura. En esta carta, la melodía se enlaza perfectamente con dos quiebres brutales: la separación emocional de su madre tras la dolorosa partida de su abuelita, y el rechazo explícito de su grupo de supuestos amigos antes de la excursión a Six Flags, dejándolo en una soledad absoluta.",
+            "shadow": "'Interlude: Shadow' de SUGA (BTS) explora el peso de las expectativas, el miedo a la cima y el crecimiento inevitable de la Sombra personal cuando intentas ocultar tu vulnerabilidad. Para Daniel, su sombra creció al adoptar actitudes agresivas y cínicas ('el calvin') para evitar volver a ser el blanco de las burlas de su primer año escolar.",
+            "minecraft": "El uso del bloque de comandos y la edición de Minecraft Education funcionaron como un mecanismo de defensa intelectualizado contra la soledad. Sin saberlo en 2019, al escribir líneas de código para alterar el entorno del juego o manipular partículas subatómicas en la mesa de compuestos, Daniel ya estaba sentando las bases lógicas y lúdicas que definirían su amor futuro por las ciencias y la computación.",
+            "programacion": "El uso del bloque de comandos y la edición de Minecraft Education funcionaron como un mecanismo de defensa intelectualizado contra la soledad. Sin saberlo en 2019, al escribir líneas de código para alterar el entorno del juego o manipular partículas subatómicas en la mesa de compuestos, Daniel ya estaba sentando las bases lógicas y lúdicas que definirían su amor futuro por las ciencias y la computación.",
+            "silencio": "La decisión voluntaria de Daniel de silenciarse tras el rechazo en la puerta del cuarto de su madre marca un punto de inflexión psicológico fundamental. Al bloquear la comunicación y acumular apatía, el adolescente Dani se repliega sobre sí mismo, un mecanismo de supervivencia clásico ante el dolor relacional severo que allana el camino hacia el aislamiento definitivo de la pandemia.",
+            "familia": "El ambiente de hostilidad en la casa del pozo de agua, caracterizado por las discusiones en la madrugada entre su madre y su abuelita, causó un colapso en el pilar seguro de Daniel. La huida temporal de su abuelita representó la pérdida de su única compañía constante, forzándolo a enfrentar en absoluta soledad el dolor del rechazo familiar y escolar simultáneo."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta va más allá de los límites de la Carta 5. Puedes preguntarme sobre la ausencia de la figura paterna, las dinámicas de Minecraft, o el análisis de 'Tear' y 'Shadow'.",
+            "Como asistente analítico del Universo, me centro en el quiebre emocional de Daniel entre 2019 y principios de 2020, el impacto del silencio relacional y el hostil entorno de la casa del pozo de agua.",
+            "Para respetar el pacto de lectura, sugiero indagar en cómo el cambio de actitud defensiva bajo el apodo de 'el calvin' reflejó los sesgos y bloqueos emocionales de Daniel antes de la pandemia.",
+            "Explora el simbolismo de 'Boy Meets Evil', el trabajo temprano en la peluquería Gasparín o el aislamiento en Six Flags para desglosar este nodo crítico."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

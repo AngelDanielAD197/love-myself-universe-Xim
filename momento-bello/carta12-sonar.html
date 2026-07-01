@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Carta 12: El desafío de soñar en un mundo estresado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Estilo Oscuro y Atmosférico */
+        body {
+            background: linear-gradient(135deg, #06040a 0%, #0b0816 50%, #12091f 100%);
+            background-attachment: fixed;
+            color: #b3a9bc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 290px 1fr 410px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Estilos Generales de Paneles Laterales */
+        .panel-lateral {
+            background: rgba(14, 11, 24, 0.75);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* PANEL IZQUIERDO: Dinámica Cognitiva y Vocacional */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.3);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #0e0b18;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .cuerpo-lectura p { margin-bottom: 25px; }
+        
+        /* Bloques de Citas Musicales */
+        .quote-bts {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 20px;
+            margin: 35px 0;
+            line-height: 1.5;
+        }
+
+        /* Pie de página con botón ÚNICO maestro de salida */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar-unico {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 30px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-explorar-unico:hover { 
+            color: #06040a; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.4);
+            transform: translateY(-1px);
+            cursor: pointer;
+        }
+
+        /* PANEL DERECHO: Reproductores de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 15px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0e0b18;
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: INTERFAZ DE ANÁLISIS COGNITIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Psicología & Flujo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #554d63; font-style: italic; margin-bottom: 12px;">
+                    [Análisis de sesgos de aprendizaje activo. Temas disponibles para Xime: La parálisis por ansiedad vocacional, la catarsis en la UAM Azcapotzalco, romper etiquetas en el deporte, el favor de la Psicología o la fractura en casa...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Desarmar limitaciones mentales..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO INTEGRO DE LA CARTA -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE FOREVER</p>
+                    <h1>Carta 12: El desafío de soñar en un mundo estresado</h1>
+                    <p style="color: #554d63; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #332a40; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "You will fully bloom after all the hardships" — So Far Away, BTS
+                    </div>
+
+    <p>¿Qué significa soñar?</p>
+    <p>Tal vez no es una pregunta tan simple como parece. Para responderla, necesito un poco de contexto... y un poco de mí.</p>
+    
+    <p>La zona de confort suele describirse como un sofá cómodo en una habitación cálida. Pero si miro a mi alrededor, en México se parece más a un refugio en medio de la tormenta: un espacio donde no nos arriesgamos porque no queremos perder lo poco que tenemos. Un lugar donde sobrevivir se vuelve prioridad. Sin embargo, llega un punto en la vida en que ese refugio comienza a sentirse pequeño... y entonces surge una chispa: el deseo de soñar.</p>
+    
+    <p>Para entender por qué cuesta tanto salir de lo conocido, basta observar nuestro entorno. No es casualidad que tengamos miedo. Vivimos en uno de los países con mayor porcentaje de estrés, tanto académico como laboral. Aquí, estudiar no solo significa exámenes: significa traslados eternos, cansancio, presiones económicas, dudas constantes sobre si lo que haces realmente te dará un futuro digno.</p>
+    
+    <p>Desde jóvenes aprendemos que fallar es costoso. En un sistema donde las oportunidades parecen escasas, aprendemos a jugar a lo seguro. Y sin darnos cuenta, esa estrategia se vuelve una jaula. Entonces, ¿qué significa soñar en estas circunstancias?</p>
+    
+    <p>Para mí, soñar es el momento en el que dejas de ser espectador de tu propia vida y te conviertes en protagonista de tu historia.</p>
+    
+    <p>Soñar no es solo imaginar cosas bonitas. Biológicamente nos ayuda a procesar emociones y limpiar el estrés, pero aspiracional y espiritualmente se vuelve una brújula. Soñar acepta la incomodidad de la vida actual y, aun así, se atreve a mirar más allá. Nos empuja a salir de la burbuja de la supervivencia para intentar vivir con propósito.</p>
+    
+    <p>Soñar, en un mundo estresado, es un acto de valentía.</p>
+    
+    <div class="quote-bts" style="border-left-color: #8ecae6; background: rgba(142, 202, 230, 0.05); color: #219ebc;">
+        Dreams, Aurora
+    </div>
+    
+    <p>Octubre de 2023. Fue por estas fechas cuando comenzaron los bombardeos sobre la universidad. La orientadora nos repetía todos los días que ese era nuestro último año, que el único objetivo debía ser ingresar a la universidad. Al principio lo tomaba bien, pero con el tiempo sus palabras dejaron de motivarme y empezaron a llenarme de dudas.</p>
+    
+    <p>Cada vez que me preguntaban qué iba a estudiar, respondía algo distinto. No por indecisión momentánea, sino porque de verdad no lo sabía.</p>
+    
+    <p>Pensar tanto en ello me llevó a episodios de ansiedad: me jalaba el cabello, mi respiración se agitaba, me invadía la frustración. Hubo un día en que incluso grité, incapaz de contener lo que sentía. Entre más me adentraba en el tema, más alto veía el muro que tenía enfrente. No solo no sabía qué quería estudiar, también sentía que mis conocimientos no eran suficientes para enfrentar un examen de ingreso.</p>
+    
+    <p>Hubo momentos en los que pensé en no estudiar la universidad. Terminar la prepa y ya. Trabajar. Sobrevivir.</p>
+    
+    <p>Pero, como muchas veces en mi vida, algo se interpuso antes de que me hundiera del todo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #e63946; background: rgba(230, 57, 70, 0.05); color: #e63946;">
+        Your Blood, Aurora
+    </div>
+    
+    <p>A finales de octubre fui a una excursión con mis compañeros a la UAM Azcapotzalco. Recuerdo que un chico que se llamaba René se sentó conmigo en el camión. Al principio fue silencio, pero poco a poco empezamos a hablar de historia y ciencia. Terminamos conversando todo el camino. Y ese pequeño rato bastó para que algo que había abandonado regresara: la pasión por explicar, la curiosidad por entender.</p>
+    
+    <p>Cuando llegamos a la universidad, algo fue distinto. En otras excursiones solo veía. Esta vez, comencé a observar.</p>
+    
+    <p>Era otoño. Las hojas caían. Algunos estudiantes estaban recostados en el césped, otros trabajaban en proyectos. Les pregunté si estaban estresados. Me dijeron que sí... pero también que disfrutaban lo que hacían.</p>
+    
+    <p>Conforme avanzábamos, observaba más: la biblioteca, los laboratorios, las canchas, los pasillos. Y casi al final, vi una ceremonia de titulación. Me quedé mirando a una chica que abrazaba a su padre llorando, repitiendo que lo había logrado.</p>
+    
+    <p>No sé qué pasó exactamente en mí, pero sentí algo cálido. Como si ese abrazo fuera para mí. Y sin entender por qué, se me escapó una lágrima.</p>
+    
+    <div class="quote-bts" style="border-left-color: #457b9d; background: rgba(69, 123, 157, 0.05); color: #1d3557;">
+        Deja Vu, TXT
+    </div>
+    
+    <p>En los días siguientes intenté poner orden en mi mente. Busqué guías para los exámenes de ingreso. Por alguna razón, había recuperado las ganas de intentarlo. Al revisarlas, entendí que debía elegir al menos un área.</p>
+    
+    <p>La prepa me había permitido explorar distintas materias. De las que más me llamaron la atención fueron la Historia y la Biología, materias en las cuales estaba considerando estudiar, pero en este nuevo semestre nos dieron la materia de Psicología que al principio no le preste tanta atención, pero poco a poco esta materia me iba atrapando.</p>
+    
+    <p>También me empecé a acercar más al deporte. Desde segundo año jugaba en los recesos, pero siempre había algo que me detenía. En los deportes donde tenía que enfrentar a alguien, mi mente se llenaba de dudas, mi cuerpo se volvía torpe. Recibía comentarios desalentadores. Y sin darme cuenta, me casé con una idea: no soy bueno para esto. Hasta que decidí romperla.</p>
+    
+    <div class="quote-bts" style="border-left-color: #2a9d8f; background: rgba(42, 157, 143, 0.05); color: #264653;">
+        Set me free pt.2, Jimin
+    </div>
+    
+    <p>Con nuevas herramientas y otra forma de ver las cosas, apliqué en el deporte lo que había aprendido en matemáticas: primero, renunciar a la creencia de que "no soy bueno". No fue inmediato. Fue incómodo. Pero empecé a entrenar algo más que el cuerpo: entrené la experiencia.</p>
+    
+    <p>Retome esa retas en los recesos que había abandonado antes pero con una diferencia, decidí soltar todo lo innecesario y solo comencé a creer y tener fe, fe en mí, en lo que podía hacer y lo que podía lograr. No solo lo practique en la escuela, sino también fuera de ella pues había veces que en las tardes me salía de casa para trotar un poco. Una tarde de esas pase por una cancha de futbol y vi gente jugando, por mi cabeza paso decirle a esos chicos que no conocía que si me dejaban jugar, pero por mi timidez no lo hice y me fui caminando del lugar.</p>
+    
+    <p>Al poco rato regrese a la cancha a hacerlo, tragándome mi vergüenza y por una vez en mi vida abrirme a nuevas experiencias. Resulto ser la mejor decisión, pues al poco rato ya me encontraba jugando con nuevas personas y a la vez, conociendo nueva gente. Fue una de las mejores decisiones que he tomado.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ffb703; background: rgba(255, 183, 3, 0.05); color: #fb8500;">
+        Beautiful Strangers, TXT
+    </div>
+    
+    <p>Me gustó tanto la experiencia que empecé a salir todas las tardes. Conocí gente. Me equivoqué. Aprendí. Reí. Poco a poco, esa idea que me limitaba comenzó a desaparecer. Empecé a jugar mejor. Me metía a lo que fuera: fútbol, básquet, voleibol. Incluso hubo un momento en que volvió a aparecer aquel estado que ya había sentido antes: el flow.</p>
+    
+    <p>Por primera vez, consideré estudiar Ciencias del Deporte.</p>
+    
+    <p>Las opciones crecían... y todas tenían un problema. La Paleontología y la Astronomía siempre fueron un sueño para mi desde niño, pero siendo objetivo en ese tiempo, sabía que me iba ser muy complicado dedicarme a eso y lo que hizo que rechazara esas opciones era que descubrí que no existían como tal esas carreras en las universidades públicas de México. Biología era muy demandada. Deporte implicaba privadas.</p>
+    
+    <p>Mientras tanto, sin darme cuenta, Psicología ya me había atrapado.</p>
+    
+    <p>Me fascinaba entender cómo funciona el cerebro. Su complejidad. Su misterio. Me sorprendía pensar que, aun con toda nuestra tecnología, seguimos sin comprenderlo del todo. Preguntaba. Prestaba atención. Me quedaba después de clase. No es por alardear pero digamos que en este semestre me volví el favorito de su clase jajaja. Por primera vez, sentí que tal vez había encontrado algo.</p>
+    
+    <p>Pero cuando lo compartí, no recibí las respuestas que esperaba. Un comentario de mi profesor de matemáticas me desmotivó profundamente.</p>
+    
+    <p>Aun así, decidí no detenerme. A finales de año comencé un curso en línea sobre Psicología del Aprendizaje. Mientras aprendía sobre la rama, aprendía a aprender. Estaba construyendo, sin saberlo, una nueva forma de estar en el mundo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #6a0dad; background: rgba(106, 13, 173, 0.05); color: #4b0082;">
+        Dreamer, TXT
+    </div>
+    
+    <p>En casa, sin embargo, las cosas se rompían.</p>
+    
+    <p>Los conflictos entre mi madre y mi abuelita aumentaron. Un día, mi madre llegó con un flete. Iba a irse a vivir con su pareja. No me preguntó si quería irme con ella. Ya conocía mi respuesta.</p>
+    
+    <p>Me quedé con mi abuelita. Con la persona que siempre ha estado conmigo.</p>
+    
+    <p>Por fuera, no mostré mucho. Por dentro... mi corazón estaba quebrado.</p>
+    
+    <div class="quote-bts" style="border-left-color: #3d3d3d; background: rgba(61, 61, 61, 0.05); color: #adb5bd;">
+        On my own, Yutaka Yamada
+    </div>
+    
+    <p>Y así, con esa noticia, despedí el año. Tal vez soñar no comenzó cuando supe qué quería estudiar. Tal vez soñar empezó cuando me atreví a sentir incomodidad. Cuando dejé de huir de mis dudas. Cuando me permití llorar frente a un futuro que no entendía, correr sin saber si era bueno, preguntar sin saber si era inteligente, quedarme sin saber cómo dolería.</p>
+    
+    <p>Hoy creo que soñar no es tenerlo claro. Es atreverse a caminar aun cuando la niebla no se disipa. Es salir del refugio, no porque la tormenta haya terminado, sino porque descubrí que no vine al mundo solo a resguardarme. Y aunque ese año terminó con una casa fragmentada y un corazón herido, también terminó con algo nuevo latiendo en mí: la certeza de que, incluso roto, incluso cansado, incluso sin respuestas... había comenzado a soñar.</p>
+    
+    <div class="quote-bts" style="border-left-color: #d62828; background: rgba(214, 40, 40, 0.05); color: #003049;">
+        So What, BTS
+    </div>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar-unico">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: PAISAJE SONORO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El otro lado</div>
+            <div class="musica-contenido">
+                
+                <!-- So Far Away - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2FviiM1DSKfJSRxMV5TD9w?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Dreams - Aurora -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2B6p25DfeEkYYbpShv22b9?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Your Blood - Aurora -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6PbC1xivXYIWLXHDIC2Qd2?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Deja Vu - TXT -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3aAnwyBJY9OLNLqSgd4fZU?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Set me free pt.2 - Jimin -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/59hBR0BCtJsfIbV9VzCVAp?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Miracle / Beautiful Strangers - TXT -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6IYvOX6K6tbBmj00JRU5Rw?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Dreamer - TXT -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/59ScHwQ4PP0TRTJgG07PAW?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- On my own - Yutaka Yamada -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6HbFeXY8hn9VGMTisneItn?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- So What - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0wqqe8k13bJPxRt7FEmnwS?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE COGNITIVO -->
+    <script>
+        const respuestasCarta = {
+            "ansiedad": "La parálisis provocada por la orientadora escolar en octubre de 2023 desató síntomas psicosomáticos severos (hiperventilación, tirones de cabello). Daniel experimentó un colapso debido al sesgo de urgencia: la creencia sistémica de que fallar el examen de ingreso implicaría la anulación inmediata de su valor y su futuro laboral.",
+            "uam": "La excursión a la UAM Azcapotzalco actuó como un shock contranarrativo. Rompió el aislamiento mental mediante una charla intelectual orgánica con René. La lágrima de Daniel ante la ceremonia de titulación representó una proyección empática pura: el nacimiento del deseo real superando el miedo al entorno estresado.",
+            "deporte": "Para superar la creencia limitante ('no soy bueno para esto') en las retas del receso, Daniel replicó el algoritmo adaptativo que usó en matemáticas. Dejó de entrenar solo la ejecución física y empezó a 'entrenar la experiencia': exponiéndose deliberadamente a canchas desconocidas con extraños para quebrar la timidez.",
+            "psicologia": "El idilio con la Psicología demuestra la inclinación de Daniel por los sistemas complejos e invisibles. Su dedicación lo convirtió en el alumno predilecto de la clase. Aunque el comentario desmotivador del profesor Erick intentó frenarlo, Daniel blindó su interés iniciando un curso autónomo de Psicología del Aprendizaje.",
+            "fractura": "El fin de año de 2023 trajo una crisis de apego estructural: su madre se marchó con un flete sin ofrecerle alternativas reales de elección. Daniel decidió permanecer en el núcleo protector de su abuelita. Su silencio exterior contrastaba con un corazón quebrado, transformando el acto de soñar en una dolorosa resistencia."
+        };
+
+        const defaultsCarta = [
+            "Pregúntame sobre los síntomas de ansiedad vocacional de octubre de 2023, la epifanía en la UAM Azcapotzalco o cómo Daniel hackeó sus límites en el deporte.",
+            "Esta carta explora la exploración multifacética. Puedes interrogarme sobre su pasión por la Psicología o el impacto emocional de la mudanza de su madre.",
+            "El año 2023 cerró con una casa fragmentada pero una brújula encendida. Pregúntame sobre el 'entrenamiento de la experiencia' o la resiliencia psicológica de Daniel."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 500);
+        }
+
+        function generarRespuesta(pregunta) {
+            const limpia = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in respuestasCarta) {
+                if (limpia.includes(clave)) {
+                    return respuestasCarta[clave];
+                }
+            }
+
+            const rand = Math.floor(Math.random() * defaultsCarta.length);
+            return defaultsCarta[rand];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.08)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.12)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#cbc4d6";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

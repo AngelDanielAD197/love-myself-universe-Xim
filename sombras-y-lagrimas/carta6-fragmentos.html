@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía II | Carta 6: Fragmentos de un nuevo comienzo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado Unificado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #5e548e;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre los reinos de Whittaker, el debate de los virus comparado con campos numéricos, la influencia musical e intelectual de Melchor, o el quiebre de la educación a distancia en 2020...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: LECTURA DE LA CARTA 6 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>Carta 6: Fragmentos de un nuevo comienzo</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts" style="border-left-color: #00f5d4;">
+                        "Yeah life goes on like this again...." — Life Goes On, BTS
+                    </div>
+
+   <p>En la Biología, existen múltiples reinos en los que puede ser clasificada la vida, Robert Whittaker (tuve que buscar su nombre porque no me acordaba jaja) en 1969 clasifico la vida basándose en su tipo de células (procariotas y eucariotas) y el número de células (unicelulares y pluricelulares).</p>
+    
+    <p>Ahora bien, para lo que te voy a contar si requiero que trates de recordar un poco tus conocimientos en biología, esta carta hasta va a parecer tarea jaja, pero te aseguro que es información muy enriquecedora. De todos modos tratare de explicarlo lo más simple y entendible posible.</p>
+    
+    <p>Robert clasifico la vida en 5 reinos: El Reino Monera donde se agrupan organismos unicelulares y procariotas (significa que sus células no tienen núcleo definido), en simples palabras aquí se agrupan las bacterias y sus derivados. El Reino Protista donde están organismos que no son considerados animales, plantas ni hongos pero que son organismos eucariotas (con núcleo definido). El Reino Fungi que incluye hongos, levaduras y mohos. El Reino Plantae que incluye a todas las plantas y el Reino Animalia que incluye a todos los animales, incluyéndonos. Cabe mencionar que estos últimos tres reinos son organismos pluricelulares y eucariotas (compuestos por muchas células y que tienen un núcleo definido).</p>
+    
+    <p>Ahora que tienes este contexto, podemos comenzar:</p>
+    
+    <p>Antes de que comenzara la catástrofe mundial, como te comente yo trabajaba en una Barbería, anteriormente yo ya había tenido otros empleos pero este era el primero que conseguí por mi cuenta, recuerdo que el primer día de trabajo me pusieron a limpiar espejos, yo la verdad ni sabía pero hice lo que pude, al final me dijeron que habían quedado bien y me pusieron a enseñarle a un niño que estaba trabajando con ellos a como limpiarlos y yo sacándome de la manga todo lo que autoaprendí ese día jajaja.</p>
+    
+    <p>Mi ex patrón se llama Melchor, es un señor muy carismático, alegre, rockstar y sobre todo muy amigable y buena persona. Siempre ayudaba a quien lo necesitaba y se la pasaba platicando todo el rato con todos, ya fuera con sus empleados como con sus clientes.</p>
+    
+    <p>Con el conocí el Rock de los 80's y la música ochentera alternativa. Yo en ese tiempo tenía 13 años y ya llevaba años escuchando Reggaeton, poco a poco me fue introduciendo a su estilo de música, a tal punto de que me comenzó a gustar. Artistas como AC/DC, Gund's and Roses, Led Zeppelin, Pink Floyd, Nirvana, Kiss, Black Sabbath, Metallica, Queen, Aerosmith y más. También por mi cuenta comencé a escuchar más música ochentera y uno de los artistas que más me llamo la atención fue un tal Michael Jackson, me encanto su música y las coreografías de sus canciones eran geniales.</p>
+    
+    <p>En este tiempo experimente en cambio total en gustos musicales, como ya te lo he mencionado para mí la música no solo se escucha, se siente y se vive con toda el alma, para algunos es incluso la definición de su identidad como persona y eso se me hace muy sensible y romántico.</p>
+    
+    <div class="quote-bts" style="border-left-color: #d4af37; background: rgba(212, 175, 55, 0.05); color: #aa7c11;">
+        You Rock My World, Michael Jackson
+    </div>
+    
+    <p>Con este señor viví y aprendí muchas cosas de él, es algo que te detallare más adelante.</p>
+    
+    <p>Now bien, En diciembre del 2019 por el me entere que del otro lado del mundo estaba ocurrió una epidemia desconocida en China, cabe mencionar que él siempre fue muy atento a las noticias y un día viendo un video sobre cómo estaba la situación allá me dijo con un tono serio "tengo un mal presentimiento sobre esto", yo no le tome tanta importancia a su comentario ya que estaba más interesado por una pista de hielo que estaban poniendo en el centro de mi pueblo junto con un teleférico.</p>
+    
+    <p>Más o menos por Febrero del 2020 nos volvimos a cambiar de casa, esta vez mi madre al final se terminó separando del chico con el que estaba, ya para nunca volverlo a ver. Mi madre le pidió disculpas a mi abuelita por sus actitudes y ella regreso a vivir con nosotros. La nueva casa en la que íbamos a vivir era más amplia en espacio y según palabras de mi abuelita, más acogedora y se sentía una energía menos pesada, aunque con el tiempo la fuimos arreglando ya que cuando nos la entregaron estaba bien horrible. Esta casa es en la que actualmente seguimos viviendo afortunadamente.</p>
+    
+    <p>Ahora sí, Marzo del 2020. Mi escuela secundaria anuncia unas repentinas vacaciones de clases, según ellos solo duraría un mes y cachito así que no afectaría mucho. Pero la realidad iba a ser otra, ese día me fui sin saber que sería la última vez que viera las caras de algunos.</p>
+    
+    <p>El virus SARS-CoV-2 o mejor conocido como COVID-19 es un virus con características muy particulares, explicándolo de manera simple es un virus con envoltura y dentro de esa envoltura están múltiples proteínas que protegen su material genético, este virus literalmente secuestra a las células para multiplicarse.</p>
+    
+    <p>Saber de la naturaleza de un virus es aterradora, como sabrás la mayoría de enfermedades son causadas por bacterias y gracias al gran accidente de Alexander Fleming en 1928 descubriendo la Penicilina (el primer antibiótico) se facilitó más el combatir enfermedades causadas por bacterias. Ahora incluso existen Antivirales (medicamentos para tratar infecciones por virus) pero con una gran limitante, cada antiviral está diseñado para tratar a un virus en específico y además como buen proceso darwiniano, un virus cambia constantemente y se adapta por lo que puede desarrollar inmunidad al antiviral con gran facilidad.</p>
+    
+    <p>Ahora bien, actualmente y desde siempre existe un debate sobre si los virus son seres vivos, ya que no cumplen características fundamentales de la vida como el tener una estructura celular, un metabolismo propio o poder reproducirse de forma autónoma. Es por eso que incluso no se mencionan en los reinos de Robert. Analógicamente es como si tratáramos de que los números imaginarios estuvieran en el campo de los Reales, simplemente no se puede ya que no obedecen las clasificaciones tradicionales. Tendríamos que redefinir el concepto de vida para que eso cambiara.</p>
+    
+    <p>Entonces, como eliminas algo que no se considera un ser vivo???</p>
+    
+    <p>Como ya te mencione, un virus puede que no se considere un ser vivo pero lo que te va a volar la cabeza es que realiza acciones que simulan estar vivo, un virus secuestra células para usarlas y que completen las funciones que ellos no pueden hacer por ellos mismos, como las de comer y reproducirse, justo las razones por las que no se les considera un ser vivo. Es por eso que existe el debate, es por eso que es tan difícil curarte de una infección viral, como matas algo que en primera, no se considera ser vivo y segunda, que no afecte a la célula sana que ésta secuestrada por el virus. Saber esto es de suma importancia para entender el entorno en el que estamos y el como la naturaleza puede dar, como quitar.</p>
+    
+    <p>Continuando:</p>
+    
+    <p>Las Vacaciones comienzan, para mí era lo mejor, ya que no tendría que ir a la escuela durante un mes entero, así que me dedique a hacer otras cosas. Durante ese mes solo me dedique a trabajar y a estar en mi casa, no hice otra cosa más, solo estaba esperando a regresar a la escuela y continuar con mi vida. Sin embargo, durante ese mes reflexione un poco sobre lo que estaba haciendo, pensé desde como comencé con mis actitudes hasta lo que había llegado y que en realidad no estaba valiendo la pena lo que estaba haciendo. Así que durante ese mes me prometí que cuando regresara a la secundaria, trataría de que las cosas fueran diferentes y como ya sabrás, ese día no llegaría.</p>
+    
+    <div class="quote-bts" style="border-left-color: #000000; background: rgba(0, 0, 0, 0.05); color: #495057;">
+        Singularity, BTS (V)
+    </div>
+    
+    <p>El 28 de Febrero del 2020 se reportó el primer caso de COVID-19 en México.</p>
+    <p>El 11 de Marzo del 2020, la Organización Mundial de la Salud declaro formalmente al COVID-19 como una pandemia mundial, marcando un punto de inflexión a nivel global y alentando a los países a tomar medidas a gran escala.</p>
+    <p>El 20 de Marzo se programó una suspensión de clases que duraría hasta el 17 de Abril del 2020 para toda escuela con clases presenciales. Una gran mentira, ya que lo que en realidad quería la SEP era tiempo para planear una estrategia de educación a distancia para que los jóvenes pudieran continuar con sus estudios en casa.</p>
+    <p>El 30 de Marzo del 2020 se anunció formalmente el estado de emergencia sanitaria en México, se cerraron espacios públicos, se le comunico a la población a resguardarse en sus casas, se implementó el programa de sana distancia, la SEP anuncio su estrategia para continuar con los estudios de los jóvenes, el programa "Aprende en Casa" y la que en mi opinión afecto a gran número de personas, se suspendió toda actividad económica no esencial, marcando el cierre de muchas empresas y negocios e incluso de zonas turísticas. Para que te des una idea, el 5,3% de la población nacional en el país, trabaja en el sector turístico, estamos hablando de más de 6 millones de personas sin trabajo y solo en ese sector, no me imagino como fue en otros sectores como el entretenimiento, la manufactura en empresas y otros. Desgraciadamente entre esos afectados, estuvo mi madre.</p>
+    
+    <p>Toda esta última información son datos reales que tú puedes consultar en internet, yo me base en datos proporcionados en las páginas de la OMS, la SEP y el INEGI por si tienes alguna duda.</p>
+    
+    <p>Durante este año, mi familia y yo la pasamos mal, bueno para serte sincero no creo que alguna familia la haya pasado bien. Nuestro sustento era la zona arqueológica y sin turistas, los restaurantes estaban vacíos. Hubo incluso restaurantes que quebraron y tuvieron que cerrarlos. Yo veía en la noticias como la gente entraba en pánico y vaciaba los supermercados comprando suministros y personas enfermas y muertas creciendo de manera exponencial. El mundo a principios de la pandemia era un caos.</p>
+    
+    <div class="quote-bts" style="border-left-color: #d90429; background: rgba(217, 4, 41, 0.05); color: #ef233c;">
+        Automatic Sun, The Warning
+    </div>
+    
+    <p>Cuando iniciaron las clases en línea, para mí era todo nuevo y complicado, ya que en este tiempo no contaba con una laptop ni internet en casa y la situación no estaba como para realizar esos gastos. También además de mis clases, me dejaban de tarea ver los programas de Aprende en Casa que pasaban en la televisión, las cuales en realidad me aburrían, no eran muy diferentes a ver un video en YouTube del tema, de hecho agradezco mucho a un canal de YouTube que se llamaba "Aprende en Resumen" donde te resumían las horas explicadas en la tele en tan solo 10 minutos. Pero poco a poco fui perdiendo el interés a esta nueva modalidad, no se sentía una conexión real con el profesor y el estudiante, solo era de entreguen esto y ya. Llego a tal punto de que perdí el interés completamente de mis estudios, solo hacia los resúmenes que pedían y ya.</p>
+    
+    <p>Ahora mi enfoque estaba solo en el trabajo, decidí trabajar más días en la Barbería, por lo que iba más seguido. Comencé a dedicarme a más cosas en la barbería y no solo a la limpieza, mi ex patrón poco a poco me fue introduciendo al mundo de la barbería, comenzó a enseñarme a cortar el cabello, a cómo usar las tijeras y la navaja, hubo días en los que me ponía a practicar el rasurado de navaja con un globo y si se me rompía, era porque estaba inclinando de más la hoja de mi navaja, también mas o menos tenía que dimensionar la cabeza del cliente y partirla en fracciones para saber mas o menos hasta donde debía cortar.</p>
+    
+    <p>Con Melchor trabaje por mucho tiempo, tuvimos que implementar nuevas medidas sanitarias en el local como un límite de personas que podían estar en la sala de espera, nosotros siempre con careta, cubrebocas y guantes, limpieza de máquinas después de cada uso y un tapete con cloro en la entrada. Tal vez estábamos exagerando pero tomemos en cuenta que estaríamos en contacto con una gran cantidad de personas, en su mayoría hombres que trabajaban en la ciudad.</p>
+    
+    <p>Con el tiempo me hice muy cercano a Melchor, el tenía en ese tiempo aproximadamente 38 años y yo recién había cumplido los 14 años y aunque nuestra diferencia de edad era grande, nos hicimos buenos amigos. De hecho una vez me hizo reir de verdad con una de sus ocurrencias y el festejo según él su victoria, ya que era la primera vez que me sacaba una sonrisa.</p>
+    
+    <p>Llegamos a tal punto de que me comenzaba a encargar que cuidara a su niño, su hijo en ese tiempo tenía 3 años aproximadamente y el niño ya me conocía. Melchor y su pareja tenían su barbería. Ella estaba en otro pueblo, al lado de la secundaria a la que iba y el estaba en el pueblo que vivo. El niño se llama Pablito y de vez en cuando me tocaba cuidarlo, nunca se me complico convivir con los niños y el no era la excepción. Nos la pasábamos jugando pero eso si, siempre se aburría rápido por lo que me tocaba cambiar la dinámica al instante, inventándome juegos a cada rato. Hubo veces que me pedían que lo sacara a pasear o que se lo llevara a su mamá, incluso hubo veces en las que le tuve que cambiar el pañal, yo mas o menos veía como se lo cambiaban así que según yo, se lo cambiaba bien jajaja.</p>
+    
+    <p>Ah finales de ese año, Melchor me invito a una posada de la que te juro que no me acordaba para nada y a día de hoy digo que como me pude olvidar de ese día.</p>
+    
+    <p>Ese día acordamos vernos en un lugar, su esposa, su hijo, sus dos empleados que eran una chica de 19 años que no recuerdo su nombre y un chico de 15 años llamado Jorge y Yo. Fuimos cerca a la zona arqueológica a una cabaña donde nos recibió una señora y su hija. Pasamos la tarde y parte de la noche comiendo y jugando algunos juegos. Ese día volví a sentir lo divertido que era convivir de esta manera, algo que no se volvería a repetir hasta unos años después.</p>
+    
+    <p>También en Diciembre de ese año es cuando conocí a una chica llamada Eli, no quisiera profundizar en este tema porque lo que sucedió después de un par de meses de conocerla es algo que me parte y la verdad esto es algo que aún no supero y que quisiera olvidar pero en resumidas cuentas fue alguien a quien quise mucho y que desafortunadamente fallecio por Covid en la ciudad.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ffffff; background: rgba(255, 255, 255, 0.05); color: #000000; border: 1px solid #ccc;">
+        Heaven, Culture Wars
+    </div>
+    
+    <p>Año 2021, En casa las cosas comenzaban a arreglarse poco a poco económicamente. Yo seguía en el fondo guardándole un poco de rencor a mi madre por lo que las veces que convivíamos, mi actitud era muy apática. En la secundaria ya iba en tercer grado pero no había algo que me importara menos, de vez en cuando checaba el classroom para ver que dejaban y si lo hacía o no. Ya la escuela cada vez me iba importando menos.</p>
+    
+    <p>Después de lo que sucedió con Eli, me sumergí en una profunda tristeza que mi cara y mi mirada reflejaba muchas emociones en conflicto conmigo. Necesitaba algo en que distraerme para dejar de pensar. El Alcohol nunca fue una opción para mí y la razón te la desarrollare en la siguiente trilogía de cartas.</p>
+    
+    <div class="quote-bts" style="border-left-color: #3d3d3d; background: rgba(61, 61, 61, 0.05); color: #adb5bd;">
+        Stigma, BTS (V)
+    </div>
+    
+    <p>Al final opte mejor por concentrarme solo en mi trabajo, mis videojuegos y yo. En la parte de los videojuegos me vicie tanto que incluso me cree un canal de YouTube y en Septiembre del 2020 comenzó a subir contenido de videojuegos, primero comencé jugando el Free Fire, de hecho este juego fue la causa de esto, ya después fui subiendo de más juegos y cosas. Gracias a eso aprendí a cómo funciona YouTube y poco a poco fui aprendiendo la edición de videos por mi cuenta. Llego a tal punto que ya podía realizar videos con una buena edición, de hecho un creador de contenido que se dedica a revisar canales nuevos, opino sobre mi canal y dijo que tenía una buena edición para ser un canal que relativamente estaba empezando pero que los videos tenían baja calidad y eso era porque los editaba en mi teléfono y no tenía tanta capacidad para realizar videos de más alta calidad.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f77f00; background: rgba(247, 127, 0, 0.05); color: #fcbf49;">
+        Escapism, The Warning
+    </div>
+    
+    <p>Ah principios de este mismo año uno de mis juegos favoritos hizo varias colaboraciones pero entre ellas se destacan dos en particular, una con un Anime llamado Attack on Titan y otra con una boyband muy conocida, BTS. Fue el primer contacto que tuve con ambos mundos. Por una parte me interese mucho por la sinopsis de ese Anime y por el otro lado no me metí tanto en la boyband, solo escuche la canción Dynamite que era popular en ese entonces, por ahora no tomara relevancia pero igual es un dato importante jsjs.</p>
+    
+    <p>Comencé a adentrarme en el mundo del Anime en una app que se llamaba Funimation que actualmente ya no existe, comenzando con Attack on Titan, este Anime tiene una esencia muy particular, la historia que cuenta es increíble, trata sobre la humanidad al borde de la extinción, refugiada en ciudades con murallas para protegerse de los titanes, seres que devoran personas. Su protagonista Eren Jaeger es un personaje demasiado complejo y con una historia muy bien armada, una alegoría a la libertad con cuestionamientos filosóficos muy profundos y unos giros de trama increíbles. De verdad este anime cambio mi percepción en muchas cosas, podría considerarlo una obra maestra.</p>
+    
+    <p>Después de echarme cuatro temporadas de ese anime en dos semanas, me adentre aún más con otras historias. Se me hizo tan increíble las historias que contaban que incluso me adentre en sus mangas (historietas en las cuales el anime estaba basado) leyendo un capítulo tras otro y diciendo como no conocí este mundo antes. Más adelante veras como estas historias me ayudaron a que no me hundiera por completo.</p>
+    
+    <p>Ah finales de Febrero del 2021 se publicó la convocatoria de ingreso a la educación media superior. Ah mi madre ya le habían notificado que no había hecho gran cosa durante mi tercer año de secundaria y me llamo la atención, la verdad yo andaba ya tan desinteresado de la escuela a tal punto que considere la posibilidad de desertar.</p>
+    
+    <p>Le dije a mi madre que si la modalidad en línea continuaba en la preparatoria, sería mejor que no fuera a la preparatoria. Mi excusa era de que detestaba la modalidad en línea, y la realidad es de que si la detestaba pero en el fondo tenía miedo, ya que no sabía casi nada ya que prácticamente perdí un año y medio de estudios y aparte también tenía medio que la prepa fuera igual que como fue en Secundaria. Al final ya había decidido no estudiar la Preparatoria y dedicarme a trabajar en algo, por lo que deje mi preregistro inconcluso. Como te lo mencione, muy en el fondo sentía miedo y una profunda tristeza que guarde y que iba arrastrando con el tiempo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #8ecae6; background: rgba(142, 202, 230, 0.05); color: #219ebc;">
+        Paradise, BTS
+    </div>
+    
+    <p>Según estudios realizados por la UNAM, la pandemia de COVID-19 tuvo un impacto psicológico profundo en la población y en particular a los jóvenes. El ambiente de constante estrés y angustia sobre el futuro es algo que muchas personas adultas experimentaron durante esta época. Los jóvenes al estar en una etapa de desarrollo social y emocional crucial, se vieron particularmente afectados. Sin darnos cuenta, se nos arrebató una parte fundamental de nuestra vida lo que hizo que se dispararan los casos de depresión y ansiedad entre los jóvenes, quizás esa sea la razón de porque la introversión es muy común entre nosotros los jóvenes.</p>
+    
+    <p>Le comente algo de mi situación a Melchor sobre cómo fue mi paso por la secundaria y el muy sabio trato de guiar mis pensamientos que en ese momento estaban en desorden y con unas serias palabras me dijo que tenía un profundo sentimiento de soledad. Yo trate de contradecirlo y decirle que en realidad siempre he tenido amigos y he estado acompañado, pero el con un duro golpe de realidad me dijo: "Y donde están ahora". Algo a lo que no supe responder.</p>
+    
+    <p>En los últimos meses que estuve con Melchor, trato no de imponer, si no de tratar de guiar mis pensamientos he invitar a cuestionarme lo que estaba haciendo. El ya había notado que tenía un cuerpo flexible ya que jugando con Pablito me escondía en lugares muy pequeños donde necesitaba contraer mis brazos y piernas mucho para caber. Por lo que me invito a unas clases de Yoga y Meditación que organizaba su esposa a las cuales yo asistí con curiosidad.</p>
+    
+    <p>Durante un par meses estuve asistiendo a esas clases las cuales me estaban ayudando a organizar mejor mi mente, se sentía una sensación que no se puede describir con palabras en donde te haces consciente de tu tiempo presente al 100% por unos minutos.</p>
+    
+    <p>Poco a poco fui juzgando de manera crítica sobre cómo había sido mi vida durante estos últimos años. Nunca hable con nadie sobre mis cambios físicos y mental que estaba pasando por la adolescencia, es algo que actualmente sigo sin perdonarme. Siempre juzgamos como es el mundo con nosotros pero pocas veces somos capaces de ver nuestros propios errores. No fui empático tampoco, ya que también no entendía las actitudes de mi madre ni porque hacia lo que hacía, no me puse en sus zapatos y me enoje con ella por egoísmo, por querer su atención.</p>
+    
+    <div class="quote-bts" style="border-left-color: #bf0603; background: rgba(191, 6, 3, 0.05); color: #700302;">
+        We are, ONE OK ROCK
+    </div>
+    
+    <p>Al final yo ya me había resignado y ya no iba a entrar a la Preparatoria pues no hice mi preregistro y ya no se podía hacer nada. Per por una obra divina un día en Abril del 2021 me llaman por teléfono para notificarme si aún estaba interesado en concluir mi preregistro para el examen de selección, a mi casi se me salen las lágrimas ya que era la oportunidad que estaba buscando, así que con gusto decidí tragarme todos mis miedos, mis máscaras, mis yoes, mis lágrimas y decidir por una vez en mi vida lo que dictara mi corazón y lo que quería en realidad y con fuerza acepte concluir mi preregistro y de ahora en adelante trataría de escuchar mi propia voz, un camino que no sería fácil por todas las capas que me puse pero que sería necesario para volver a encontrarme y en el futuro poder Amarme a mí mismo, incluso si tengo que desarmar quien soy para poder armarme nuevamente.</p>
+    
+    <div class="quote-bts" style="border-left-color: #52b788; background: rgba(82, 183, 136, 0.05); color: #1b4332;">
+        Lost, BTS
+    </div>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de los Fragmentos</div>
+            <div class="musica-contenido">
+                
+                <!-- Life Goes On -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/5FVbvttjEvQ8r2BgUcJgNg?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Singularity -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1Lhwn4PqeGpM4LTVUowW76?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Paradise -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2ApfJvLr7RbhJl6NOVhEu6?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Lost -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3p8SLhMdp3M5cusqAp6H3L?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0AGjqyZTUcdBFSFoxsutM2?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/3LTwMQ9kkn5VVhP3jipBlR?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/257Zaw6AbgypDLLYOCpFpr?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1YO4xJXhh9A1Feg9k8xuy2?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/57sk9X1fPLXRfkw74XNrmK?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2So2zLatKtnIP0cy3a4Fn0?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "whittaker": "Robert Whittaker propuso en 1969 la clasificación de los seres vivos en 5 reinos (Monera, Protista, Fungi, Plantae, Animalia) según su tipo celular (procariota/eucariota) y número de células. Daniel utiliza este marco epistemológico para ilustrar cómo los virus quedan fuera de los esquemas tradicionales de la vida celular.",
+            "reino": "Robert Whittaker propuso en 1969 la clasificación de los seres vivos en 5 reinos (Monera, Protista, Fungi, Plantae, Animalia) según su tipo celular (procariota/eucariota) y número de células. Daniel utiliza este marco epistemológico para ilustrar cómo los virus quedan fuera de los esquemas tradicionales de la vida celular.",
+            "virus": "El SARS-CoV-2 (COVID-19) representa en la narrativa la irrupción de una fuerza que no obedece el orden tradicional. Matemáticamente, Daniel lo compara con intentar meter los números imaginarios en el campo de los Reales; un agente acelular que secuestra células vivas y que forzó a redefinir el confinamiento global y el aislamiento adolescente.",
+            "covid": "El SARS-CoV-2 (COVID-19) representa en la narrativa la irrupción de una fuerza que no obedece el orden tradicional. Matemáticamente, Daniel lo compara con intentar meter los números imaginarios en el campo de los Reales; un agente acelular que secuestra células vivas y que forzó a redefinir el confinamiento global y el aislamiento adolescente.",
+            "melchor": "Melchor, el dueño de la barbería de 38 años, se convierte en una figura mentora crucial en un periodo de desconexión y apatía familiar. No solo le enseña las matemáticas aplicadas al corte capilar (fracciones de volumen de cráneo) o el pulso con navajas en globos, sino que rompe su soledad intelectual, introduciéndolo al rock clásico de los 80, Michael Jackson y finalmente a la meditación.",
+            "barberia": "Melchor, el dueño de la barbería de 38 años, se convierte en una figura mentora crucial en un periodo de desconexión y apatía familiar. No solo le enseña las matemáticas aplicadas al corte capilar (fracciones de volumen de cráneo) o el pulso con navajas en globos, sino que rompe su soledad intelectual, introduciéndolo al rock clásico de los 80, Michael Jackson y finalmente a la meditación.",
+            "pandemia": "El impacto del confinamiento de 2020 a 2021 destruyó la economía familiar dependiente del turismo en la zona arqueológica y generó el colapso del interés de Daniel por las clases virtuales de la SEP ('Aprende en Casa'). Este choque psicológico de aislamiento, estudiado formalmente por la UNAM, disparó una crisis de ansiedad y desinterés por el futuro antes del renacimiento de abril de 2021.",
+            "escuela": "El impacto del confinamiento de 2020 a 2021 destruyó la economía familiar dependiente del turismo en la zona arqueológica y generó el colapso del interés de Daniel por las clases virtuales de la SEP ('Aprende en Casa'). Este choque psicológico de aislamiento, estudiado formalmente por la UNAM, disparó una crisis de ansiedad y desinterés por el futuro antes del renacimiento de abril de 2021.",
+            "registro": "La milagrosa llamada telefónica de abril de 2021 para recuperar el prerregistro inconcluso representa el clímax dramático de la carta. Al decidir tragar sus miedos y máscaras para completar el proceso de ingreso a la media superior, Daniel inicia la transición activa hacia la escucha de su propia voz y el desarme consciente de sus 'yoes'.",
+            "prerregistro": "La milagrosa llamada telefónica de abril de 2021 para recuperar el prerregistro inconcluso representa el clímax dramático de la carta. Al decidir tragar sus miedos y máscaras para completar el proceso de ingreso a la media superior, Daniel inicia la transición activa hacia la escucha de su propia voz y el desarme consciente de sus 'yoes'."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta pregunta pertenece a dinámicas externas a la Carta 6. Puedes consultarme sobre la taxonomía biológica de 1969, los métodos de barbería con Melchor o la llamada del examen de selección.",
+            "Como nodo analítico del Universo de Daniel, me concentro en la transición matemática-biológica usada para explicar el COVID-19 y la desconexión del programa 'Aprende en Casa'.",
+            "Para explorar a fondo este capítulo, te sugiero indagar sobre las clases de Yoga y Meditación, o el impacto económico del cierre turístico detallado con datos del INEGI.",
+            "Pregúntame sobre el origen del canal de edición de videos en YouTube en septiembre de 2020 o las analogías matemáticas sobre los virus."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

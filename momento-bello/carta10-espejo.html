@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía III | Carta 10: El amor a través del espejo roto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo - Degradado unificado del proyecto */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Estructura Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales (Asistente y Música) */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(17, 138, 178, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #48cae4;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(17, 138, 178, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #48cae4;
+            border-left: 3px solid #118ab2;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(17, 138, 178, 0.05);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Bloque de Imágenes Estilizado para Modo Nocturno */
+        .contenedor-imagenes-bloque {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            margin: 45px 0;
+        }
+        .contenedor-imagenes-bloque img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+        .caption-imagen {
+            font-size: 0.9rem;
+            color: #8a8194;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-style: italic;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(17, 138, 178, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Psique & Identidad</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Conexión establecida. Hola Xime. Puedes interrogarme sobre la crisis de Erikson, los arquetipos de Jung (Máscara/Sombra), el valor de la contención emocional en la pizza de Paloma o la fractura existencial tras la muerte de Osvaldo...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Analizar conceptos de la Carta 10..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: CARTA 10 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: THE MOST BEAUTIFUL MOMENT IN LIFE PT2</p>
+                    <h1>Carta 10: El amor a través del espejo roto</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+<p>"Crisis de Identidad", seguramente ya has escuchado este término. Acuñado por el psicólogo Erik Erikson lo describe como un periodo de transición y cuestionamiento profundo sobre sí mismo. Dentro de sus síntomas esta que el individuo se sientan perdido, que tenga cuestionamientos constantes sobre sí mismo, una sensación de vacío y desorientación, inseguridad extrema, aislamiento social, dificultad al tomar decisiones, comparación constante con los demás y la búsqueda impulsiva de cambio.</p>
+    
+    <p>Lo que experimente luego de querer que Julia conociera mi verdadero yo y darme cuenta que en realidad no podía siquiera yo saberlo, se le llama Colapso de Identidad Social. Esto sucede muchas veces cuando la persona ha construido su identidad a través de máscaras de manera inconsciente, cuando llega alguien que realmente le importa, esas máscaras se vuelven pesadas.</p>
+    
+    <p>Seguramente ya te habrás dado cuenta que en muchas de las cartas anteriores he mencionado la palabra mascara pero jamás te he expliqué qué significa. El sucesor del maestro Freud y príncipe heredero del psychoanálisis Carl Jung introdujo este concepto de las máscaras y la sombra. Según él las máscaras son esas actitudes que usamos para encajar socialmente, él lo denomina Persona. La Sombra es todo eso que hemos reprimido de nosotros.</p>
+    
+    <p>Para Jung darse cuenta de que no sabes quién eres es el inicio del camino hacia la Individualización. Cuando la Persona se enfrenta a la Sombra esas máscaras se agrietan.</p>
+    
+    <p>Al querer ser honesto con Julia, me vi obligado a ser honesto conmigo mismo y a descubrir que no tenía un guion propio de esta historia.</p>
+    
+    <p>Durante las vacaciones de Diciembre del 2022, Paloma, Diana y una chica llamada Vania fuimos a desayunar. Algo que creo no te dije es que aquí en la Prepa me volví a encontrar con Vania (La chica que me tiraba hate al principio de la secundaria) pero ella iba en otro salón, de vez en cuando nos juntaba con nosotros. Recuerdo que ese día la pasamos genial y que nos tomamos fotografías. Cuando mire esas fotografías, las observe de una forma muy autocrítica ya que por primera vez luego de mucho tiempo, comencé a prestarle atención a mi aspecto. Siempre he tenido inseguridades como mi sonrisa, mi complexión y el acné en mí rostro que siempre me persiguió, pero en esos momentos se intensificarían aún más.</p>
+    
+    <p>Durante esas vacaciones estaba en un duelo psicológico, había noches en las que no podía dormir ya que me daban mis crisis de identidad que atormentaban mi mente y la inundaban de pensamientos y preguntas, algunas que ni siquiera podía responder. Todo eso me generaba un estrés muy grande con la respiración agitada y el pulso acelerado. Sin embargo no todo estaba perdido ya que iba a llegar Navidad e iba a pasar tiempo con mi familia, algo que siempre he disfrutado. Pero pronto eso cambiaría, ya que esa Navidad sería la última que pasaría con mi familia, ya que surgirían problemas familiares que iniciarían una fragmentación en mi familia y en nuestras reuniones.</p>
+    
+    <p>Enero del 2023, cuando ingresamos de nuevo a la Prepa, yo ya no me encontraba bien, tenía demasiadas dudas en la mente y me sentía desorientado. Había veces en las que saliendo de los salones de Física y Matemáticas me escapaba a las gradas a respirar y a veces a soltar unas lágrimas de todo lo que estaba atormentando mi mente. Es por eso que durante este periodo me aleje un poco de mis amigas y en algunos recesos no estaba con ellas. Como persona me vi obligado a reevaluar mi historia personal y a recordar todo lo que había vivido hasta ese momento lo cual en esos instantes me lastimaba.</p>
+    
+    <p>Durante este mismo mes, un día note a Diana algo extraña, cuando vi su mirada note que algo no estaba bien, ya que era esa misma mirada que yo conocía, cuando se refleja que algo no está bien. Más tarde por mensaje le pregunte si se encontraba bien y su respuesta fue que no, ya que había terminado con su novio porque le causaba muchas inseguridades estar con él. Yo en esos momentos me sentí mal, ya que me había centrado tanto en mis pensamientos que deje de lado lo que ellas estaban viviendo en ese momento, lo que Diana estaba viviendo en ese momento. Por lo que le respondí con palabras de aliento, pidiéndole que por favor siguiera adelante, tal vez en esos momentos no sabía cuál era mi propósito como persona, pero en ese instante supe que mi propósito en ese momento era ser ese banco de apoyo emocional para una amiga que estaba en duelo y por alguna razón luego de enviarle ese mensaje salieron lágrimas de mis ojos, el porqué de esto lo sabría mucho más adelante.</p>
+    
+    <div class="quote-bts" style="border-left-color: #8ecae6; background: rgba(142, 202, 230, 0.05); color: #219ebc;">
+        FTS, Jennie
+    </div>
+    
+    <p>Para finales de este mes, Paloma me invitó a hacer una pizza juntos en su casa, ese día solo estaban Paloma y Diana, yo por alguna razón que no recuerdo había llegado más tarde. Ese día jugamos, platicamos, comimos y sentí la calidez de estar conviviendo entre amigos y pasar un rato juntos, me di cuenta que había cometido un error y que había sido grosero todo este tiempo al querer alejarme de ellas por mis problemas personales, pero por alguna razón yo no me sentía bien ese día, tenía tantas cosas guardadas en la cabeza que en una de esas pase al baño a llorar, yo no quería que se dieran cuenta pero cuando salí del baño y me senté, Paloma me paso una servilleta en donde preguntaba si estaba bien, yo al darme cuenta que en realidad si se habían dado cuenta y que mostbran preocupación por mí, mi corazón no pudo más y se soltó en llanto.</p>
+    
+    <p>Luego de eso ambas me abrazaron mientras yo lloraba, no dijimos nada pero no hubo necesidad, ya que en ese momento sentí el apoyo y el no estar solo en esto, que tenía personas con las que podía contar y confiar. Quería decir muchas cosas pero las palabras no me salían, ese día decidí mejor irme, prometiendo que cuando me sintiera mejor hablaría sobre que me sucedía.</p>
+    
+    <div class="quote-bts" style="border-left-color: #3d3d3d; background: rgba(61, 61, 61, 0.05); color: #adb5bd;">
+        Selfish Waltz, ATEEZ
+    </div>
+    
+    <p>Los siguientes días seguía con mi duelo interior, sin embargo ahora era diferente ya que tal parece que sentirlas que estaban a mi lado, hizo que mi corazón se tranquilizara. En febrero del 2023 seguí hablando con Julia sobre muchas cosas más, ahora nuestras conversaciones eran más diversas y verdaderas, por ahí le regale uno que otro detalle, pero la gota que derramaría el vaso llegaría. Ya que un día yo le había dicho a Julia que la quería ver, en el pasado ya la había invitado a salir varias veces pero nunca se pudo ya que nuestros tiempos no coincidían. El punto es de que esta vez la cite en la escuela en un receso con el pretexto de querer preguntarle qué cosas le gustaban a Paloma para regalarle algo el 14 de febrero que estaba próximo a llegar. Sin embargo esos días como que me anduvo evadiendo hasta que, un día de febrero, a tan solo un par de días para que fuera 14, me llega un mensaje de Julia en donde me pedía disculpas por haberse comportado grosera esos días y que tenía que ser sincera conmigo, en resumen me dijo que ella sentía que yo buscaba algo más que una amistad y que no estaba buscando nada serio con alguien. Me dijo que la perdonara si no era lo que esperaba y que si quería, podíamos seguir siendo amigos.</p>
+    
+    <div class="quote-bts" style="border-left-color: #f77f00; background: rgba(247, 127, 0, 0.05); color: #fcbf49;">
+        Reflection, RM
+    </div>
+    
+    <p>Al principio me tomo por sorpresa su mensaje, la verdad que no me lo esperaba, pero cuando lo leí no pude evitar sentir tristeza y comencé a llorar, en el fondo sabia su respuesta pero aun así había decidido intentarlo de nuevo y otra vez no se pudo. Lo medite mucho y conteste su mensaje agradeciendo su sinceridad y confesándole mis sentimientos hacia ella. Después quedamos en hablarlo en persona pero los próximos días no coincidíamos en los recesos.</p>
+    
+    <p>Los retratos son algo que practique durante un tiempo, en mi primer año de Prepa dibuje varios a distintas personas, incluso una vez le regale uno a Julia. Como ya no había podido reunirme con ella, le escribí una carta agradeciendo el tiempo que compartimos y diciéndole otras cosas que ya no recuerdo pero al final le di también un segundo dibujo de sus XV años donde aparecía ella con un vestido muy bonito y una fuente por detrás diciéndole que me hubiera encantado estar ese día con ella (creo una vez te enseñe ese dibujo). Después el mismo 14 de febrero me espere a que Julia saliera de su salón para darle la carta, pero en un descuido se salió sin que yo me diera cuenta, Paloma la alcanzo a ver en la puerta de salida así que rápido corrí para darle esa carta. Curiosamente ese retrato fue el último que dibuje. Luego de eso ya no volví a hablar con Julia por un buen rato.</p>
+    
+    <div class="quote-bts" style="border-left-color: #bf0603; background: rgba(191, 6, 3, 0.05); color: #700302;">
+        Love Me Again, V
+    </div>
+    
+    <p>Después de esto decidí primero poner orden en mi mente y no dejarme llevar por los pensamientos que aun tenia, un día de estas fechas Paloma me dice que me invita a comer a su casa, que también iba a estar Andrea y tú. Cada vez que iba a la casa de Paloma, sentía un ambiente de calidez y armonía, su mami doña July era un amor de persona y siempre me hacía sentir en casa cuando iba para allá. Curiosamente las pocas veces que he ido a tu casa Xime, he tenido esa misma sensación.</p>
+    
+    <p>Cuando el día llego, comimos y platicamos, cuando acabamos de comer, Paloma me revelo el verdadero motivo por el que nos habíamos reunido y ese era que ahora si querían platicar conmigo sobre lo que me paso ese día. Así que por primera vez en mi vida decidí no callarme y hablar, contándoles un poco sobre cómo había sido mi vida hasta ese entonces, como tenia cosas guardas y también diciéndoles que son mis primeras amigas y con las que he compartido muchas cosas nuevas, terminando con los 4 abrazados y diciéndome lo mucho que me aprecian y apoyan.</p>
+    
+    <p>A finales de Febrero se me ocurrió una idea, como el cumpleaños de Paloma se acercaba decidí regalar algo muy especial y simbólico. Como Paloma iba a cumplir 17 años, decidí hacer 17 regalos manuales para ella, yo no era bueno en las manualidades, así que durante 2 semanas estuve viendo tutoriales y diseñando los regalos para ese día, como los iba haciendo uno por uno, hubo un punto donde se me juntaron y ya no tenía donde guardarlos, como no quería que en mi casa se dieran cuenta, lleve varios regalos a casa de Diana para que me los guardara para ese día. Cuando el día llego le di la sorpresa a Paloma, algo que aun llevo en la memoria.</p>
+    
+    <div class="quote-bts" style="border-left-color: #457b9d; background: rgba(69, 123, 157, 0.05); color: #1d3557;">
+        Zero O Clock, BTS
+    </div>
+    
+    <p>En ese mismo mes de Marzo, Paloma nos invitó a unas albercas a las cuales decidí no ir por mis inseguridades personales. Recuerdo que ese día fueron Paloma, Diana, su novio y algunas personas extra. La dinámica con Diana y su novio siempre me resulto extraña, ya que peleaban, se alejaban y volvían a regresar en un ciclo. Hubo una vez que no recuerdo en qué fecha fue que su novio le fue infiel a Diana y aun así lo perdono, no comprendía en ese entonces él porque pero en el fondo me dolía ver como estaban jugando con ella y que aceptara los tratos que su novio le hacía. Ahora entiendo que quizá también ella estaba en un duelo que no veía.</p>
+    
+    <div class="quote-bts" style="border-left-color: #2a9d8f; background: rgba(42, 157, 143, 0.05); color: #264653;">
+        I am You, Stray Kids
+    </div>
+    
+    <p>Los siguientes meses me la pase muy bien en compañía de Paloma y Andrea, a Diana casi no la veía ya que la mayor parte del tiempo estabas con su novio. En las salidas siempre hacíamos cosas diferentes, íbamos a comer helado o alguna otra cosa que se nos atravesara, un día Paloma nos presentó su lugar favorito para comer, el cual era un lugarcito donde vendían plantas pero también era un lugar para comer. De vez en cuando íbamos a comer ahí.</p>
+    
+    <p>Había veces en las que no me sentía bien y eso era porque aunque me sentía más liberado emocionalmente, aún tenía esas crisis de identidad que parecían seguirme. Durante este tiempo experimente varios cambios de estilo de ropa, peinados y sobre mi persona. Hubo un día que saliendo de clases no hable para nada con Paloma y Andrea. Al llegar al centro de mi pueblo ellas ya se iban y yo me había quedado sentado en unas banquitas, pero al poco rato regresaron y me preguntaron si me encontraba bien, yo ese día me sincere con ellas y les conté sobre este sentimiento que tenía, que me sentía perdido y que no sabía ni quien era en realidad. Paloma me dio palabras de aliento y me recomendó visitar un psicólogo cuando pudiera, una idea que no desecharía y cobraría importancia en el futuro.</p>
+    
+    <div class="quote-bts" style="border-left-color: #6a0dad; background: rgba(106, 13, 173, 0.05); color: #4b0082;">
+        Call of Silence, Hiroyuki Sawano
+    </div>
+    
+    <p>En Junio del 2023, Diana mando un mensaje a nuestro grupo de amigos pidiéndonos perdón por haberse alejado de nosotros y que sentía que estaba perdiendo nuestra amistad, al final nosotros le dijimos que no se preocupara, que sabíamos lo que implicaba una relación y que siempre íbamos a estar para ella.</p>
+    
+    <p>Ese mismo mes fue nuestro concurso de baile como grupo, un concurso que ganamos sorprendentemente, ganándonos el premio de $1,000 el cual lo fuimos a gastar todos en un bar, recuerdo que convivimos un rato y bebimos, la verdad yo no soy muy fan del alcohol y el motivo te lo revelare en la siguiente parte, el punto es de que Andrea ese día se le pasaron los tragos y se puso un poco mal, también por ahí uno que otro de nuestro salón también.</p>
+    
+    <p>Ese mismo mes salí con Vania a tomar un café, platicamos un poco del pasado y en una de esas me da una noticia que me impactaría bastante. Pues el chico que yo conocí en la secundaria llamado Osvaldo, había fallecido recientemente en un accidente. Con ese chico como te lo conté en cartas pasadas conviví poco, sin embargo era una buena persona que alguna vez me tendió la mano cuando estaba solo, una vez me lo encontré por casualidad fuera de mi casa cuando aún era pandemia, platicamos un rato y luego nos despedimos deseándonos lo mejor para ambos, quien diría que esa sería la última vez que lo vería. Eso me hizo pensar y reflexionar muy profundamente.</p>
+    
+    <p>Vania, desde donde estés quiero que sepas que yo nunca te guarde rencor, éramos unos niños en secundaria que no sabían lo que hacían o decían, quizás tú también tenías heridas que en esos momentos no podías manejar.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ffb703; background: rgba(255, 183, 3, 0.05); color: #fb8500;">
+        Starlight, Jennie
+    </div>
+
+    <div class="contenedor-imagenes-bloque">
+        <img src="imagenes/segunda-salida.jpg" alt="Diana en las Pirámides de Teotihuacán">
+        <div class="caption-imagen">Una familia que necesitaba.</div>
+        
+        <img src="imagenes/tercera-salida.jpg" alt="Convivio Navideño con amigos">
+        <div class="caption-imagen">Instantes que quedan grabados en la memoria para siempre.</div>
+    </div>
+    
+    <p>El Amor es un tema muy complejo; en el cerebro se experimenta no solo como una emoción sino como un proceso químico real, que altera el juicio crítico y sufre una hiper-focalización, priorizando a la persona sobre otras responsabilidades. Sumado al cóctel neuroquímico de dopamina, serotonina, oxitocina y adrenalina que el cerebro recibe a través de este proceso, lo hace aún más complejo. Quizá por eso es tan adictivo jajaja.</p>
+    
+    <p>En mi vida me han rechazado muchas veces, pero esta fue especial, ya que a pesar de que ha sido el rechazo en el que más he llorado, también fue el que más me ayudó a crecer y en el que, a diferencia de lo que había sentido con Diana donde solo había sido una confusión, con Julia sí sentí un amor real; aun así doy gracias de cómo terminó y actualmente sigo en buenos términos con Julia y seguimos siendo amigos.</p>
+    
+    <p>La vida es inherentemente incierta; muchas veces damos por hecho muchas cosas, una de ellas que habrá un mañana para nosotros, pero ¿qué tal si no? Todos los días estamos expuestos a que algo nos suceda y más nosotros que viajamos diario para ir a la universidad; no podemos asegurar con certeza si para el siguiente día estaremos vivos o no, es por eso que me pregunté: "Si mi vida terminara en ese instante, ¿estaría satisfecho con lo que había vivido hasta ese entonces?" Mi respuesta fue clara, un rotundo no. Aún tenía cosas que quería resolver y hacer, por lo que con esta nueva perspectiva de vida me encaminé hacia un nuevo yo, valorando más esos momentos efímeros que vivía como un fuego artificial y que no estaba disfrutando del todo por estar anclado al pasado.</p>
+    
+    <p><strong>Dany</strong></p>
+    
+    <div class="quote-bts" style="border-left-color: #000; background: rgba(0, 0, 0, 0.05); color: #333;">
+        A Child of Evil _ Ai Higuchi
+    </div>
+    
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora: El Reflejo</div>
+            <div class="musica-contenido">
+                
+                <!-- Love is Not Over - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0hwev90tfswBoZmgKnJ9F8?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1iRIdATb1I276VdKK7JVAB?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4sgvhAD07BiE8H0gGbmaCk?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Reflection - RM -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6O7358UPKsUumzjumFxVtp?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Love Me Again - V -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2N0SPREDYqILVEFSsWF5N5?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6fqaMyg066xlukvUJWdM2T?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7hB5sBKw7oYRf9zCb3m64J?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/7k1HoUdskuBhyWvm7hPctM?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/0kHZ0qrGL9MohF9R8Uw77Y?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4J3Nz2QDNV6COdKnH4L2bW?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "erikson": "Erik Erikson define la 'Crisis de Identidad' como el conflicto nuclear de la adolescencia (Identidad vs. Confusión de Roles). Los síntomas descritos por Daniel —desorientación, vacío, aislamiento y comparación constante— reflejan el momento en que los antiguos puntos de referencia caen antes de estructurar un autoconcepto autónomo.",
+            "jung": "Carl Jung postula que la 'Persona' es la máscara social estructurada para satisfacer las demandas del entorno, mientras que la 'Sombra' contiene los aspectos reprimidos del ego. Cuando Daniel intenta ser honesto con Julia, su 'Persona' se agrieta, obligando al yo inconsciente a mirar su propia Sombra en el inicio del proceso de Individualización.",
+            "duelo": "El episodio de la pizza en casa de Paloma marca un hito de vulnerabilidad y ruptura del aislamiento. Pasar de llorar a escondidas en el baño a ser contenido mediante un abrazo grupal silencioso representa la transición de Daniel desde la desconexión social defensiva hacia la aceptación de un micro-sistema seguro de soporte.",
+            "osvaldo": "La muerte repentina de Osvaldo introduce una 'sacudida existencial' en la psique de Daniel. Confrontar la finitud radical de la vida destruye la ilusión de la temporalidad lineal y actúa como catalizador para abandonar el anclaje melancólico en el pasado, empujándolo a buscar una redefinición activa de su existencia.",
+            "julia": "El cierre definitivo con Julia el 14 de febrero mediante la entrega del retrato de sus XV años y la última carta funciona como un ritual de desprendimiento. Al verbalizar sus sentimientos y plasmar su arte por última vez en un dibujo, Daniel procesa activamente el duelo romántico para dar paso al orden mental.",
+            "proposito": "El noviazgo intermitente de Diana y Fernando, cruzado por dinámicas de infidelidad y alejamiento, sitúa a Daniel en un rol de 'banco de apoyo emocional'. Al postergar su propia crisis para ofrecer palabras de aliento a su amiga, Daniel halla un propósito temporal como contenedor relacional.",
+            "inseguridades": "Las autocríticas físicas de Daniel al mirar las fotos de San Juan (sonrisa, complexión, acné) demuestran cómo la crisis de identidad se somatiza y proyecta en la imagen corporal, agudizando la inseguridad extrema en entornos de cortejo y comparación interpersonal."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta excede los límites temáticos de la Carta 10. Prueba preguntándome sobre las teorías de Erikson o Jung, el llanto en casa de Paloma o el impacto existencial tras la pérdida de Osvaldo.",
+            "Como analista del Universo del Alma, puedo explicarte el proceso de desprendimiento de las máscaras sociales o el micro-duelo relacional",
+            "Para guiarte en la comprensión de esta transición, sugiero consultar sobre el colapso de identidad social de Daniel o el valor del abrazo de contención grupal.",
+            "Pregúntame sobre el quiebre de la Navidad de 2022 o cómo la noticia de Osvaldo reconfiguró la escala de prioridades existenciales de Daniel."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(17, 138, 178, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #118ab2";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

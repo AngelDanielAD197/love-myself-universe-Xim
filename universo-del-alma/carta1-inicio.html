@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía I | Carta 1: El inicio de un viaje</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo */
+        body {
+            background-color: #0b0914;
+            color: #d1cbdc;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+            background: #0b0914;
+        }
+
+        /* Estilo para los Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.75);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Interfaz del Chat */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: La Carta con Scroll Independiente */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #48cae4;
+            margin: 5px 0;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #7209b7;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Lista de Música */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botones de Navegación del Footer (Nuevos Estilos Homologados) */
+        .btn-navegacion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 18px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+
+        .btn-centro {
+            color: #6a6575;
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .btn-centro:hover {
+            color: #a393eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE DE LECTURA DE LA CARTA 1 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #6a6575; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes hacerme preguntas sobre los orígenes de Daniel, el hipocampo o la Trimethylaminuria...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: TEXTO DE LA CARTA 1 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header class="header-lectura">
+                    <p style="color: #7209b7; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; margin:0;">LOVE MYSELF: THE UNIVERSE OF THE SOUL</p>
+                    <h1>CARTA 1: EL INICIO DE UN VIAJE</h1>
+                    <p style="color: #6a6575; margin: 0; font-size: 0.9rem;"> Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: rgba(255,255,255,0.05); margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts">
+                        "My heart is beating, not a dream anymore." - Inner Child, BTS (V)
+                    </div>
+    <p>Hola Xime,</p>
+    <p>Como toda buena historia, la mía también empieza desde el principio.</p>
+    
+    <p>Nací en la madrugada del 4 de Julio del 2006, en Otumba, Estado de México. Parte de mi raíz viene de Hidalgo, lugar donde nació mi abuelita materna. Ella, como muchos en su época, migró a la Ciudad de México, y más adelante se estableció en San Martín de las Pirámides, Estado de México hace más de tres décadas. Allí es el lugar donde crecí y donde comenzó a entretejerse mi historia.</p>
+    
+    <p>Desde los primeros meses, mi salud fue frágil. Mi mamá me cuenta que solía enfermarme seguido, y que a los seis meses me diagnosticaron neumonía. Fue grave, pero gracias a que ella notó a tiempo mis dificultades para respirar, lograron atenderme antes de que fuera demasiado tarde. Irónicamente, cuando apenas estaba comenzando a vivir, ya había estado muy cerca de que mi historia terminara.</p>
+    
+    <p>Los primeros años de vida suelen quedarse en blanco. La memoria humana es extraña. El hipocampo —esa parte del cerebro que guarda nuestros recuerdos— aún está inmaduro en la infancia. De ahí viene eso que llaman "amnesia infantil". Así que lo poco que sé de mis primeros pasos no viene de mí, sino de las voces que me han contado cómo era.</p>
+    
+    <p>Mi abuelita dice que fui un niño tranquilo, observador y muy curioso. Le gustaba contar que, cuando me aburría, no hacía berrinches sino que me ponía a mirar el mundo. Que me gustaba preguntar y que era muy sensible. Y que cuando me regañaban... ponía unas caras que no podían tomarse en serio jajaja.</p>
+    
+    <p>Mis primeros recuerdos reales llegan cuando tenía entre 4 y 5 años, en el Kínder. De esa época guardo recuerdos vagos, pero significativos. Ahí conocí a un buen amigo con quien conviví tiempo después pero perdí contacto con él, pues hace casi seis años se fue a Estados Unidos, y aunque la vida nos separó, su recuerdo permanece.</p>
+    
+    <p>Durante mi primer año como foráneo en la Universidad, participé con una chica que conocí en una terapia de regresión. Fue ahí cuando algunas escenas olvidadas comenzaron a florecer otra vez en mi mente. Una de ellas me sorprendió: recordé que me gustaba una niña en el kínder. Muchos la ignoraban, incluso la menospreciaban, porque su cuerpo emitía un olor que a ellos les resultaba desagradable.</p>
+    
+    <p>Pero yo no la vi así. A mí me parecía hermosa.</p>
+    
+    <p>Me acercaba a ella sin dudarlo. No entendía del todo por qué los demás se alejaban. En ese entonces, solo sentía que eso no era justo. Con el tiempo, al recordar aquel episodio y empujado por mi eterna curiosidad, investigué más sobre su posible condición. Descubrí algo llamado Trimethylaminuria, una rara alteración genética que impide al cuerpo eliminar un compuesto que genera olor fuerte, aun cuando la higiene es buena. Fue ahí cuando entendí que muchas veces juzgamos sin saber.</p>
+    
+    <p>Ese recuerdo me hizo reflexionar profundamente. Desde niños nos enseñan, sin querer, a temer lo diferente. Es por eso que pienso que nosotros, como adultos, tenemos la responsabilidad de sembrar valores, de enseñar empatía, de cultivar la mirada amable... para no repetir esos prejuicios, ni explícitos ni silenciosos.</p>
+    
+    <p>Quizá ese fue mi primer encuentro con el sentimiento más complejo del ser humano: el amor. En su forma más pura y sin filtros.</p>
+    
+    <div class="quote-bts" style="border-left-color: #a2d2ff; background: rgba(162, 210, 255, 0.05); color: #0077b6;">
+        Let Me Know _ BTS
+    </div>
+    
+    <p>Gracias por leerme Xime.</p>
+    <p>Dany</p>
+                </div>
+
+                <footer>
+                     <div class="btn-navegacion">
+                         <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA DE LA CARTA 1 -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Carta</div>
+            <div class="musica-contenido">
+                
+                <!-- Inner Child - BTS (V) -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/25MHcbjvSdcfTiFgbKJiZF?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Let Me Know - BTS -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2uqzfXB7NlBnhQd04W7HaH?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR DEL ASISTENTE SIMULADO (ENFOCADO ESTRICTAMENTE EN CARTA 1) -->
+    <script>
+        const conocimientoAsistente = {
+            "origen": "Daniel nació en la madrugada del 4 de Julio del 2006 en Otumba, Estado de México. Su familia materna tiene raíces en Hidalgo, desde donde su abuelita migró a la CDMX antes de establecerse en San Martín hace más de 30 años.",
+            "nacimiento": "Daniel nació en la madrugada del 4 de Julio del 2006 en Otumba, Estado de México. Su familia materna tiene raíces en Hidalgo, desde donde su abuelita migró a la CDMX antes de establecerse en San Martín hace más de 30 años.",
+            "neumonia": "A los seis meses de edad, Daniel sufrió de una neumonía grave. Su madre detectó a tiempo sus dificultades para respirar, lo que evitó un desenlace fatal en una etapa tan temprana de su vida.",
+            "salud": "A los seis meses de edad, Daniel sufrió de una neumonía grave. Su madre detectó a tiempo sus dificultades para respirar, lo que evitó un desenlace fatal en una etapa tan temprana de su vida.",
+            "hipocampo": "El hipocampo es la estructura cerebral encargada de la consolidación de la memoria a largo plazo. En la infancia temprana, esta región es biológicamente inmadura, razón por la cual ocurre la 'amnesia infantil' y no guardamos recuerdos conscientes de nuestros primeros años.",
+            "amnesia": "La amnesia infantil se debe a la inmadurez del hipocampo en los primeros años de vida. Debido a esto, los primeros recuerdos reales de Daniel comienzan a estructurarse recién entre los 4 y 5 años.",
+            "recuerdos": "Los primeros recuerdos reales de Daniel datan de cuando tenía 4 o 5 años en el kínder Acalli (junto a la Prepa 19). De allí recuerda a un gran amigo que migró a Estados Unidos hace casi seis años.",
+            "kinder": "Los primeros recuerdos reales de Daniel datan de cuando tenía 4 o 5 años en el kínder Acalli (junto a la Prepa 19). De allí recuerda a un gran amigo que migró a Estados Unidos hace casi seis Screening años.",
+            "regresion": "Durante su primer año como foráneo, Daniel participó en una terapia de regresión. Esta experiencia psicológica le permitió desbloquear recuerdos de su infancia, incluyendo el de una niña que le gustaba en el kínder.",
+            "trimethylaminuria": "La Trimethylaminuria (trimetilaminuria) es un raro trastorno genético metabólico. Provoca que el cuerpo sea incapaz de descomponer la trimetilamina, un compuesto químico que se acumula y se libera a través del sudor, aliento y fluidos, generando un olor muy fuerte y característico que no se quita con la higiene personal.",
+            "olor": "La Trimethylaminuria (trimetilaminuria) es un raro trastorno genético metabólico. Provoca que el cuerpo sea incapaz de descomponer la trimetilamina, un compuesto químico que se acumula y se libera a través del sudor, aliento y fluidos, generando un olor muy fuerte y característico que no se quita con la higiene personal.",
+            "empatia": "A través del recuerdo de la niña del kínder, Daniel reflexiona sobre cómo los adultos tienen la responsabilidad social y humana de sembrar empatía en los niños, evitando perpetuar prejuicios explícitos o silenciosos ante lo diferente.",
+            "amor": "Daniel asocia ese recuerdo puro de la infancia —donde veía hermosa a su compañera ignorando los prejuicios de los demás— con su primer encuentro real con el amor en su estado más genuino y sin filtros.",
+            "canciones": "La banda sonora que acompaña esta memoria incluye 'Inner Child' interpretada por V (Taehyung) y 'Let Me Know', ambas canciones de BTS.",
+            "bts": "En esta carta se destacan dos piezas musicales de BTS: 'Inner Child' de V, que introduce la mirada hacia la infancia, y 'Let Me Know', que cierra la reflexión sobre este primer viaje al pasado."
+        };
+
+        const respuestasPorDefecto = [
+            "Ese dato no se encuentra registrado en los anales de la Carta 1. Prueba preguntándome sobre 'el hipocampo', 'la neumonía', 'la regresión' o 'la Trimethylaminuria'.",
+            "Como tutor y guía de este fragmento, solo poseo datos sobre la infancia de Daniel, su salud temprana, la ciencia de la memoria y la empatía en el kínder.",
+            "Para no romper la línea temporal ni desvelar futuras cartas, enfoquémonos en lo expuesto aquí: los orígenes de Daniel, sus primeros recuerdos o la condición médica que investigó.",
+            "Cada escena aquí narrada es un cimiento. Si me consultas sobre 'la amnesia infantil' o el significado del 'amor puro', podré darte una interpretación precisa del texto."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

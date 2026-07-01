@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilogía II | Carta 4: El inicio de la máscara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base del Universo con el Degradado de image_f474b3.jpg */
+        body {
+            background: linear-gradient(135deg, #090711 0%, #0d0a1b 50%, #160e26 100%);
+            background-attachment: fixed;
+            color: #b0a8b9;
+            font-family: 'Merriweather', Georgia, serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Workspace Estructurado de Tres Paneles */
+        .workspace-tres-paneles {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px; 
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Paneles Laterales */
+        .panel-lateral {
+            background: rgba(20, 17, 34, 0.7);
+            border: 1px solid rgba(114, 9, 183, 0.15);
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .panel-titulo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #a393eb;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* PANEL IZQUIERDO: Chat del Asistente */
+        .chat-contenido {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            font-family: sans-serif;
+        }
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(0,0,0,0.2);
+        }
+        .chat-input-area input {
+            width: 100%;
+            padding: 10px;
+            background: #141122;
+            border: 1px solid rgba(114, 9, 183, 0.4);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* PANEL CENTRAL: Área de Lectura de la Carta */
+        .panel-central-carta {
+            overflow-y: auto;
+            padding: 40px;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+        .carta-contenido-layout {
+            max-width: 680px; 
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .header-lectura h1 {
+            font-size: 2.3rem;
+            color: #e0aaff;
+            margin: 5px 0;
+            letter-spacing: 1px;
+        }
+        .quote-bts {
+            font-style: italic;
+            color: #a393eb;
+            border-left: 3px solid #5e548e;
+            padding-left: 15px;
+            margin: 35px 0;
+            background: rgba(114, 9, 183, 0.05);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* PANEL DERECHO: Reproductor de Audio */
+        .musica-contenido {
+            flex: 1;
+            padding: 20px; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .spotify-wrapper {
+            width: 100%;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #141122;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+        .spotify-wrapper iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+        }
+
+        /* Botón de Navegación Centralizado Único */
+        .btn-navegacion {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(114, 9, 183, 0.15);
+        }
+        .btn-explorar {
+            color: #48cae4;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            background: rgba(72, 202, 228, 0.02);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explorar:hover { 
+            color: #0b0914; 
+            background: #48cae4;
+            border-color: #48cae4;
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+            transform: translateY(-2px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-tres-paneles">
+        
+        <!-- PANEL IZQUIERDO: ASISTENTE INTERACTIVO -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">✦ Asistente del Universo</div>
+            <div class="chat-contenido" id="chat-box">
+                <p style="color: #5c5470; font-style: italic; margin-bottom: 12px;">
+                    [Hola Xime. Puedes preguntarme sobre la teoría de la Máscara en Jung, el impacto del entorno escolar en 2018, los clubs de la ESTIC 0072, o el análisis de Fake Love y Lie...]
+                </p>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Pregúntale al Asistente..." onkeydown="detectarEnter(event)">
+            </div>
+        </aside>
+
+        <!-- PANEL CENTRAL: CARTA 4 -->
+        <main class="panel-central-carta">
+            <div class="carta-contenido-layout">
+                <header>
+                    <p style="color: #8a8194; font-weight: bold; font-size: 0.85rem; letter-spacing: 2px; margin:0;">LOVE MYSELF: SHADOWS, SELVES AND TEARS</p>
+                    <h1>Carta 4: El inicio de la máscara</h1>
+                    <p style="color: #5c5470; margin: 0; font-size: 0.9rem;">Dedicado a Ximena</p>
+                    <hr style="border:0; height:1px; background: #3f374c; margin: 20px 0;">
+                </header>
+
+                <div class="cuerpo-lectura">
+                    <div class="quote-bts" style="border-left-color: #f72585; background: rgba(247, 37, 133, 0.05);">
+                        "I'm so sick of this fake love..." — Fake Love, BTS
+                    </div>
+
+  <p>Verano del 2018, durante esta época al salir de la primaria solo me preguntaba una cosa, ¿Cómo será mi vida en secundaria?, incluso viajaba más allá, ¿Cómo será mi vida cuando este en la prepa?, siempre tuve curiosidad por el futuro y tenía la fantasía de que mi yo del futuro visitara a mi yo del presente en ese entonces.</p>
+    
+    <p>El origen de esta fantasía surgió en una esas tantas visitas al ciber de la biblioteca que siempre visitaba, navegando por internet encontré un video donde decían como seria la vida si se avanzara muchos años en el futuro, el video en si se me hizo entretenido pero lo que me dejo pensando es que al final de ese video te invitaban a un foro de internet donde podías dejar un mensaje para tu yo del futuro y regresar un año después a buscar y leer tu mensaje. Eso se me hizo increíble por lo que deje un mensaje para mí en ese foro y durante todas las vacaciones anduve pensando en mi futuro yo. En esa época estaba muy emocionado por comenzar la secundaria, sin embargo el joven Dani no podía ni imaginar todo lo que la vida le tenía preparado.</p>
+    
+    <p>En Agosto del 2018 ingreso a la secundaria, mi escuela era una secundaria técnica que quedaba cerca de la zona arqueológica, esta vez en el turno matutino. El primer día lo recuerdo bien, preparándome para ir la secundaria y caminar a ella muy temprano, para mí todo esto era nuevo pues jamás había ido a la escuela tan temprano, el oír el canto de las aves y ver el sol saliendo hacia que me emocionara aún más.</p>
+    
+    <p>Las primeras semanas la pase súper bien, me encantaban mis nuevas clases y la escuela en general, además que ese mismo año que entre la escuela implemento un nuevo modelo para los talleres que se cursaban además de las materias, reemplazaron los viejos talleres por un sistema de clubs donde incluían cocina, turismo, matemáticas lúdicas, caligrafía y más. Este sistema lo dividían por número de lista y por letra de grupo, además de que te juntaban con personas de segundo y tercer grado. Es decir, había I°A, I°B y I°C yo cursaba en este último en donde agarraban a los doce primeros de la lista y los metían a un club aleatorio junto con los primeros doce de 2°C y de 3°C.</p>
+    
+    <p>Yo curse en tres clubs, uno de matemáticas lúdicas, otro de pueblos mágicos y el último de laboratorio. Es en estos clubs donde conviví con personas más grandes que yo, y en donde surgen los primeros problemas, pues los chicos que iban en tercero ejercían cierta tiranía con los de nuevo ingreso, y no solo en los clubs si no en la escuela en general, te veían pasar y se burlaban de ti con lo primero que vieran mal de ti.</p>
+    
+    <p>Lamentablemente, no fui exento de esos tratos, siempre he sido delgado por lo que se colgaban de eso para insultarme, yo ya estaba algo acostumbrado pero cada vez eran más creativos con sus insultos, a tal punto de no solo insultarte a ti sino también meter a tu mama en esos insultos. Eso me hervía la sangre como no tienes idea, por lo que un día si me harte y casi me peleo en un receso de no ser por un chico que se interpuso y evito la pelea.</p>
+    
+    <p>En mi grupo estaban las cosas tranquilas pero pronto eso también iba a cambiar. Un mes después de ingresar nos sentaron por número de lista, a mí me tocó estar al lado de una niña que se llama Vania, pues ella era la primera de la lista y yo el segundo. Al principio cuando nos hablábamos nos caíamos muy bien y así fue durante un tiempo, pero de un momento a otro por un motivo que aun desconozco me comenzó a odiar, me tiraba comentarios hirientes sobre mi personalidad y mi aspecto. Cuando menos sentí las personas a mí alrededor me comenzaban a tirar ese tipo de comentarios.</p>
+    
+    <p>En casa las cosas también no estaban muy bien. A finales de 2018 me mude de casa a otra de dos pisos y solo un par de meses después a mi abuelita la operaron por segunda vez de su pierna, la primera vez fue cuando yo iba en tercero de primaria y esta segunda vez fue a principios de 2019. Mi abuelita al estar recién operada no podía estar en la nueva casa ya que al ser de dos pisos complicaba mucho las cosas, además de al yo ser muy chico no podía encargarme de una persona mayor, por lo que la recuperación de mi abuelita fue en la casa de una de mis tías, esta fue la primera vez que me separe de la persona con la que siempre platicaba y convivía en casa. Mi madre al siempre trabajar llegaba ya tarde a la casa y en este tiempo llegaba aún más noche ya que aquí es donde comenzó a salir con un chico de su trabajo, por lo que la mayor parte del tiempo estaba solo.</p>
+    
+    <p>Todo estos factores solo intensificaban inseguridades sobre mí, comencé a usar sudaderas y chamarras para esconder un poco mi complexión delgada, había veces que no llevaba mis lentes que aunque ya cada vez era más común tenerlos, todavía había algo de burla por usarlos y comencé a desechar todo lo caricaturizado que llevaba como la mochila y la lapicera.</p>
+    
+    <p>En clases de educación física me aguantaba el calor que tenía por no quitarme la sudadera, en esta época no era bueno en los deportes por lo que al jugar un deporte también era objeto de burla. Y como si el mundo estuviera en mi contra llega un torneo de voleibol donde al elegir a un líder de equipo masculino me toca a mí sin siquiera ofrecerme, ¿Cómo era posible que alguien que no sabía jugar fuera el líder de equipo?, no lo sé pero eso causo más presión y burlas hacia mí.</p>
+    
+    <div class="quote-bts" style="border-left-color: #2b2d42; background: rgba(43, 45, 66, 0.05); color: #8d99ae;">
+        Black Swan, BTS
+    </div>
+    
+    <p>No todo era malo, ya que aprendía mucho en mis clubs. En el club de matemáticas arme un juego de mesa lúdico que invente, un tipo maratón pero que avanzabas dependiendo de contestar bien preguntas matemáticas que hice en unas tarjetas y un tablero. En mi club de pfueblos mágicos como proyecto realice una investigación sobre los pueblos mágicos del Estado de México, un engargolado que aún tengo. Y por último en mi club de laboratorio como proyecto realice un brazo mecánico que vi en internet con cartón y jeringas. Sin duda los clubs junto con la materia de Biología fue algo que disfrute mucho en este primer año.</p>
+    
+    <p>Pero la gota que derramo el vaso fue que un día una niña que conocía se acercó a mí y me dijo así de la nada que le gustaba y que me esperaba en la salida, yo todo ingenuo creyendo en eso para que al salir de clases y encontrarme con ella me dijera que era broma y se riera de mí con otras dos niñas que ni conocía.</p>
+    
+    <p>Esto ya me estaba superando, me sentí muy mal conmigo después de eso, comencé a sentir odio por todos, mi mente estaba colapsando de tantas emociones que sentía, lloraba mucho cuando nadie me veía. Me calle, no le dije a nadie sobre las cosas que me estaban pasando y sin darme cuenta también comencé a odiarme a mí mismo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #ef233c; background: rgba(239, 35, 60, 0.05); color: #d90429;">
+        Lie, Jimin
+    </div>
+    
+    <p>Poco a poco mi actitud cambiaba, comencé a cerrarme en muchas cosas, me desmotivaba más a menudo, me volví más serio pero a la vez más agresivo, los estudios ya también los dejaba y lo más desagradable de todo, cambie para agradarle a otros, literalmente poniéndome una máscara.</p>
+    
+    <p>En Julio del 2019 finaliza mi primer año de secundaria, yo no lo lograba discernir en ese momento pero a este punto yo ya estaba olvidando mi esencia y quien era en realidad.</p>
+    
+    <p>2019 marca un punto de quiebre en mi vida, donde comienza un desorden en mi cabeza y en mi vida, contradiciendo el título de esta obra "Love Myself" donde en realidad no me amo.</p>
+    
+    <div class="quote-bts" style="border-left-color: #4a4e69; background: rgba(74, 78, 105, 0.05); color: #22223b;">
+        Curiosity, ONE OK ROCK
+    </div>
+                </div>
+
+                <footer>
+                    <div class="btn-navegacion">
+                        <a href="../index.html" class="btn-explorar">✦ Volver al Universo</a>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+        <!-- PANEL DERECHO: BANDA SONORA ASOCIADA -->
+        <aside class="panel-lateral">
+            <div class="panel-titulo">♫ Banda Sonora de la Máscara</div>
+            <div class="musica-contenido">
+                
+                <!-- Fake Love -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/6m1TWFMeon7ai9XLOzdbiR?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Black Swan -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/2EmcTFQ1rM11wp2ztsXTHa?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <!-- Lie - Jimin -->
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/1nWB8isqs2tviWk20G5pow?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+
+                <div class="spotify-wrapper">
+                    <iframe src="https://open.spotify.com/embed/track/4UKANDuD17KGukGIp5g0Cx?utm_source=generator&theme=1" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+                
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- MOTOR INTERACTIVO DEL ASISTENTE -->
+    <script>
+        const conocimientoAsistente = {
+            "jung": "El psicólogo analítico Carl Jung definió la 'Persona' como la máscara que el individuo desarrolla para adaptarse a las demandas de la sociedad y ocultar su verdadera naturaleza (su Sombra o su vulnerabilidad). En la carta de Daniel, el dolor del rechazo y las burlas en la ESTIC 0072 lo fuerzan de forma inconsciente a sepultar su esencia sensible (Dani) para construir una máscara defensiva que logre agradar y encajar con el hostil entorno externo.",
+            "mascara": "El psicólogo analítico Carl Jung definió la 'Persona' como la máscara que el individuo desarrolla para adaptarse a las demandas de la sociedad y ocultar su verdadera naturaleza (su Sombra o su vulnerabilidad). En la carta de Daniel, el dolor del rechazo y las burlas en la ESTIC 0072 lo fuerzan de forma inconsciente a sepultar su esencia sensible (Dani) para construir una máscara defensiva que logre agradar y encajar con el hostil entorno externo.",
+            "estic": "La secundaria ESTIC 0072 'Felipe Carrillo Puerto' representa el escenario geográfico y temporal donde se quiebra la inocencia infantil de Daniel en 2018. El sistema de clubs unificados (Matemáticas Lúdicas, Pueblos Mágicos, Laboratorio) sirvió como un catalizador dual: por un lado, despertó su fascinación por crear proyectos complejos como el brazo mecánico o el maratón matemático; por otro, lo expuso directamente al rechazo y la tiranía grupal de los grados superiores.",
+            "clubs": "La secundaria ESTIC 0072 'Felipe Carrillo Puerto' representa el escenario geográfico y temporal donde se quiebra la inocencia infantil de Daniel en 2018. El sistema de clubs unificados (Matemáticas Lúdicas, Pueblos Mágicos, Laboratorio) sirvió como un catalizador dual: por un lado, despertó su fascinación por crear proyectos complejos como el brazo mecánico o el maratón matemático; por otro, lo expuso directamente al rechazo y la tiranía grupal de los grados superiores.",
+            "fake love": "El concepto de 'Fake Love' de BTS mapea a la perfección el dilema central de la Carta 4: moldear el Yo y transformarse en una mentira viviente con tal de recibir aceptación, anulando la identidad real en el proceso. Daniel mismo lo describe de forma desgarradora al admitir que cambió radicalmente para agradar a otros, dándose cuenta de que la mentira consumió su propia sonrisa.",
+            "lie": "La pista en solitario de Jimin, 'Lie' (del álbum WINGS), se incrusta en el texto como el grito de auxilio del verdadero Yo que ha quedado atrapado bajo la Máscara. La mentira construida para sobrevivir al entorno escolar genera un conflicto interno asfixiante, atrapándolo en un bucle donde el Daniel genuino es silenciado por la agresividad y la seriedad defensiva adoptadas en 2019.",
+            "black swan": "La inclusión de 'Black Swan' de BTS simboliza la muerte del primer amor de un creador o la pérdida de conexión con lo que te hace vivo. Para el joven Daniel, perder la alegría de ir temprano al colegio, desechar sus mochilas caricaturizadas y ocultar su delgadez bajo sudaderas eternas es el equivalente a su primera muerte interna: el instante exacto en que la presión social ahoga su esencia natural.",
+            "bullying": "La hostilidad sufrida por parte de alumnos de tercer año y la crueldad de la falsa confesión a la salida representan heridas profundas de rechazo social. En psicología, el aislamiento y el silencio voluntario de Daniel ('me callé, no le dije a nadie') son respuestas típicas de trauma temprano, donde el individuo interioriza el dolor externo transformándolo en un severo autorrechazo antes de mutar su personalidad."
+        };
+
+        const respuestasPorDefecto = [
+            "Esta consulta excede los límites de la Carta 4. Puedes interrogarme sobre el concepto junguiano de la Máscara, los proyectos de Daniel en los clubs de la ESTIC, o el trasfondo de Fake Love.",
+            "Como asistente del Universo, me enfoco en el quiebre que sufrió Daniel entre 2018 y 2019, la soledad tras la partida temporal de su abuelita o la deconstrucción analítica de 'Lie'.",
+            "Para no violar el pacto de lectura, te sugiero examinar cómo el uso de sudaderas pesadas y el ocultamiento de lentes funcionaron como las primeras capas físicas de su máscara protectora.",
+            "Indaga sobre la teoría de la 'Persona', los clubs de Pueblos Mágicos o la lírica de Jimin para desglosar el impacto analítico de este nodo."
+        ];
+
+        function detectarEnter(event) {
+            if (event.key === 'Enter') {
+                procesarPregunta();
+            }
+        }
+
+        function procesarPregunta() {
+            const inputElement = document.getElementById("user-input");
+            const preguntaRaw = inputElement.value.trim();
+            
+            if (preguntaRaw === "") return;
+
+            agregarMensaje(preguntaRaw, "usuario");
+            inputElement.value = "";
+
+            setTimeout(() => {
+                const respuestaIA = generarRespuesta(preguntaRaw);
+                agregarMensaje(respuestaIA, "asistente");
+            }, 550);
+        }
+
+        function generarRespuesta(pregunta) {
+            const preguntaLimpia = pregunta.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+            for (let clave in conocimientoAsistente) {
+                if (preguntaLimpia.includes(clave)) {
+                    return conocimientoAsistente[clave];
+                }
+            }
+
+            const indiceAleatorio = Math.floor(Math.random() * respuestasPorDefecto.length);
+            return respuestasPorDefecto[indiceAleatorio];
+        }
+
+        function agregarMensaje(texto, emisor) {
+            const chatBox = document.getElementById("chat-box");
+            const mensajeDiv = document.createElement("div");
+            
+            mensajeDiv.style.marginBottom = "15px";
+            mensajeDiv.style.padding = "10px 12px";
+            mensajeDiv.style.borderRadius = "8px";
+            mensajeDiv.style.fontSize = "0.9rem";
+            mensajeDiv.style.lineHeight = "1.5";
+            
+            if (emisor === "usuario") {
+                mensajeDiv.style.background = "rgba(72, 202, 228, 0.1)";
+                mensajeDiv.style.borderLeft = "3px solid #48cae4";
+                mensajeDiv.style.color = "#48cae4";
+                mensajeDiv.innerHTML = `<strong>▼ Xime:</strong> ${texto}`;
+            } else {
+                mensajeDiv.style.background = "rgba(114, 9, 183, 0.15)";
+                mensajeDiv.style.borderLeft = "3px solid #7209b7";
+                mensajeDiv.style.color = "#d1cbdc";
+                mensajeDiv.innerHTML = `<strong>✦ Asistente:</strong> ${texto}`;
+            }
+
+            chatBox.appendChild(mensajeDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

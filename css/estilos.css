@@ -1,0 +1,456 @@
+/* ==========================================================================
+   RESET GENERAL Y VARIABLES DE COLOR
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.dashboard-universo {
+    background-color: #111015; /* Fondo oscuro base por si acaso */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex; 
+    overflow: hidden; /* Evita scrolls raros en el layout general */
+}
+
+/* ==========================================================================
+   LIENZO PRINCIPAL (Grid Sistema de Tres Columnas)
+   ========================================================================== */
+.layout-principal {
+    flex: 1;
+    display: grid;
+    /* 3 Columnas perfectamente definidas: Sidebar, Grafo y Visor */
+    grid-template-columns: 140px 1fr 420px; 
+    grid-template-rows: 1fr 90px;     /* El espacio principal arriba, la terminal abajo */
+    background: linear-gradient(135deg, #161824 0%, #0b0914 50%, #1e1932 100%);
+    position: relative;
+}
+
+/* EFECTOS DE FONDO: Estrellas y Nebulosas (Invisibles al ratón) */
+.fondo-estrellas, .fondo-nebulosa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Crucial para no bloquear el JS del grafo ni los clics */
+    z-index: 0; /* Lo mantiene en la capa más baja */
+}
+
+.fondo-estrellas {
+    background-image: 
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.8), rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 80px 70px, rgba(255, 255, 255, 0.8), rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 150px 160px, rgba(255, 255, 255, 0.9), rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 290px 40px, rgba(255, 255, 255, 0.6), rgba(0,0,0,0)),
+        radial-gradient(2.5px 2.5px at 350px 180px, rgba(255, 255, 255, 0.7), rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 400px 400px;
+    opacity: 0.5;
+    animation: brillo-estrellas 8s infinite alternate;
+}
+
+.fondo-nebulosa {
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(114, 9, 183, 0.15), transparent 45%),
+        radial-gradient(circle at 80% 40%, rgba(72, 202, 228, 0.1), transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(181, 23, 158, 0.12), transparent 55%);
+    mix-blend-mode: screen;
+}
+
+@keyframes brillo-estrellas {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0.3; }
+}
+
+/* ==========================================================================
+   1. BARRA LATERAL IZQUIERDA (Sidebar - Ahora integrada en el Grid)
+   ========================================================================== */
+.sidebar-usuario {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    /* Efecto Glassmorphism Oscuro continuo */
+    background: rgba(11, 9, 20, 0.45); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    color: #ffffff;
+    position: relative;
+    z-index: 2; /* Flota sobre el fondo espacial */
+}
+
+.icon-bts-laptop {
+    font-size: 2.5rem;
+    position: relative;
+    text-align: center;
+    background: #222;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+    border: 2px solid #555;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.icon-bts-laptop span {
+    display: block;
+    font-size: 0.6rem;
+    font-family: 'Comfortaa', sans-serif;
+    color: #ffb3c1;
+    font-weight: bold;
+}
+
+.info-user {
+    margin-top: 30px;
+    text-align: center;
+}
+.label-usera {
+    display: block;
+    font-size: 0.85rem;
+    color: #a393eb; /* Lila sutil que unifica la paleta de las eras */
+}
+.nombre-user {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   2. COLUMNA CENTRAL (Contenedor del Grafo Matemático)
+   ========================================================================== */
+.columna-centro {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.header-grafo h1 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 2.2rem;
+    color: #ffffff !important; /* El !important fuerza a Chrome a ignorar cualquier otra herencia */
+    font-weight: 700;
+    background: transparent !important; /* Evita que intente renderizar fondos raros en otros motores */
+    -webkit-text-fill-color: #ffffff !important; /* Blindaje extra para navegadores WebKit/Chrome */
+}
+.header-grafo h2 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.4rem; /* Un tamaño menor para mantener la jerarquía de subtítulo */
+    font-weight: 700;
+    color: #ffffff !important;
+    background: transparent !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.subtitulo-tecnico {
+    font-size: 0.85rem;
+    color: #8b8994;
+    margin-top: 30px;
+}
+
+/* Tarjeta Flotante de Filtros (Navegación) */
+.panel-filtros {
+    position: absolute;
+    top: 110px;
+    left: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Añadido para soporte en Safari/Chrome viejo */
+    width: 180px;
+    
+    /* CONTROL DE DESBORDE CRUCIAL */
+    max-height: calc(100vh - 230px); /* Evita dinámicamente que baje hasta la terminal */
+    overflow-y: auto; /* Si el texto se desborda, genera un scrollbar interno */
+}
+
+/* Ocultar la barra de scroll del panel de filtros para que no rompa la estética mística */
+.panel-filtros::-webkit-scrollbar {
+    width: 5px;
+}
+.panel-filtros::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+.panel-filtros h3 {
+    font-size: 0.85rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-family: 'Comfortaa', sans-serif;
+}
+.filtro-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #b9b7c2;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    display: inline-block;
+}
+.azul-f { background-color: #2b4c7e; }
+.morado-f { background-color: #7209b7; }
+.lila-f { background-color: #b5179e; }
+.celeste-f { background-color: #48cae4; }
+
+/* Contenedor del Grafo Interactivo */
+#canvas-grafo {
+    flex: 1;
+    margin-top: 20px;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+#grafo-interactivo {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* Ecuaciones Matemáticas en el Fondo (Decoración) */
+.ecuacion-fondo {
+    position: absolute;
+    font-family: 'Fira Code', monospace;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.03);
+    user-select: none;
+    z-index: 1;
+}
+.eq-1 { top: 20%; right: 10%; }
+.eq-2 { bottom: 25%; left: 5%; }
+
+/* ==========================================================================
+   3. COLUMNA DERECHA (Panel de Lectura Glassmorphism)
+   ========================================================================== */
+.columna-derecha {
+    grid-column: 3;
+    grid-row: 1;
+    padding: 30px 30px 10px 0;
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+
+.tarjeta-lectura-glass {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 150px); /* Ponle una altura fija con base en la pantalla para congelar su tamaño */
+    overflow: hidden; /* Evita que la tarjeta glass crezca infinitamente */
+}
+.tarjeta-lectura-glass h2 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Espacio del Reproductor */
+.spotify-widget-container {
+    width: 100%;
+    height: 80px; /* Espacio exacto para el reproductor compacto de Spotify */
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.spotify-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+/* Caja de scroll para el texto largo de las cartas */
+.cuerpo-carta-scroll {
+    flex: 1;
+    overflow-y: auto !important; /* Fuerza el scrollbar vertical interno */
+    padding-right: 10px;
+    font-size: 0.95rem;
+    color: #d1ceda;
+    line-height: 1.7;
+}
+/* Estilo del scrollbar */
+.cuerpo-carta-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.cuerpo-carta-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+.instruccion-inicio {
+    font-style: italic;
+    color: #8b8994;
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* ==========================================================================
+   4. FILA INFERIOR (Terminal Linux Style y Créditos)
+   ========================================================================== */
+.footer-terminal {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    height: 90px; /* Forzamos explícitamente la altura de la caja */
+    min-height: 90px; /* Evita que el '1fr' de arriba la colapse a 0px */
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(5, 4, 9, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 2;
+}
+
+.terminal-box {
+    background-color: #050409;
+    border: 1px solid #332d4a;
+    border-radius: 6px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+}
+.prompt {
+    color: #5cf2bd; /* Verde terminal */
+    margin-right: 10px;
+    user-select: none;
+}
+.terminal-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Fira Code', monospace;
+}
+
+.creditos-academicos {
+    font-size: 0.72rem;
+    color: #515360;
+    text-align: center;
+    margin-top: 6px;
+    letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   COMPONENTES DINÁMICOS DEL PROYECTO (Botón e interfaz de control)
+   ========================================================================== */
+.meta-track-panel {
+    background: rgba(163, 147, 235, 0.08); 
+    border: 1px solid rgba(163, 147, 235, 0.25); 
+    padding: 12px; 
+    border-radius: 10px; 
+    display: flex; 
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.track-name {
+    color: #a393eb; 
+    font-size: 0.85rem; 
+    font-family: 'Fira Code', monospace;
+    font-weight: 500;
+}
+
+/* El botón de redirección interactivo */
+.btn-leer-carta {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #7209b7 0%, #b5179e 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3);
+}
+
+.btn-leer-carta:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #b5179e 0%, #48cae4 100%);
+    box-shadow: 0 6px 20px rgba(72, 202, 228, 0.4);
+}
+
+.btn-leer-carta:active {
+    transform: translateY(0);
+}
+
+.lista-filtros {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+}
+
+.filtro-era {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 0.8rem;
+    color: #b3aed2;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.filtro-era:hover {
+    background: rgba(163, 147, 235, 0.08);
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+/* Indicador de Filtro Activo */
+.filtro-era.active {
+    background: rgba(163, 147, 235, 0.15);
+    border-color: #a393eb;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(163, 147, 235, 0.2);
+}
+
+/* Clase de color base para tu dot blanco */
+.dot.blanco-f { background-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
+
+#spotify-wrapper iframe {
+    /* Esto le quita el brillo y satura los colores para que se vea más oscuro */
+    filter: brightness(0.8) contrast(1.2); 
+}
+
