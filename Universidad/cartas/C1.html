@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond the Self - Carta 1</title>
+    
+    <!-- Librería Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #010005;
+            color: #ffffff;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* --- CABECERA --- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(1,0,5,0.95) 0%, rgba(1,0,5,0) 100%);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transform: translateX(-3px);
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+            color: #fff;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .portal-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 20px;
+            width: 100vw;
+            height: calc(100vh - 65px);
+            margin-top: 65px;
+            padding: 10px 25px 20px 25px;
+        }
+
+        .holo-panel {
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. G.W.E.N. TERMINAL (IZQUIERDA) --- */
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #ff0080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ai-info-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-info-status {
+            font-size: 9.5px;
+            color: #00fa9a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .chat-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 95%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .msg-ai {
+            align-self: flex-start;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: rgba(255, 255, 255, 0.92);
+            border-top-left-radius: 2px;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: rgba(255, 0, 128, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #fff;
+            border-top-right-radius: 2px;
+            font-family: monospace;
+        }
+
+        .terminal-input-wrapper {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: #00f2fe;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .terminal-btn {
+            background: none;
+            border: none;
+            color: #ff0080;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- 2. CARTA CENTRAL --- */
+        .letter-panel {
+            position: relative;
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        .letter-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .letter-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff0080;
+            font-weight: 700;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .letter-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 15px;
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.88);
+            user-select: text;
+        }
+
+        .letter-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        .letter-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .letter-paragraph {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .section-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin: 24px 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,242,254,0.4) 0%, rgba(0,242,254,0) 100%);
+        }
+
+        .highlight-text {
+            color: #ffffff;
+            font-weight: 600;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, rgba(255, 0, 128, 0.15) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            border-left: 3px solid #ff0080;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background: rgba(255, 0, 128, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* --- 3. REPRODUCTOR CON OPCIÓN DE OCULTAR VISUAL (DERECHA) --- */
+        .spotify-scroll-panel {
+            padding: 0;
+            position: relative;
+            overflow-y: auto;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .spotify-scroll-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: height 0.4s ease, background 0.4s ease;
+            background: #05050d;
+        }
+
+        /* Estado compacto (GIF oculto) */
+        .canvas-hero.compact {
+            height: 180px;
+            background: linear-gradient(180deg, rgba(15, 15, 30, 0.9) 0%, rgba(5, 5, 12, 0.98) 100%);
+        }
+
+        .canvas-bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.85);
+            transition: opacity 0.4s ease, filter 0.3s ease;
+        }
+
+        .canvas-hero.compact .canvas-bg-gif {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Toggle GIF */
+        .toggle-visual-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: #00f2fe;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .toggle-visual-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 12, 0.7) 45%, rgba(1, 0, 5, 0.98) 100%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .track-meta {
+            margin-bottom: 12px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+        }
+
+        .seek-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 10px #00f2fe;
+            cursor: pointer;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ctrl-btn:hover {
+            color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        .play-main-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff0080 100%);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .play-main-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(255, 0, 128, 0.8);
+        }
+
+        .playlist-section {
+            padding: 18px;
+            background: rgba(5, 5, 12, 0.95);
+        }
+
+        .playlist-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00f2fe;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateX(2px);
+        }
+
+        .track-item.active {
+            background: rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.4);
+        }
+
+        .item-num {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            width: 14px;
+        }
+
+        .track-item.active .item-num {
+            color: #ff0080;
+            font-weight: bold;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-artist {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- CABECERA -->
+    <header class="header-bar">
+        <a href="../menu.html" class="back-btn">← Regresar a la Galaxia</a>
+        <div class="brand-title">PARALLAX: Beyond the Self</div>
+    </header>
+
+    <main class="portal-container">
+
+        <!-- 1. TERMINAL RENOMBRADA A G.W.E.N. -->
+        <aside class="holo-panel">
+            <div class="ai-header">
+                <div class="ai-avatar">G</div>
+                <div>
+                    <div class="ai-info-name">G.W.E.N. • Terminal</div>
+                    <div class="ai-info-status"><span style="font-size:8px;">●</span> Global Web Exploration Network</div>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg msg-ai">
+                    [SISTEMA G.W.E.N. v3.0 ONLINE]<br><br>
+                    Bienvenido a la Carta 1: La distancia entre dos cielos. Escribe una palabra clave o comando para acceder al banco de datos de esta bitácora.<br>
+                    Escribe <strong>ayuda</strong> para desplegar los comandos disponibles.
+                </div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)" class="terminal-input-wrapper">
+                <span class="terminal-prompt">&gt;</span>
+                <input type="text" id="termInput" class="terminal-input" placeholder="Ingresa comando o palabra..." autocomplete="off">
+                <button type="submit" class="terminal-btn">↵</button>
+            </form>
+        </aside>
+
+        <!-- 2. CARTA CENTRAL -->
+        <section class="holo-panel letter-panel">
+            <div class="letter-header">
+                <span class="letter-tag">Semestre I • Carta 1</span>
+                <h1 class="letter-title">LA DISTANCIA ENTRE DOS CIELOS</h1>
+            </div>
+
+            <div class="letter-body">
+                
+                <p class="letter-paragraph" style="text-align: center; font-style: italic; color: #00f2fe; font-size: 1.1em; margin-bottom: 25px;">
+                    ¿Es posible regresar siendo la misma persona después de haber cambiado la forma en que observamos el mundo?
+                </p>
+
+                <p class="letter-paragraph">
+                    En física existe un concepto conocido como <strong style="color: #00f2fe;">sistema de referencia</strong>. Ningún movimiento puede describirse sin antes definir desde dónde observa el observador. Un tren puede parecer completamente inmóvil para quien viaja dentro de él y, al mismo tiempo, desplazarse a cientos de kilómetros por hora para quien permanece de pie en el andén. Ninguna de las dos perspectivas es incorrecta. Ambas son verdaderas, porque ambas dependen del lugar desde donde son contempladas.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con el tiempo he llegado a pensar que la vida funciona de una manera muy parecida.
+                </p>
+
+                <p class="letter-paragraph">
+                    Muchas veces creemos que comenzar una nueva etapa significa cambiar de vida. Sin embargo, quizá comenzar de nuevo no consiste en convertirnos en alguien distinto, sino en cambiar el sistema de referencia desde el cual entendemos nuestra propia historia.
+                </p>
+
+                <div class="section-heading">Julio de 2024</div>
+
+                <p class="letter-paragraph">
+                    Las vacaciones comenzaron de una forma distinta a como las había imaginado.
+                </p>
+
+                <p class="letter-paragraph">
+                    Mientras esperaba el inicio de la universidad, tuve la oportunidad de trabajar durante algunas semanas en restaurantes cercanos a la zona arqueológica de Teotihuacán. Hasta ese momento casi todos los espacios donde me había desarrollado eran escolares, así que convivir con personas de edades, historias y personalidades tan diferentes fue una experiencia completamente nueva para mí.
+                </p>
+
+                <p class="letter-paragraph">
+                    Me sorprendía observar cómo un grupo de personas que fuera del trabajo probablemente nunca habría coincidido podía coordinarse con tanta naturalidad para atender decenas de clientes al mismo tiempo. Cada quien sabía exactamente qué hacer. Había una especie de orden que surgía del caos.
+                </p>
+
+                <div class="quote-box">
+                    "Fue una de las primeras veces que entendí que un equipo no necesita estar formado por personas iguales para funcionar bien; en ocasiones ocurre exactamente lo contrario."
+                </div>
+
+                <p class="letter-paragraph">
+                    Mientras trabajaba también continuaba realizando los últimos trámites de ingreso a la universidad. Aproveché esas semanas para ahorrar todo el dinero que pudiera, pues sabía que muy pronto tendría que abandonar mi casa para comenzar una nueva etapa.
+                </p>
+
+                <p class="letter-paragraph">
+                    Poco después tuve que regresar nuevamente a Ciudad Universitaria para concluir algunos procedimientos administrativos. Aquella fue apenas mi segunda visita a la ciudad. Esta vez decidí observar más que preocuparme.
+                </p>
+
+                <p class="letter-paragraph">
+                    Intenté aprender las rutas del metro, memorizar estaciones, entender cómo funcionaba el transporte público y familiarizarme con un lugar que, hasta hacía apenas unos meses, me parecía inmenso e imposible de recorrer. Para mi sorpresa, no resultó tan complicado.
+                </p>
+
+                <p class="letter-paragraph">
+                    Al finalizar los trámites me entregaron una fecha para asistir a la Facultad de Estudios Superiores Acatlán, donde conoceríamos las instalaciones antes del inicio oficial de clases. Sería la primera vez que visitaría el lugar que, durante los siguientes años, llamaría hogar.
+                </p>
+
+                <div class="section-heading">29 de julio de 2024</div>
+
+                <p class="letter-paragraph">
+                    Recuerdo perfectamente ese día. También recuerdo que me perdí.
+                </p>
+
+                <p class="letter-paragraph">
+                    La primera vez que intenté llegar desde mi casa hasta la facultad terminé tomando una ruta equivocada. Sin embargo, había algo curioso en mi manera de enfrentar esas situaciones: nunca entraba en pánico. Siempre intentaba detenerme, observar dónde estaba, preguntar y seguir el mapa hasta recuperar el camino. Supongo que perderme nunca me molestó demasiado.
+                </p>
+
+                <p class="letter-paragraph">
+                    Finalmente llegué. Y entonces la vi.
+                </p>
+
+                <p class="letter-paragraph">
+                    Las enormes letras de la <strong>UNAM</strong> aparecieron frente a mí. Durante algunos segundos me quedé inmóvil.
+                </p>
+
+                <p class="letter-paragraph">
+                    Cuando era niño solía escuchar en la televisión que la Universidad Nacional Autónoma de México era la máxima casa de estudios del país. En aquel entonces parecía un lugar reservado para personas extraordinarias, un sitio demasiado lejano para alguien que había crecido en un pequeño pueblo. Jamás imaginé que algún día estaría cruzando esas puertas.
+                </p>
+
+                <p class="letter-paragraph">
+                    Al comenzar el recorrido no pude evitar sentirme abrumado. La facultad era gigantesca: treinta hectáreas dedicadas al conocimiento. Yo venía de recorrer toda mi vida escolar entre las mismas calles, los mismos edificios y las mismas personas. Había estudiado siempre en la región de Teotihuacán. Mi mundo cabía dentro de unos cuantos kilómetros. Ahora caminaba por un espacio que parecía una pequeña ciudad.
+                </p>
+
+                <p class="letter-paragraph">
+                    Pensé en todo lo que había ocurrido para llegar hasta ahí. Las horas interminables estudiando para el examen de admisión. Las dudas. El miedo. Las veces que estuve a punto de rendirme. Y, aun así, allí estaba, pisando por primera vez la facultad más grande de toda la UNAM.
+                </p>
+
+                <p class="letter-paragraph">
+                    La bienvenida fue cálida. Nos enseñaron los edificios, las bibliotecas, las áreas deportivas, las cafeterías, los laboratorios y los distintos espacios donde transcurriría nuestra vida universitaria. Ese día también grité mi primer <em>¡Goya!</em> Todavía recuerdo la emoción que sentí.
+                </p>
+
+                <p class="letter-paragraph">
+                    Sin embargo, entre toda aquella alegría apareció un pensamiento que regresaría varias veces durante las primeras semanas. Mientras recorría aquellos pasillos no podía evitar imaginar a mis amigas de la Prepa 19 caminando junto a mí. Recuerdo haber pensado, casi sin darme cuenta:
+                </p>
+
+                <div class="quote-box" style="border-left-color: #ff0080; background: rgba(255, 0, 128, 0.05);">
+                    "Ojalá estuvieran aquí."
+                </div>
+
+                <p class="letter-paragraph">
+                    Hoy sé que nuestro cerebro responde de manera muy particular cuando se enfrenta a un entorno completamente nuevo. La neurociencia explica que la novedad activa con fuerza sistemas relacionados con la atención y el aprendizaje. Es una manera de decirle al cerebro: <em>"presta atención, este lugar todavía no lo conoces."</em>
+                </p>
+
+                <p class="letter-paragraph">
+                    Quizá por eso aún recuerdo tantos detalles de aquel día. Todo era nuevo. Todo parecía importante. Todo merecía ser observado.
+                </p>
+
+                <div class="section-heading">El Desprendimiento</div>
+
+                <p class="letter-paragraph">
+                    Los últimos días de julio transcurrieron muy rápido. Gracias al apoyo de mis tíos conseguí un pequeño cuarto cerca de la facultad donde podría vivir durante el semestre.
+                </p>
+
+                <p class="letter-paragraph">
+                    El último día del mes empaqué mis cosas. Guardé mi ropa, mis libros, mis cuadernos y muchas más emociones de las que cabían en aquella maleta.
+                </p>
+
+                <p class="letter-paragraph">
+                    Salir de casa fue mucho más difícil de lo que esperaba. No era únicamente abandonar un lugar físico; era dejar atrás el único mundo que había conocido durante dieciocho años. Mientras cerraba la puerta entendí que algunas despedidas no hacen ruido. Simplemente ocurren. Y, aun así, cambian la dirección completa de una vida.
+                </p>
+
+                <p class="letter-paragraph">
+                    Durante mucho tiempo pensé que ingresar a la universidad sería la meta. Aquella tarde comprendí que apenas era el comienzo. Porque cambiar de sistema de referencia no significa únicamente mirar un paisaje distinto; también significa descubrir que el universo es mucho más grande de lo que alguna vez imaginamos.
+                </p>
+
+                <p class="letter-paragraph" style="text-align: center; font-weight: 700; color: #00f2fe; margin: 30px 0;">
+                    Y, por primera vez en mucho tiempo, tuve la sensación de que mi verdadero viaje apenas estaba empezando.
+                </p>
+
+            </div>
+
+            <div class="letter-footer">
+                <a href="Intro.html" class="back-btn" style="border-color: #00f2fe; color: #00f2fe; background: rgba(0, 242, 254, 0.05);">← Prólogo</a>
+                <a href="C2.html" class="back-btn" style="border-color: #ff0080; color: #ff0080; background: rgba(255, 0, 128, 0.05);">Carta 2 →</a>
+            </div>
+        </section>
+
+        <!-- 3. REPRODUCTOR SCROLLABLE CON OPCIÓN DE OCULTAR GIF -->
+        <aside class="holo-panel spotify-scroll-panel">
+            
+            <div class="canvas-hero" id="canvasHero">
+                <!-- Botón de Toggle GIF -->
+                <button class="toggle-visual-btn" id="toggleVisualBtn" onclick="toggleVisual()">👁 Ocultar Visual</button>
+
+                <img src="../img/201.webp" 
+                     onerror="this.src='https://media.giphy.com/media/fdpYd553gEH16/giphy.gif'" 
+                     class="canvas-bg-gif" 
+                     id="canvasGif"
+                     alt="Canvas Loop">
+
+                <div class="canvas-overlay">
+                    <div class="track-meta">
+                        <div class="track-title" id="trackTitle">All The Way Live</div>
+                        <div class="track-artist" id="trackArtist">Metro Boomin, Future, Lil Uzi Vert</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="ctrl-btn" onclick="prevTrack()" title="Anterior">⏮</button>
+                        <button class="play-main-btn" id="playBtn" onclick="togglePlay()" title="Reproducir / Pausar">▶</button>
+                        <button class="ctrl-btn" onclick="nextTrack()" title="Siguiente">⏭</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Pistas de esta Carta</div>
+                <div class="track-list" id="trackList"></div>
+            </div>
+
+            <audio id="localAudio" preload="metadata"></audio>
+        </aside>
+
+    </main>
+
+    <script>
+    // =========================================================================
+    // BASE DE CONOCIMIENTOS DE G.W.E.N. ADAPTADA PARA LA CARTA 1
+    // =========================================================================
+    const knowledgeBase = {
+        'ayuda': `
+            <span class="gwen-badge">✨ GUÍA DE NAVEGACIÓN - CARTA 1</span>
+            <h3>Comandos y Términos de la Carta 1</h3>
+            <p>Puedes hacerme preguntas o ingresar palabras clave sobre esta bitácora:</p>
+            <ul>
+                <li><b>Sistema de referencia:</b> La perspectiva física y vital del observador.</li>
+                <li><b>Teotihuacán:</b> El trabajo en restaurantes y la sincronía en el caos.</li>
+                <li><b>FES Acatlán:</b> La primera impresión, las 30 hectáreas y el ¡Goya!.</li>
+                <li><b>Neurociencia:</b> La respuesta del cerebro ante entornos totalmente nuevos.</li>
+                <li><b>Despedida:</b> Dejar el hogar tras 18 años y el peso de las maletas.</li>
+                <li><b>Prepa 19:</b> La nostalgia por las amistades del pasado.</li>
+            </ul>
+            <p><i>Tip: Escribe "limpiar" si quieres vaciar nuestro historial de chat.</i></p>`,
+
+        'sistema de referencia': `
+            <span class="gwen-badge">🌌 FÍSICA & PERSPECTIVA</span>
+            <h3>Sistemas de Referencia</h3>
+            <p>En física, la descripción de cualquier movimiento requiere definir el marco desde el cual observamos. Un tren en movimiento parece estático para sus pasajeros, pero veloz para quien está en el andén.</p>
+            <p><b>Reflexión:</b> Cambiar de etapa no es convertirse en alguien distinto, sino cambiar la posición desde la cual interpretas tu propia vida.</p>`,
+
+        'teotihuacan': `
+            <span class="gwen-badge">🏛️ TRABAJO & SINERGIA</span>
+            <h3>El restaurante y el orden en el caos</h3>
+            <p>El trabajo de verano en restaurantes cerca de las pirámides de Teotihuacán representó el primer choque con la diversidad fuera del entorno escolar.</p>
+            <p>Enseña que un equipo eficiente no requiere ser homogéneo; la diversidad de perfiles crea una coordinación natural bajo presión.</p>`,
+
+        'fes acatlan': `
+            <span class="gwen-badge">🏛️ UNAM / FES ACATLÁN</span>
+            <h3>El primer encuentro con el campus</h3>
+            <p>El 29 de julio de 2024 marcó el recorrido inaugural por las 30 hectáreas de FES Acatlán, transitando desde un entorno regional acotado hacia una escala monumental dentro de la UNAM.</p>`,
+
+        'neurociencia': `
+            <span class="gwen-badge">🧠 NEUROBIOLOGÍA DE LA NOVEDAD</span>
+            <h3>Sistemas de atención hiperactivos</h3>
+            <p>Cuando el cerebro detecta un entorno totalmente desconocido, activa fuertemente los circuitos de noradrenalina y dopamina asociados a la atención y al aprendizaje explícito.</p>
+            <p>Por eso los recuerdos de aquellos días primerizos permanecen grabados con tanta nitidez y detalle.</p>`,
+
+        'despedida': `
+            <span class="gwen-badge">📦 EL DESPLAZAMIENTO FÍSICO</span>
+            <h3>Mudanza a finales de julio</h3>
+            <p>Dejar atrás el entorno familiar tras 18 años es un acto de desprendimiento silencioso. No es solo mover ropa y cuadernos, sino reconfigurar las coordenadas de vida en un nuevo cuarto.</p>`,
+
+        'prepa 19': `
+            <span class="gwen-badge">🌱 NOSTALGIA Y VÍNCULOS</span>
+            <h3>El recuerdo de las amigas</h3>
+            <p>El pensamiento recurrente <i>"Ojalá estuvieran aquí"</i> evidencia la inercia afectiva al transitar en solitario hacia un espacio desconocido, añorando a los compañeros de ruta previa.</p>`
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const termInput = document.getElementById('termInput');
+
+    function handleTerminalSubmit(event) {
+        event.preventDefault();
+        const rawInput = termInput.value.trim();
+        if (!rawInput) return;
+
+        const queryLower = rawInput.toLowerCase();
+
+        // 1. Mostrar mensaje del usuario
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg msg-user';
+        userMsg.innerText = `> ${rawInput}`;
+        chatBox.appendChild(userMsg);
+
+        termInput.value = '';
+
+        // 2. Procesamiento
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'chat-msg msg-ai';
+
+            if (queryLower === 'limpiar' || queryLower === 'clear') {
+                chatBox.innerHTML = '';
+                return;
+            }
+
+            const keyAliases = {
+                'ayuda': ['ayuda', 'help', 'comandos', 'menu', 'que puedes hacer', 'hola', 'gwen'],
+                'sistema de referencia': ['sistema', 'referencia', 'fisica', 'observador', 'tren', 'anden', 'perspectiva'],
+                'teotihuacan': ['teotihuacan', 'restaurante', 'trabajo', 'caos', 'orden', 'equipo', 'clientes'],
+                'fes acatlan': ['acatlan', 'fes', 'unam', 'goya', '30 hectareas', 'instalaciones', 'campus'],
+                'neurociencia': ['neurociencia', 'cerebro', 'atencion', 'aprendizaje', 'novedad', 'memoria'],
+                'despedida': ['despedida', 'maleta', 'casa', 'cuarto', 'mudanza', 'desprendimiento'],
+                'prepa 19': ['prepa', 'prepa 19', 'amigas', 'nostalgia', 'amigos']
+            };
+
+            let foundKeys = [];
+            for (let mainKey in keyAliases) {
+                const aliases = keyAliases[mainKey];
+                if (aliases.some(alias => queryLower.includes(alias))) {
+                    foundKeys.push(mainKey);
+                }
+            }
+
+            if (foundKeys.length > 0) {
+                let responseContent = foundKeys.map(k => knowledgeBase[k]).join('<hr style="border:0; border-top:1px solid rgba(0,242,254,0.15); margin:12px 0;">');
+                aiMsg.innerHTML = responseContent;
+            } else {
+                aiMsg.innerHTML = `
+                    <span class="gwen-badge">🛰️ ASISTENTE G.W.E.N.</span>
+                    <p>No encontré registros exactos para esa búsqueda en esta carta.</p>
+                    <p>Prueba buscando: <b>sistema de referencia</b>, <b>teotihuacan</b>, <b>fes acatlan</b>, <b>neurociencia</b> o escribe <b>"ayuda"</b>.</p>`;
+            }
+
+            chatBox.appendChild(aiMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 180);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // =========================================================================
+    // LÓGICA DE OCULTAR / MOSTRAR VISUAL DEL REPRODUCTOR
+    // =========================================================================
+    let isVisualHidden = false;
+    const canvasHero = document.getElementById('canvasHero');
+    const toggleVisualBtn = document.getElementById('toggleVisualBtn');
+
+    function toggleVisual() {
+        isVisualHidden = !isVisualHidden;
+        if (isVisualHidden) {
+            canvasHero.classList.add('compact');
+            toggleVisualBtn.innerText = '👁 Mostrar Visual';
+        } else {
+            canvasHero.classList.remove('compact');
+            toggleVisualBtn.innerText = '👁 Ocultar Visual';
+        }
+    }
+
+    // =========================================================================
+    // REPRODUCTOR DE MÚSICA LOCAL
+    // =========================================================================
+    const playlist = [
+        { 
+            id: 0, 
+            title: "Satellite", 
+            artist: "Harry Styles", 
+            file: "../audio/Satelite.mp3" 
+        }
+       
+    ];
+
+    let currentTrackIndex = 0;
+
+    const audio = document.getElementById('localAudio');
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const trackTitleEl = document.getElementById('trackTitle');
+    const trackArtistEl = document.getElementById('trackArtist');
+    const trackListEl = document.getElementById('trackList');
+
+    function loadTrack(index) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        trackTitleEl.innerText = track.title;
+        trackArtistEl.innerText = track.artist;
+        audio.src = track.file;
+        renderPlaylist();
+    }
+
+    function renderPlaylist() {
+        trackListEl.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.onclick = () => selectAndPlayTrack(index);
+
+            item.innerHTML = `
+                <span class="item-num">${index + 1}</span>
+                <div class="item-info">
+                    <div class="item-name">${track.title}</div>
+                    <div class="item-artist">${track.artist}</div>
+                </div>
+            `;
+            trackListEl.appendChild(item);
+        });
+    }
+
+    function selectAndPlayTrack(index) {
+        loadTrack(index);
+        audio.play().then(() => {
+            playBtn.innerText = "❚❚";
+        }).catch(err => {
+            console.log("Error al reproducir pista:", err);
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                playBtn.innerText = "❚❚";
+            }).catch(err => {
+                alert(`No se pudo cargar la pista: ${playlist[currentTrackIndex].file}`);
+            });
+        } else {
+            audio.pause();
+            playBtn.innerText = "▶";
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = progress;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.innerText = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    seekBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+        }
+    });
+
+    function prevTrack() {
+        const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    function nextTrack() {
+        const newIndex = (currentTrackIndex + 1) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    loadTrack(0);
+
+    // =========================================================================
+    // FONDO INTERACTIVO CON THREE.JS
+    // =========================================================================
+    const canvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 2500;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color1 = new THREE.Color('#00f2fe');
+    const color2 = new THREE.Color('#ff0080');
+
+    for(let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 15;
+        positions[i+1] = (Math.random() - 0.5) * 15;
+        positions[i+2] = (Math.random() - 0.5) * 15;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i] = mixedColor.r;
+        colors[i+1] = mixedColor.g;
+        colors[i+2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.5 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        points.rotation.y += 0.0003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+</body>
+</html>

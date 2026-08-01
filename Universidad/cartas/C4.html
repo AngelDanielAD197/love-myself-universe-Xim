@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond the Self - Carta 1</title>
+    
+    <!-- Librería Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #010005;
+            color: #ffffff;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* --- CABECERA --- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(1,0,5,0.95) 0%, rgba(1,0,5,0) 100%);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transform: translateX(-3px);
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+            color: #fff;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .portal-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 20px;
+            width: 100vw;
+            height: calc(100vh - 65px);
+            margin-top: 65px;
+            padding: 10px 25px 20px 25px;
+        }
+
+        .holo-panel {
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. G.W.E.N. TERMINAL (IZQUIERDA) --- */
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #ff0080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ai-info-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-info-status {
+            font-size: 9.5px;
+            color: #00fa9a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .chat-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 95%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .msg-ai {
+            align-self: flex-start;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: rgba(255, 255, 255, 0.92);
+            border-top-left-radius: 2px;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: rgba(255, 0, 128, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #fff;
+            border-top-right-radius: 2px;
+            font-family: monospace;
+        }
+
+        .terminal-input-wrapper {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: #00f2fe;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .terminal-btn {
+            background: none;
+            border: none;
+            color: #ff0080;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- 2. CARTA CENTRAL --- */
+        .letter-panel {
+            position: relative;
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        .letter-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .letter-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff0080;
+            font-weight: 700;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .letter-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 15px;
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.88);
+            user-select: text;
+        }
+
+        .letter-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        .letter-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .letter-paragraph {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .section-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin: 24px 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,242,254,0.4) 0%, rgba(0,242,254,0) 100%);
+        }
+
+        .highlight-text {
+            color: #ffffff;
+            font-weight: 600;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, rgba(255, 0, 128, 0.15) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            border-left: 3px solid #ff0080;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background: rgba(255, 0, 128, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* --- 3. REPRODUCTOR CON OPCIÓN DE OCULTAR VISUAL (DERECHA) --- */
+        .spotify-scroll-panel {
+            padding: 0;
+            position: relative;
+            overflow-y: auto;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .spotify-scroll-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: height 0.4s ease, background 0.4s ease;
+            background: #05050d;
+        }
+
+        /* Estado compacto (GIF oculto) */
+        .canvas-hero.compact {
+            height: 180px;
+            background: linear-gradient(180deg, rgba(15, 15, 30, 0.9) 0%, rgba(5, 5, 12, 0.98) 100%);
+        }
+
+        .canvas-bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.85);
+            transition: opacity 0.4s ease, filter 0.3s ease;
+        }
+
+        .canvas-hero.compact .canvas-bg-gif {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Toggle GIF */
+        .toggle-visual-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: #00f2fe;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .toggle-visual-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 12, 0.7) 45%, rgba(1, 0, 5, 0.98) 100%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .track-meta {
+            margin-bottom: 12px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+        }
+
+        .seek-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 10px #00f2fe;
+            cursor: pointer;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ctrl-btn:hover {
+            color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        .play-main-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff0080 100%);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .play-main-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(255, 0, 128, 0.8);
+        }
+
+        .playlist-section {
+            padding: 18px;
+            background: rgba(5, 5, 12, 0.95);
+        }
+
+        .playlist-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00f2fe;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateX(2px);
+        }
+
+        .track-item.active {
+            background: rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.4);
+        }
+
+        .item-num {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            width: 14px;
+        }
+
+        .track-item.active .item-num {
+            color: #ff0080;
+            font-weight: bold;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-artist {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- CABECERA -->
+    <header class="header-bar">
+        <a href="../menu.html" class="back-btn">← Regresar a la Galaxia</a>
+        <div class="brand-title">PARALLAX: Beyond the Self</div>
+    </header>
+
+    <main class="portal-container">
+
+        <!-- 1. TERMINAL G.W.E.N. -->
+        <aside class="holo-panel">
+            <div class="ai-header">
+                <div class="ai-avatar">G</div>
+                <div>
+                    <div class="ai-info-name">G.W.E.N. • Terminal</div>
+                    <div class="ai-info-status"><span style="font-size:8px;">●</span> Global Web Exploration Network</div>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg msg-ai">
+                    [SISTEMA G.W.E.N. v4.0 ONLINE]<br><br>
+                    Bienvenido a la Carta 4: Resonancia a prueba de balas. Escribe una palabra clave o comando para acceder al banco de datos de esta bitácora.<br>
+                    Escribe <strong>ayuda</strong> para desplegar los comandos disponibles.
+                </div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)" class="terminal-input-wrapper">
+                <span class="terminal-prompt">&gt;</span>
+                <input type="text" id="termInput" class="terminal-input" placeholder="Ingresa comando o palabra..." autocomplete="off">
+                <button type="submit" class="terminal-btn">↵</button>
+            </form>
+        </aside>
+
+        <!-- 2. CARTA CENTRAL -->
+        <section class="holo-panel letter-panel">
+            <div class="letter-header">
+                <span class="letter-tag">Semestre I • Carta 4</span>
+                <h1 class="letter-title">RESONANCIA A PRUEBA DE BALAS</h1>
+            </div>
+
+            <div class="letter-body">
+                
+                <p class="letter-paragraph" style="text-align: center; font-style: italic; color: #00f2fe; font-size: 1.1em; margin-bottom: 25px;">
+                    ¿Por qué algunas historias parecen encontrarnos justo cuando más las necesitamos?
+                </p>
+
+                <p class="letter-paragraph">
+                    En física existe un fenómeno llamado <strong style="color: #00f2fe;">resonancia</strong>. Cuando un sistema recibe una frecuencia igual a su frecuencia natural, comienza a vibrar con una intensidad extraordinaria. Lo curioso es que la fuerza externa no crea ese movimiento; simplemente despierta algo que ya existía dentro del propio sistema.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con el tiempo descubrí que las personas también entramos en resonancia. A veces ocurre con un libro. Con una conversación. Con una película. O con una canción.
+                </p>
+
+                <p class="letter-paragraph">
+                    No porque esas obras cambien quiénes somos de un instante a otro, sino porque llegan en el momento preciso para ponerle palabras a emociones que llevábamos mucho tiempo sintiendo sin saber nombrarlas.
+                </p>
+
+                <p class="letter-paragraph">
+                    En septiembre de 2024 todavía no conocía esa palabra. Pero estaba a punto de experimentarla.
+                </p>
+
+                <div class="section-heading">Septiembre de 2024</div>
+
+                <p class="letter-paragraph">
+                    Poco a poco comenzaba a acostumbrarme a vivir solo. Aunque "acostumbrarme" quizá no sea la palabra correcta; más bien estaba aprendiendo a sobrevivir.
+                </p>
+
+                <p class="letter-paragraph">
+                    Después de poco más de un mes, incluso las cosas más cotidianas empezaban a convertirse en pequeños desafíos. Se me habían terminado las ideas para desayunar y cocinar. Improvisaba con lo que encontraba en la despensa, aprendiendo nuevas recetas a prueba y error. Era una habilidad más que la universidad nunca mencionó en su plan de estudios, pero que también formaba parte de crecer.
+                </p>
+
+                <p class="letter-paragraph">
+                    Mientras tanto, en la facultad, el peso sobre mis hombros aumentaba cada semana. Los malos resultados del primer parcial seguían dando vueltas en mi cabeza. Cada clase parecía confirmar la idea de que estaba varios pasos detrás de mis compañeros. Por primera vez consideré seriamente desertar de la carrera.
+                </p>
+
+                <p class="letter-paragraph">
+                    No era una decisión impulsiva. Era cansancio. Era miedo. Era la sensación constante de estar intentando escalar una montaña para la que no me había preparado.
+                </p>
+
+                <p class="letter-paragraph">
+                    Lo único que lograba devolverme un poco de calma eran los fines de semana. Cada sábado regresaba a mi pueblo. Volvía a casa de mi abuelita. Respiraba un poco. Comía acompañado otra vez. Escuchaba las mismas calles de siempre y, por unas horas, sentía que todo volvía a estar en su lugar.
+                </p>
+
+                <p class="letter-paragraph">
+                    Cuando alguien me preguntaba: <em>«¿Cómo te está yendo en la universidad?»</em>, siempre respondía lo mismo: <strong>«Bien.»</strong> Era una mentira sencilla. No quería preocupar a nadie. Ni siquiera estaba seguro de entender lo que me estaba pasando.
+                </p>
+
+                <div class="section-heading">El Refugio Inesperado</div>
+
+                <p class="letter-paragraph">
+                    En medio de toda aquella incertidumbre encontré un refugio inesperado: YouTube. Como muchas personas de mi generación, pasaba horas viendo videos sobre los temas que me interesaban. Uno de los creadores cuyo contenido más disfrutaba era Farid Dieck, especialmente los documentales que publicaba en su canal.
+                </p>
+
+                <p class="letter-paragraph">
+                    Una tarde apareció entre las recomendaciones un video con un título que llamó inmediatamente mi atención:
+                </p>
+
+                <div class="quote-box" style="border-left-color: #00f2fe; text-align: center; font-weight: bold;">
+                    "La banda que logró lo imposible | BTS"
+                </div>
+
+                <p class="letter-paragraph">
+                    Hasta ese momento mi relación con la cultura asiática era muy superficial. Había crecido viendo anime, disfrutaba algunos videojuegos japoneses y poco más. La música coreana era un territorio completamente desconocido para mí.
+                </p>
+
+                <p class="letter-paragraph">
+                    Aun así, había un nombre que parecía imposible no conocer: <strong>BTS</strong>. No sabía quiénes eran. No conocía ninguna canción. Solo sabía que existían y, sobre todo, quería entender por qué parecían haber llegado tan lejos. No desde los estereotipos ni desde la opinión pública, sino desde lo que había detrás del fenómeno. Así que hice clic, sin imaginar que aquella decisión terminaría cambiando muchas más cosas de las que podía imaginar.
+                </p>
+
+                <div class="section-heading">Detrás del Espejismo</div>
+
+                <p class="letter-paragraph">
+                    Lo curioso es que el documental ni siquiera utilizaba sus canciones como principal argumento. Lo que me atrapó fue su historia: siete jóvenes provenientes de una empresa prácticamente desconocida y al borde de la quiebra, que apostaron por construir una relación distinta con su público.
+                </p>
+
+                <p class="letter-paragraph">
+                    Me sorprendió descubrir que hablaban sobre ansiedad, salud mental, inseguridades, juventud, presión social y crecimiento personal. No era el tipo de temas que esperaba encontrar en una boy band. Mucho menos cuando, hasta ese momento, mis gustos musicales estaban mucho más cerca del Hard Rock y del R&B.
+                </p>
+
+                <p class="letter-paragraph">
+                    Aquello despertó mi curiosidad. No porque quisiera convertirme en fan, sino porque quería comprender qué clase de música podía sostener un discurso como ese.
+                </p>
+
+                <div class="section-heading">Bienvenido: ¿Primera vez con BTS?</div>
+
+                <p class="letter-paragraph">
+                    Pasaron algunos días y la curiosidad seguía ahí. Así que regresé a YouTube. Recordé uno de los álbumes mencionados en el documental: <strong>The Most Beautiful Moment in Life Pt. 1 (화양연화)</strong>. Lo busqué, respiré hondo y presioné reproducir. Sin saberlo, estaba escuchando mi primer álbum de BTS.
+                </p>
+
+                <p class="letter-paragraph">
+                    Recuerdo escuchar cada canción con atención, intentando entender qué era aquello que había logrado conectar con millones de personas alrededor del mundo.
+                </p>
+
+                <p class="letter-paragraph">
+                    Tiempo después descubriría un detalle que todavía hoy me hace sonreír. La canción <strong>DOPE (쩔어)</strong>, una de las que más llamó mi atención aquella primera vez, comienza con una frase pronunciada por RM en coreano. Cuando meses después leí la traducción, entendí lo que decía:
+                </p>
+
+                <div class="quote-box" style="border-left-color: #ff0080; background: rgba(255, 0, 128, 0.08); text-align: center; font-size: 1.2em; font-weight: bold; color: #ff0080;">
+                    «Bienvenido. ¿Primera vez con BTS?»
+                </div>
+
+                <p class="letter-paragraph">
+                    No pude evitar reír. Era como si alguien hubiera sabido exactamente quién estaba del otro lado de los audífonos. Como si aquella puerta hubiera estado esperándome desde mucho antes de que yo decidiera cruzarla.
+                </p>
+
+                <div class="section-heading">Una Puerta que se Abre</div>
+
+                <p class="letter-paragraph">
+                    Descargué algunas canciones y pensé que aquella curiosidad terminaría ahí. Que simplemente había encontrado un grupo diferente a todo lo que había escuchado hasta entonces. No imaginaba que acababa de dar el primer paso hacia un universo que terminaría acompañándome durante algunos de los momentos más importantes de mi vida.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con el tiempo descubriría que las obras que realmente nos transforman casi nunca llegan haciendo ruido. No anuncian su importancia ni nos advierten que cambiarán nuestra historia. Entran en nuestra vida de la manera más cotidiana posible: un libro encontrado por casualidad, una conversación inesperada o una melodía reproducida por simple curiosidad.
+                </p>
+
+                <p class="letter-paragraph">
+                    Y solo años después, cuando volvemos la vista atrás, entendemos que aquel instante aparentemente insignificante marcó un antes y un después.
+                </p>
+
+                <p class="letter-paragraph" style="text-align: center; font-weight: 700; color: #00f2fe; margin: 30px 0; line-height: 1.8;">
+                    Hoy no estoy seguro de que el destino escriba nuestras vidas. Pero sí creo que existen coincidencias cuyo significado solo comprendemos cuando cambia la perspectiva desde la que observamos nuestra propia historia.<br><br>
+                    Aquella tarde pensé que simplemente estaba escuchando un álbum nuevo. Ahora sé que, sin darme cuenta, acababa de abrir una puerta. Una puerta que no solo me conduciría a la música de siete jóvenes surcoreanos, sino a nuevas preguntas, nuevos libros, nuevas ideas y a nuevas formas de comprender el arte, la psicología y el mundo.<br><br>
+                    Y, sobre todo, terminaría acercándome un poco más a comprenderme a mí mismo.<br><br>
+                    Porque algunas historias no llegan para entretenernos.<br>
+                    <strong>Llegaron para encontrarnos.</strong><br>
+                    Y yo estaba a punto de descubrirlo.
+                </p>
+
+            </div>
+
+            <div class="letter-footer">
+                <a href="C3.html" class="back-btn" style="border-color: #00f2fe; color: #00f2fe; background: rgba(0, 242, 254, 0.05);">← Carta 3</a>
+                <a href="C5.html" class="back-btn" style="border-color: #ff0080; color: #ff0080; background: rgba(255, 0, 128, 0.05);">Carta 5 →</a>
+            </div>
+        </section>
+
+        <!-- 3. REPRODUCTOR SCROLLABLE -->
+        <aside class="holo-panel spotify-scroll-panel">
+            
+            <div class="canvas-hero" id="canvasHero">
+                <button class="toggle-visual-btn" id="toggleVisualBtn" onclick="toggleVisual()">👁 Ocultar Visual</button>
+
+                <img src="../img/BTS.gif" 
+                     onerror="this.src='https://media.giphy.com/media/fdpYd553gEH16/giphy.gif'" 
+                     class="canvas-bg-gif" 
+                     id="canvasGif"
+                     alt="Canvas Loop">
+
+                <div class="canvas-overlay">
+                    <div class="track-meta">
+                        <div class="track-title" id="trackTitle">DOPE (쩔어)</div>
+                        <div class="track-artist" id="trackArtist">BTS (방탄소년단)</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="ctrl-btn" onclick="prevTrack()" title="Anterior">⏮</button>
+                        <button class="play-main-btn" id="playBtn" onclick="togglePlay()" title="Reproducir / Pausar">▶</button>
+                        <button class="ctrl-btn" onclick="nextTrack()" title="Siguiente">⏭</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Pistas de esta Carta</div>
+                <div class="track-list" id="trackList"></div>
+            </div>
+
+            <audio id="localAudio" preload="metadata"></audio>
+        </aside>
+
+    </main>
+
+    <script>
+    // =========================================================================
+    // BASE DE CONOCIMIENTOS DE G.W.E.N. ADAPTADA PARA LA CARTA 4
+    // =========================================================================
+    const knowledgeBase = {
+        'ayuda': `
+            <span class="gwen-badge">✨ GUÍA DE NAVEGACIÓN - CARTA 4</span>
+            <h3>Comandos y Términos de la Carta 4</h3>
+            <p>Puedes hacerme preguntas o ingresar palabras clave sobre esta bitácora:</p>
+            <ul>
+                <li><b>Resonancia:</b> El principio físico y la metáfora humana.</li>
+                <li><b>Septiembre 2024:</b> La vida independiente, cocinar y el cansancio académico.</li>
+                <li><b>Farid Dieck:</b> El documental que desencadenó el descubrimiento.</li>
+                <li><b>BTS:</b> La historia de los 7 jóvenes de Big Hit Music.</li>
+                <li><b>Dope:</b> La canción con la icónica bienvenida de RM.</li>
+                <li><b>HYYH:</b> "The Most Beautiful Moment in Life Pt. 1".</li>
+            </ul>
+            <p><i>Tip: Escribe "limpiar" si quieres vaciar el historial.</i></p>`,
+
+        'resonancia': `
+            <span class="gwen-badge">🌊 FÍSICA & PSICOLOGÍA</span>
+            <h3>Fenómeno de Resonancia</h3>
+            <p>En física ocurre cuando un sistema recibe una frecuencia idéntica a su frecuencia natural, amplificando la amplitud. En la experiencia humana, ocurre cuando una obra artística le pone nombre a emociones latentes.</p>`,
+
+        'septiembre 2024': `
+            <span class="gwen-badge">🏠 VITAL & ACADÉMICO</span>
+            <h3>Sobrevivir a la Independencia</h3>
+            <p>Periodo de adaptación a la soledad, improvisación en la cocina y el peso de las dudas académicas iniciales. Los viajes de fin de semana al pueblo servían de ancla emocional.</p>`,
+
+        'farid dieck': `
+            <span class="gwen-badge">📹 DOCUMENTAL CATALIZADOR</span>
+            <h3>Análisis del Fenómeno</h3>
+            <p>Video documental enfocado en la narrativa de superación, salud mental y conexión sincera construida por el grupo desde la adversidad empresarial.</p>`,
+
+        'bts': `
+            <span class="gwen-badge">💜 MÚSICA & CONEXIÓN</span>
+            <h3>BTS (Bangtan Sonyeondan)</h3>
+            <p>Grupo surcoreano caracterizado por abordar líricamente la presión social, la ansiedad juvenil y el crecimiento personal.</p>`,
+
+        'dope': `
+            <span class="gwen-badge">🎧 PISTA CLAVE</span>
+            <h3>DOPE (쩔어)</h3>
+            <p>Canción del álbum HYYH Pt. 1 que inicia con la famosa intro de RM: <i>"어서 와 방탄은 처음이지?"</i> (Bienvenido. ¿Primera vez con BTS?).</p>`,
+
+        'hyyh': `
+            <span class="gwen-badge">💿 ÁLBUM</span>
+            <h3>The Most Beautiful Moment in Life Pt. 1 (화양연화)</h3>
+            <p>Publicado en 2015, explora la belleza y las angustias de la juventud. Fue el primer álbum escuchado completo en esta bitácora.</p>`
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const termInput = document.getElementById('termInput');
+
+    function handleTerminalSubmit(event) {
+        event.preventDefault();
+        const rawInput = termInput.value.trim();
+        if (!rawInput) return;
+
+        const queryLower = rawInput.toLowerCase();
+
+        // 1. Mostrar mensaje del usuario
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg msg-user';
+        userMsg.innerText = `> ${rawInput}`;
+        chatBox.appendChild(userMsg);
+
+        termInput.value = '';
+
+        // 2. Procesamiento
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'chat-msg msg-ai';
+
+            if (queryLower === 'limpiar' || queryLower === 'clear') {
+                chatBox.innerHTML = '';
+                return;
+            }
+
+            const keyAliases = {
+                'ayuda': ['ayuda', 'help', 'comandos', 'menu', 'que puedes hacer', 'hola', 'gwen'],
+                'resonancia': ['resonancia', 'frecuencia', 'vibrar', 'fisica', 'emociones', 'coincidencia'],
+                'septiembre 2024': ['septiembre', '2024', 'cocinar', 'desayunar', 'abuelita', 'pueblo', 'desertar', 'solo', 'mentira', 'bien'],
+                'farid dieck': ['farid', 'dieck', 'documental', 'youtube', 'refugio', 'video'],
+                'bts': ['bts', 'boy band', 'kpop', 'corea', 'empresa', 'quiebra', 'salud mental', 'ansiedad'],
+                'dope': ['dope', 'rm', 'namjoon', 'primera vez', 'bienvenido', 'frase'],
+                'hyyh': ['hyyh', 'the most beautiful moment', 'part 1', 'album', 'disco']
+            };
+
+            let foundKeys = [];
+            for (let mainKey in keyAliases) {
+                const aliases = keyAliases[mainKey];
+                if (aliases.some(alias => queryLower.includes(alias))) {
+                    foundKeys.push(mainKey);
+                }
+            }
+
+            if (foundKeys.length > 0) {
+                let responseContent = foundKeys.map(k => knowledgeBase[k]).join('<hr style="border:0; border-top:1px solid rgba(0,242,254,0.15); margin:12px 0;">');
+                aiMsg.innerHTML = responseContent;
+            } else {
+                aiMsg.innerHTML = `
+                    <span class="gwen-badge">🛰️ ASISTENTE G.W.E.N.</span>
+                    <p>No encontré registros exactos para esa búsqueda en esta carta.</p>
+                    <p>Prueba buscando: <b>resonancia</b>, <b>septiembre</b>, <b>farid dieck</b>, <b>bts</b>, <b>dope</b> o escribe <b>"ayuda"</b>.</p>`;
+            }
+
+            chatBox.appendChild(aiMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 180);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // =========================================================================
+    // LÓGICA DE OCULTAR / MOSTRAR VISUAL DEL REPRODUCTOR
+    // =========================================================================
+    let isVisualHidden = false;
+    const canvasHero = document.getElementById('canvasHero');
+    const toggleVisualBtn = document.getElementById('toggleVisualBtn');
+
+    function toggleVisual() {
+        isVisualHidden = !isVisualHidden;
+        if (isVisualHidden) {
+            canvasHero.classList.add('compact');
+            toggleVisualBtn.innerText = '👁 Mostrar Visual';
+        } else {
+            canvasHero.classList.remove('compact');
+            toggleVisualBtn.innerText = '👁 Ocultar Visual';
+        }
+    }
+
+    // =========================================================================
+    // REPRODUCTOR DE MÚSICA LOCAL
+    // =========================================================================
+    const playlist = [
+        { 
+            id: 0, 
+            title: "DOPE (쩔어)", 
+            artist: "BTS (방탄소년단)", 
+            file: "../audio/BTS1.mp3" 
+        },
+        { 
+            id: 1, 
+            title: "We Are Bulletproof", 
+            artist: "BTS (방탄소년단)", 
+            file: "../audio/BTS2.mp3" 
+        },
+        { 
+            id: 2, 
+            title: "Cypher PT3: KIller", 
+            artist: "BTS (방탄소년단)", 
+            file: "../audio/BTS3.mp3" 
+        }
+    ];
+
+    let currentTrackIndex = 0;
+
+    const audio = document.getElementById('localAudio');
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const trackTitleEl = document.getElementById('trackTitle');
+    const trackArtistEl = document.getElementById('trackArtist');
+    const trackListEl = document.getElementById('trackList');
+
+    function loadTrack(index) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        trackTitleEl.innerText = track.title;
+        trackArtistEl.innerText = track.artist;
+        audio.src = track.file;
+        renderPlaylist();
+    }
+
+    function renderPlaylist() {
+        trackListEl.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.onclick = () => selectAndPlayTrack(index);
+
+            item.innerHTML = `
+                <span class="item-num">${index + 1}</span>
+                <div class="item-info">
+                    <div class="item-name">${track.title}</div>
+                    <div class="item-artist">${track.artist}</div>
+                </div>
+            `;
+            trackListEl.appendChild(item);
+        });
+    }
+
+    function selectAndPlayTrack(index) {
+        loadTrack(index);
+        audio.play().then(() => {
+            playBtn.innerText = "❚❚";
+        }).catch(err => {
+            console.log("Error al reproducir pista:", err);
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                playBtn.innerText = "❚❚";
+            }).catch(err => {
+                alert(`No se pudo cargar la pista: ${playlist[currentTrackIndex].file}`);
+            });
+        } else {
+            audio.pause();
+            playBtn.innerText = "▶";
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = progress;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.innerText = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    seekBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+        }
+    });
+
+    function prevTrack() {
+        const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    function nextTrack() {
+        const newIndex = (currentTrackIndex + 1) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    loadTrack(0);
+
+    // =========================================================================
+    // FONDO INTERACTIVO CON THREE.JS
+    // =========================================================================
+    const canvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 2500;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color1 = new THREE.Color('#00f2fe');
+    const color2 = new THREE.Color('#ff0080');
+
+    for(let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 15;
+        positions[i+1] = (Math.random() - 0.5) * 15;
+        positions[i+2] = (Math.random() - 0.5) * 15;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i] = mixedColor.r;
+        colors[i+1] = mixedColor.g;
+        colors[i+2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.5 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        points.rotation.y += 0.0003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond the Self - Carta 1</title>
+    
+    <!-- Librería Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #010005;
+            color: #ffffff;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* --- CABECERA --- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(1,0,5,0.95) 0%, rgba(1,0,5,0) 100%);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transform: translateX(-3px);
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+            color: #fff;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .portal-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 20px;
+            width: 100vw;
+            height: calc(100vh - 65px);
+            margin-top: 65px;
+            padding: 10px 25px 20px 25px;
+        }
+
+        .holo-panel {
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. G.W.E.N. TERMINAL (IZQUIERDA) --- */
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #ff0080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ai-info-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-info-status {
+            font-size: 9.5px;
+            color: #00fa9a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .chat-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 95%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .msg-ai {
+            align-self: flex-start;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: rgba(255, 255, 255, 0.92);
+            border-top-left-radius: 2px;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: rgba(255, 0, 128, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #fff;
+            border-top-right-radius: 2px;
+            font-family: monospace;
+        }
+
+        .terminal-input-wrapper {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: #00f2fe;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .terminal-btn {
+            background: none;
+            border: none;
+            color: #ff0080;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- 2. CARTA CENTRAL --- */
+        .letter-panel {
+            position: relative;
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        .letter-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .letter-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff0080;
+            font-weight: 700;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .letter-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 15px;
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.88);
+            user-select: text;
+        }
+
+        .letter-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        .letter-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .letter-paragraph {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .section-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin: 24px 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,242,254,0.4) 0%, rgba(0,242,254,0) 100%);
+        }
+
+        .highlight-text {
+            color: #ffffff;
+            font-weight: 600;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, rgba(255, 0, 128, 0.15) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            border-left: 3px solid #ff0080;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background: rgba(255, 0, 128, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* --- 3. REPRODUCTOR CON OPCIÓN DE OCULTAR VISUAL (DERECHA) --- */
+        .spotify-scroll-panel {
+            padding: 0;
+            position: relative;
+            overflow-y: auto;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .spotify-scroll-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: height 0.4s ease, background 0.4s ease;
+            background: #05050d;
+        }
+
+        /* Estado compacto (GIF oculto) */
+        .canvas-hero.compact {
+            height: 180px;
+            background: linear-gradient(180deg, rgba(15, 15, 30, 0.9) 0%, rgba(5, 5, 12, 0.98) 100%);
+        }
+
+        .canvas-bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.85);
+            transition: opacity 0.4s ease, filter 0.3s ease;
+        }
+
+        .canvas-hero.compact .canvas-bg-gif {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Toggle GIF */
+        .toggle-visual-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: #00f2fe;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .toggle-visual-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 12, 0.7) 45%, rgba(1, 0, 5, 0.98) 100%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .track-meta {
+            margin-bottom: 12px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+        }
+
+        .seek-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 10px #00f2fe;
+            cursor: pointer;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ctrl-btn:hover {
+            color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        .play-main-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff0080 100%);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .play-main-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(255, 0, 128, 0.8);
+        }
+
+        .playlist-section {
+            padding: 18px;
+            background: rgba(5, 5, 12, 0.95);
+        }
+
+        .playlist-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00f2fe;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateX(2px);
+        }
+
+        .track-item.active {
+            background: rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.4);
+        }
+
+        .item-num {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            width: 14px;
+        }
+
+        .track-item.active .item-num {
+            color: #ff0080;
+            font-weight: bold;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-artist {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- CABECERA -->
+    <header class="header-bar">
+        <a href="../menu.html" class="back-btn">← Regresar a la Galaxia</a>
+        <div class="brand-title">PARALLAX: Beyond the Self</div>
+    </header>
+
+    <main class="portal-container">
+
+        <!-- 1. TERMINAL G.W.E.N. -->
+        <aside class="holo-panel">
+            <div class="ai-header">
+                <div class="ai-avatar">G</div>
+                <div>
+                    <div class="ai-info-name">G.W.E.N. • Terminal</div>
+                    <div class="ai-info-status"><span style="font-size:8px;">●</span> Global Web Exploration Network</div>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg msg-ai">
+                    [SISTEMA G.W.E.N. v5.0 ONLINE]<br><br>
+                    Bienvenido a la Carta V: La teoría de los espejos. Escribe una palabra clave o comando para acceder al banco de datos de esta bitácora.<br>
+                    Escribe <strong>ayuda</strong> para desplegar los comandos disponibles.
+                </div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)" class="terminal-input-wrapper">
+                <span class="terminal-prompt">&gt;</span>
+                <input type="text" id="termInput" class="terminal-input" placeholder="Ingresa comando o palabra..." autocomplete="off">
+                <button type="submit" class="terminal-btn">↵</button>
+            </form>
+        </aside>
+
+        <!-- 2. CARTA CENTRAL -->
+        <section class="holo-panel letter-panel">
+            <div class="letter-header">
+                <span class="letter-tag">Semestre I • Carta V</span>
+                <h1 class="letter-title">LA TEORÍA DE LOS ESPEJOS</h1>
+            </div>
+
+            <div class="letter-body">
+                
+                <p class="letter-paragraph" style="text-align: center; font-style: italic; color: #00f2fe; font-size: 1.1em; margin-bottom: 25px;">
+                    ¿Nos convertimos en las personas con las que decidimos caminar?
+                </p>
+
+                <p class="letter-paragraph">
+                    Existe un fenómeno ampliamente estudiado en la psicología social conocido como <strong style="color: #00f2fe;">aprendizaje vicario</strong>. Gran parte de lo que somos no lo aprendemos únicamente a través de nuestras propias experiencias, sino observando a quienes nos rodean. Sus hábitos, sus formas de pensar, la manera en que resuelven conflictos e incluso la forma en que hablan comienzan, poco a poco, a filtrarse en nuestra propia identidad.
+                </p>
+
+                <p class="letter-paragraph">
+                    En otras palabras, las personas funcionan como espejos.
+                </p>
+
+                <p class="letter-paragraph">
+                    No porque reflejen exactamente quiénes somos, sino porque nos permiten descubrir versiones de nosotros mismos que aún no conocíamos.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con el tiempo comprendí que crecer no consiste únicamente en aprender cosas nuevas. También consiste en aprender a elegir junto a quién queremos crecer. Y pocas decisiones terminan influyendo tanto en el rumbo de una vida.
+                </p>
+
+                <div class="section-heading">Octubre de 2024</div>
+
+                <p class="letter-paragraph">
+                    Conforme avanzaban las semanas, las conversaciones con mis compañeros comenzaron a surgir con mayor naturalidad. Seguía sin tener un grupo fijo con quien pasar los descansos, pero poco a poco empecé a convivir con tres personas de mi salón: Nora, Michelle y Diego.
+                </p>
+
+                <p class="letter-paragraph">
+                    Al principio todo era bastante agradable. Platicábamos entre clases, compartíamos algunos recesos y poco a poco comenzábamos a conocernos. Sin embargo, conforme pasaba el tiempo empecé a notar que la dinámica del grupo era distinta a la que yo estaba acostumbrado.
+                </p>
+
+                <p class="letter-paragraph">
+                    Diego tenía un sentido del humor extremadamente pesado. Nora, la mayoría de las veces, seguía el juego. Las bromas eran constantes y, con frecuencia, estaban dirigidas hacia otras personas. A veces eran simples comentarios sarcásticos; otras, observaciones que rozaban el desprecio disfrazado de humor.
+                </p>
+
+                <p class="letter-paragraph">
+                    En ocasiones esas bromas también recaían sobre mí. Sobre mi aspecto. Sobre el lugar del que venía. Sobre mi vida antes de la universidad.
+                </p>
+
+                <p class="letter-paragraph">
+                    Probablemente para ellos solo eran chistes. Y durante un tiempo hice todo lo posible por convencerme de que también debían serlo para mí. Sonreía. Seguía la conversación. Intentaba no tomar nada de manera personal.
+                </p>
+
+                <p class="letter-paragraph">
+                    En el fondo sabía que algo me incomodaba, pero todavía tenía miedo de volver a quedarme solo. Después de haber perdido a Karla semanas atrás, cualquier grupo parecía mejor que la soledad. O al menos eso creía en ese momento.
+                </p>
+
+                <div class="section-heading">Comunidad y Conocimiento</div>
+
+                <p class="letter-paragraph">
+                    Mientras todo eso ocurría, algo más empezaba a cambiar dentro de mí. Desde las primeras semanas de clase había sentido una enorme admiración por muchos de mis compañeros. No únicamente porque supieran más que yo, sino porque parecían desenvolverse con una naturalidad impresionante en un mundo que para mí todavía era completamente nuevo.
+                </p>
+
+                <p class="letter-paragraph">
+                    Impulsado por la curiosidad —y quizá también por la influencia silenciosa que BTS comenzaba a tener sobre mi manera de mirar a las personas— decidí hacer algo que ya había aprendido durante la preparatoria: acercarme, escuchar, preguntar y conocer sus historias.
+                </p>
+
+                <p class="letter-paragraph">
+                    Y fue entonces cuando ocurrió algo que cambió por completo mi percepción de ellos.
+                </p>
+
+                <p class="letter-paragraph">
+                    Durante semanas yo había pensado que estaba rodeado de genios. Pero mientras más conversaba con ellos, más comprendía que estaba equivocado. No eran personas extraordinarias porque nunca se equivocaran; lo eran porque habían aprendido a convivir con el error.
+                </p>
+
+                <p class="letter-paragraph">
+                    La mayoría provenía de CCH o de preparatorias de la propia UNAM. Muchos ya se conocían. Otros llegaban con una formación sólida en programación, matemáticas o computación. Al principio eso solo alimentó mi sensación de inferioridad, pero las conversaciones comenzaron a mostrarme una realidad distinta.
+                </p>
+
+                <p class="letter-paragraph">
+                    Nunca me hicieron sentir menos por no saber algo. Al contrario. Si alguien tenía una duda, aparecía otra persona dispuesta a explicar. No existía esa necesidad de demostrar superioridad. Claro, había uno que otro inadaptado que solo se quería lucir, pero dentro de eso existía un deseo genuino de compartir el conocimiento. Y esa diferencia era enorme.
+                </p>
+
+                <div class="quote-box" style="border-left-color: #00f2fe; text-align: center; font-weight: bold; font-size: 1.05em; margin: 20px 0;">
+                    Existe una enorme diferencia entre utilizar el conocimiento para demostrar que sabes... y utilizarlo para ayudar a alguien más a comprender. La primera alimenta el ego; la segunda construye comunidad.
+                </div>
+
+                <p class="letter-paragraph">
+                    Por primera vez dejé de ver a mis compañeros como un muro imposible de escalar. Comencé a verlos como personas. Personas que también habían tenido que aprender. Personas que también se habían equivocado. Personas que simplemente llevaban más tiempo caminando por ese sendero.
+                </p>
+
+                <div class="section-heading">Caminos que se Separan</div>
+
+                <p class="letter-paragraph">
+                    Poco a poco también empecé a alejarme de Diego. Simplemente entendí que no todas las amistades nos ayudan a convertirnos en la persona que queremos ser.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con Michelle nunca tuve realmente ningún problema. Recuerdo especialmente una conversación que tuvimos sobre el amor. Hoy soy incapaz de recordar las palabras exactas que intercambiamos; solo recuerdo que meses después me contó que había terminado la relación que mantenía en ese momento. Nunca sabré si aquella conversación influyó de alguna manera en su decisión, pero entendí algo muy bonito: hay palabras que no producen un cambio inmediato, simplemente permanecen ahí, esperando el momento adecuado para florecer.
+                </p>
+
+                <p class="letter-paragraph">
+                    Con Nora seguí llevándome bien durante un tiempo, especialmente cuando Diego no estaba presente. Con el paso de los meses nuestra relación también tomaría otros caminos. Pero esa ya es otra historia.
+                </p>
+
+                <div class="section-heading">Noches de FES Acatlán</div>
+
+                <p class="letter-paragraph">
+                    Mientras tanto, la universidad comenzaba a adquirir una personalidad completamente distinta cuando caía la noche. Las clases terminaban cerca de las diez. Los jardines de la FES quedaban casi vacíos. Los pasillos recuperaban un silencio que durante el día parecía imposible. Las luces iluminaban los árboles mientras una brisa fría atravesaba los edificios.
+                </p>
+
+                <p class="letter-paragraph">
+                    Había algo profundamente tranquilo en aquel paisaje.
+                </p>
+
+                <p class="letter-paragraph">
+                    Cada noche caminaba hacia la salida con los audífonos puestos. Poco a poco BTS comenzaba a ocupar más espacio entre las canciones que escuchaba. Observaba la ciudad desde la ventana del autobús: las avenidas, los edificios iluminados, las personas que aún seguían caminando... Y, sin darme cuenta, también comenzaba a observarme a mí de una manera distinta.
+                </p>
+
+                <p class="letter-paragraph" style="text-align: center; font-weight: 700; color: #ff0080; margin: 30px 0; line-height: 1.8;">
+                    Durante mucho tiempo pensé que aquellos trayectos nocturnos eran simplemente el camino de regreso al cuarto donde vivía.<br>
+                    Hoy creo que eran algo mucho más importante: eran el camino hacia una nueva forma de entender a las personas.<br><br>
+                    Porque descubrí que el conocimiento no solo se aprende en los libros; también se aprende observando cómo viven quienes caminan a nuestro lado.<br><br>
+                    Y comprendí que una de las decisiones más importantes que podemos tomar no es únicamente qué queremos aprender, sino de quién queremos aprenderlo.<br><br>
+                    Quizá las personas nunca fueron simples compañeros de viaje.<br>
+                    <strong>Quizá siempre fueron espejos.</strong><br>
+                    Y, al mirarlos con atención, comencé a descubrir reflejos de la persona que algún día quería llegar a ser.
+                </p>
+
+            </div>
+
+            <div class="letter-footer">
+                <a href="C4.html" class="back-btn" style="border-color: #00f2fe; color: #00f2fe; background: rgba(0, 242, 254, 0.05);">← Carta 4</a>
+                <a href="C6.html" class="back-btn" style="border-color: #ff0080; color: #ff0080; background: rgba(255, 0, 128, 0.05);">Carta 6 →</a>
+            </div>
+        </section>
+
+        <!-- 3. REPRODUCTOR SCROLLABLE -->
+        <aside class="holo-panel spotify-scroll-panel">
+            
+            <div class="canvas-hero" id="canvasHero">
+                <button class="toggle-visual-btn" id="toggleVisualBtn" onclick="toggleVisual()">👁 Ocultar Visual</button>
+
+                <img src="../img/SPI.gif" 
+                     onerror="this.src='https://media.giphy.com/media/fdpYd553gEH16/giphy.gif'" 
+                     class="canvas-bg-gif" 
+                     id="canvasGif"
+                     alt="Canvas Loop">
+
+                <div class="canvas-overlay">
+                    <div class="track-meta">
+                        <div class="track-title" id="trackTitle">Spring Day</div>
+                        <div class="track-artist" id="trackArtist">BTS (방탄소년단)</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="ctrl-btn" onclick="prevTrack()" title="Anterior">⏮</button>
+                        <button class="play-main-btn" id="playBtn" onclick="togglePlay()" title="Reproducir / Pausar">▶</button>
+                        <button class="ctrl-btn" onclick="nextTrack()" title="Siguiente">⏭</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Pistas de esta Carta</div>
+                <div class="track-list" id="trackList"></div>
+            </div>
+
+            <audio id="localAudio" preload="metadata"></audio>
+        </aside>
+
+    </main>
+
+    <script>
+    // =========================================================================
+    // BASE DE CONOCIMIENTOS DE G.W.E.N. ADAPTADA PARA LA CARTA 5
+    // =========================================================================
+    const knowledgeBase = {
+        'ayuda': `
+            <span class="gwen-badge">✨ GUÍA DE NAVEGACIÓN - CARTA V</span>
+            <h3>Comandos y Términos de la Carta 5</h3>
+            <p>Puedes hacerme preguntas o ingresar palabras clave sobre esta bitácora:</p>
+            <ul>
+                <li><b>Aprendizaje Vicario:</b> La teoría psicológica de aprender observando al entorno.</li>
+                <li><b>Espejos:</b> Las personas como reflejos de nuestras futuras versiones.</li>
+                <li><b>Octubre 2024:</b> Transición social, dinámicas de grupo e incomodidad.</li>
+                <li><b>Comunidad:</b> La diferencia entre usar el saber para el ego o para enseñar.</li>
+                <li><b>FES Acatlán:</b> Los paisajes nocturnos y la paz de los pasillos vacíos.</li>
+            </ul>
+            <p><i>Tip: Escribe "limpiar" si quieres vaciar el historial.</i></p>`,
+
+        'aprendizaje vicario': `
+            <span class="gwen-badge">🧠 PSICOLOGÍA SOCIAL</span>
+            <h3>Aprendizaje Vicario</h3>
+            <p>Principio donde la identidad, respuestas emocionales y hábitos se filtran a través de la observación directa de las personas con las que elegimos compartir tiempo.</p>`,
+
+        'espejos': `
+            <span class="gwen-badge">🪞 METÁFORA CENTRAL</span>
+            <h3>La Teoría de los Espejos</h3>
+            <p>Las personas que nos rodean no reflejan únicamente quiénes somos en el presente, sino que nos ayudan a descubrir y construir la versión de nosotros que deseamos ser.</p>`,
+
+        'octubre 2024': `
+            <span class="gwen-badge">🗓️ CONTEXTO SOCIAL</span>
+            <h3>Dinámica de Grupo e Incomodidad</h3>
+            <p>Periodo de convivencia con Diego, Nora y Michelle. Enfrentamiento entre el miedo a la soledad tras la pérdida de lazos previos y la necesidad de establecer límites sanos ante el humor pesado.</p>`,
+
+        'comunidad': `
+            <span class="gwen-badge">📚 FILOSOFÍA DE VIDA</span>
+            <h3>Ego vs. Comunidad</h3>
+            <p>Comprensión de que el conocimiento no es un pedestal para demostrar superioridad, sino una herramienta para tender puentes y ayudar a otros a comprender.</p>`,
+
+        'fes acatlan': `
+            <span class="gwen-badge">🌙 ENTORNO NOCTURNO</span>
+            <h3>Noches en la FES</h3>
+            <p>La atmósfera de los jardines vacíos y la brisa fría a las 10:00 PM, conectando los trayectos en autobús con la música de BTS y la reflexión personal.</p>`
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const termInput = document.getElementById('termInput');
+
+    function handleTerminalSubmit(event) {
+        event.preventDefault();
+        const rawInput = termInput.value.trim();
+        if (!rawInput) return;
+
+        const queryLower = rawInput.toLowerCase();
+
+        // 1. Mostrar mensaje del usuario
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg msg-user';
+        userMsg.innerText = `> ${rawInput}`;
+        chatBox.appendChild(userMsg);
+
+        termInput.value = '';
+
+        // 2. Procesamiento
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'chat-msg msg-ai';
+
+            if (queryLower === 'limpiar' || queryLower === 'clear') {
+                chatBox.innerHTML = '';
+                return;
+            }
+
+            const keyAliases = {
+                'ayuda': ['ayuda', 'help', 'comandos', 'menu', 'que puedes hacer', 'hola', 'gwen'],
+                'aprendizaje vicario': ['vicario', 'aprendizaje', 'psicologia', 'habitos', 'observar'],
+                'espejos': ['espejo', 'espejos', 'reflejo', 'reflejos', 'identidad'],
+                'octubre 2024': ['octubre', 'diego', 'nora', 'michelle', 'bromas', 'chistes', 'soledad', 'karla', 'aspecto'],
+                'comunidad': ['comunidad', 'ego', 'genios', 'conocimiento', 'cch', 'unam', 'ayudar', 'error', 'aprender'],
+                'fes acatlan': ['fes', 'acatlan', 'noches', 'autobus', 'camion', 'silencio', 'luces', 'brisa', 'bts']
+            };
+
+            let foundKeys = [];
+            for (let mainKey in keyAliases) {
+                const aliases = keyAliases[mainKey];
+                if (aliases.some(alias => queryLower.includes(alias))) {
+                    foundKeys.push(mainKey);
+                }
+            }
+
+            if (foundKeys.length > 0) {
+                let responseContent = foundKeys.map(k => knowledgeBase[k]).join('<hr style="border:0; border-top:1px solid rgba(0,242,254,0.15); margin:12px 0;">');
+                aiMsg.innerHTML = responseContent;
+            } else {
+                aiMsg.innerHTML = `
+                    <span class="gwen-badge">🛰️ ASISTENTE G.W.E.N.</span>
+                    <p>No encontré registros exactos para esa búsqueda en esta carta.</p>
+                    <p>Prueba buscando: <b>vicario</b>, <b>espejos</b>, <b>octubre</b>, <b>comunidad</b>, <b>fes acatlan</b> o escribe <b>"ayuda"</b>.</p>`;
+            }
+
+            chatBox.appendChild(aiMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 180);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // =========================================================================
+    // LÓGICA DE OCULTAR / MOSTRAR VISUAL DEL REPRODUCTOR
+    // =========================================================================
+    let isVisualHidden = false;
+    const canvasHero = document.getElementById('canvasHero');
+    const toggleVisualBtn = document.getElementById('toggleVisualBtn');
+
+    function toggleVisual() {
+        isVisualHidden = !isVisualHidden;
+        if (isVisualHidden) {
+            canvasHero.classList.add('compact');
+            toggleVisualBtn.innerText = '👁 Mostrar Visual';
+        } else {
+            canvasHero.classList.remove('compact');
+            toggleVisualBtn.innerText = '👁 Ocultar Visual';
+        }
+    }
+
+    // =========================================================================
+    // REPRODUCTOR DE MÚSICA LOCAL
+    // =========================================================================
+    const playlist = [
+        { 
+            id: 0, 
+            title: "What's up Danger", 
+            artist: "Blackway & BLack Caviar", 
+            file: "../audio/SPI2.mp3" 
+        },
+        { 
+            id: 1, 
+            title: "Am I Dreaming", 
+            artist: "Metro Boomin & Roisee", 
+            file: "../audio/SPI.mp3" 
+        },
+        { 
+            id: 2, 
+            title: "Highest in the Room", 
+            artist: "Travis Scott", 
+            file: "../audio/SPI3.mp3" 
+        }
+    ];
+
+    let currentTrackIndex = 0;
+
+    const audio = document.getElementById('localAudio');
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const trackTitleEl = document.getElementById('trackTitle');
+    const trackArtistEl = document.getElementById('trackArtist');
+    const trackListEl = document.getElementById('trackList');
+
+    function loadTrack(index) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        trackTitleEl.innerText = track.title;
+        trackArtistEl.innerText = track.artist;
+        audio.src = track.file;
+        renderPlaylist();
+    }
+
+    function renderPlaylist() {
+        trackListEl.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.onclick = () => selectAndPlayTrack(index);
+
+            item.innerHTML = `
+                <span class="item-num">${index + 1}</span>
+                <div class="item-info">
+                    <div class="item-name">${track.title}</div>
+                    <div class="item-artist">${track.artist}</div>
+                </div>
+            `;
+            trackListEl.appendChild(item);
+        });
+    }
+
+    function selectAndPlayTrack(index) {
+        loadTrack(index);
+        audio.play().then(() => {
+            playBtn.innerText = "❚❚";
+        }).catch(err => {
+            console.log("Error al reproducir pista:", err);
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                playBtn.innerText = "❚❚";
+            }).catch(err => {
+                alert(`No se pudo cargar la pista: ${playlist[currentTrackIndex].file}`);
+            });
+        } else {
+            audio.pause();
+            playBtn.innerText = "▶";
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = progress;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.innerText = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    seekBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+        }
+    });
+
+    function prevTrack() {
+        const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    function nextTrack() {
+        const newIndex = (currentTrackIndex + 1) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    loadTrack(0);
+
+    // =========================================================================
+    // FONDO INTERACTIVO CON THREE.JS
+    // =========================================================================
+    const canvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 2500;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color1 = new THREE.Color('#00f2fe');
+    const color2 = new THREE.Color('#ff0080');
+
+    for(let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 15;
+        positions[i+1] = (Math.random() - 0.5) * 15;
+        positions[i+2] = (Math.random() - 0.5) * 15;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i] = mixedColor.r;
+        colors[i+1] = mixedColor.g;
+        colors[i+2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.5 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        points.rotation.y += 0.0003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+</body>
+</html>

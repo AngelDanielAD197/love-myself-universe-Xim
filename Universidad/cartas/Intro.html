@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond the Self - Prologue</title>
+    
+    <!-- Librería Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #010005;
+            color: #ffffff;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* --- CABECERA --- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(1,0,5,0.95) 0%, rgba(1,0,5,0) 100%);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transform: translateX(-3px);
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+            color: #fff;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .portal-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 20px;
+            width: 100vw;
+            height: calc(100vh - 65px);
+            margin-top: 65px;
+            padding: 10px 25px 20px 25px;
+        }
+
+        .holo-panel {
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. G.W.E.N. TERMINAL (IZQUIERDA) --- */
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #ff0080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ai-info-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-info-status {
+            font-size: 9.5px;
+            color: #00fa9a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .chat-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 95%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .msg-ai {
+            align-self: flex-start;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: rgba(255, 255, 255, 0.92);
+            border-top-left-radius: 2px;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: rgba(255, 0, 128, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #fff;
+            border-top-right-radius: 2px;
+            font-family: monospace;
+        }
+
+        .terminal-input-wrapper {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: #00f2fe;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .terminal-btn {
+            background: none;
+            border: none;
+            color: #ff0080;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- 2. CARTA CENTRAL --- */
+        .letter-panel {
+            position: relative;
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        .letter-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .letter-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff0080;
+            font-weight: 700;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .letter-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 15px;
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.88);
+            user-select: text;
+        }
+
+        .letter-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        .letter-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .letter-paragraph {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .section-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin: 24px 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,242,254,0.4) 0%, rgba(0,242,254,0) 100%);
+        }
+
+        .highlight-text {
+            color: #ffffff;
+            font-weight: 600;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, rgba(255, 0, 128, 0.15) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            border-left: 3px solid #ff0080;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background: rgba(255, 0, 128, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* --- 3. REPRODUCTOR CON OPCIÓN DE OCULTAR VISUAL (DERECHA) --- */
+        .spotify-scroll-panel {
+            padding: 0;
+            position: relative;
+            overflow-y: auto;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .spotify-scroll-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: height 0.4s ease, background 0.4s ease;
+            background: #05050d;
+        }
+
+        /* Estado compacto (GIF oculto) */
+        .canvas-hero.compact {
+            height: 180px;
+            background: linear-gradient(180deg, rgba(15, 15, 30, 0.9) 0%, rgba(5, 5, 12, 0.98) 100%);
+        }
+
+        .canvas-bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.85);
+            transition: opacity 0.4s ease, filter 0.3s ease;
+        }
+
+        .canvas-hero.compact .canvas-bg-gif {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Toggle GIF */
+        .toggle-visual-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: #00f2fe;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .toggle-visual-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 12, 0.7) 45%, rgba(1, 0, 5, 0.98) 100%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .track-meta {
+            margin-bottom: 12px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+        }
+
+        .seek-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 10px #00f2fe;
+            cursor: pointer;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ctrl-btn:hover {
+            color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        .play-main-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff0080 100%);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .play-main-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(255, 0, 128, 0.8);
+        }
+
+        .playlist-section {
+            padding: 18px;
+            background: rgba(5, 5, 12, 0.95);
+        }
+
+        .playlist-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00f2fe;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateX(2px);
+        }
+
+        .track-item.active {
+            background: rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.4);
+        }
+
+        .item-num {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            width: 14px;
+        }
+
+        .track-item.active .item-num {
+            color: #ff0080;
+            font-weight: bold;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-artist {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- CABECERA -->
+    <header class="header-bar">
+        <a href="../menu.html" class="back-btn">← Regresar a la Galaxia</a>
+        <div class="brand-title">PARALLAX: Beyond the Self</div>
+    </header>
+
+    <main class="portal-container">
+
+        <!-- 1. TERMINAL RENOMBRADA A G.W.E.N. -->
+        <aside class="holo-panel">
+            <div class="ai-header">
+                <div class="ai-avatar">G</div>
+                <div>
+                    <div class="ai-info-name">G.W.E.N. • Terminal</div>
+                    <div class="ai-info-status"><span style="font-size:8px;">●</span> Global Web Exploration Network</div>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg msg-ai">
+                    [SISTEMA G.W.E.N. v3.0 ONLINE]<br><br>
+                    Bienvenido al Prólogo. Escribe una palabra clave o comando para acceder al banco de datos de esta carta.<br>
+                    Escribe <strong>ayuda</strong> para desplegar los comandos disponibles.
+                </div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)" class="terminal-input-wrapper">
+                <span class="terminal-prompt">&gt;</span>
+                <input type="text" id="termInput" class="terminal-input" placeholder="Ingresa comando o palabra..." autocomplete="off">
+                <button type="submit" class="terminal-btn">↵</button>
+            </form>
+        </aside>
+
+        <!-- 2. CARTA CENTRAL -->
+        <section class="holo-panel letter-panel">
+            <div class="letter-header">
+                <span class="letter-tag">Prólogo • Carta Introductoria</span>
+                <h1 class="letter-title">PROLOGUE: A NEW PERSPECTIVE</h1>
+            </div>
+
+            <div class="letter-body">
+                
+                <p class="letter-paragraph">
+                    <span class="highlight-text">Un mundo multivariable.</span> Es lo primero que viene a mi mente cuando intento describir la realidad desde esta nueva perspectiva matemática. Antes, las cosas parecían mucho más simples. Tal vez porque aún no había salido de casa. Durante mucho tiempo pensé que el mundo había cambiado cuando me fui, pero… ¿y si no fue así? ¿Y si el mundo nunca cambió, sino únicamente la forma en que aprendí a mirarlo?
+                </p>
+
+                <p class="letter-paragraph">
+                    Hay noches en las que basta levantar la vista hacia el cielo para sentir que algo dentro de nosotros se aquieta. Miles de estrellas permanecen suspendidas sobre nuestras cabezas, algunas tan lejanas que la luz que vemos esta noche comenzó su viaje mucho antes de que nosotros naciéramos. Es incluso posible que alguna de ellas ya no exista y, aun así, continúe brillando ante nuestros ojos. El universo tiene esa extraña forma de recordarnos que la realidad no siempre coincide con la manera en que la percibimos.
+                </p>
+
+                <div class="section-heading">El Fenómeno Parallax</div>
+
+                <p class="letter-paragraph">
+                    Existe un fenómeno astronómico llamado <strong>parallax</strong>. Cuando un observador cambia de posición, una estrella parece desplazarse con respecto al fondo del cielo. Lo curioso es que la estrella nunca se movió. Lo único que cambió fue el lugar desde donde era observada.
+                </p>
+
+                <p class="letter-paragraph">
+                    Mientras más reflexionaba sobre esta idea, más comprendía que la vida parecía obedecer el mismo principio.
+                </p>
+
+                <p class="letter-paragraph">
+                    Muchas veces creemos que las personas cambian de un día para otro, que un lugar deja de ser especial o que nosotros mismos dejamos de ser quienes éramos. Sin embargo, con el paso del tiempo he descubierto que, en muchas ocasiones, aquello que cambia no es el mundo, sino la perspectiva desde la cual lo contemplamos. Al movernos, al crecer, al aprender y al vivir nuevas experiencias, el universo que nos rodea comienza a revelar detalles que antes simplemente eran invisibles para nosotros.
+                </p>
+
+                <div class="section-heading">De Love Myself a Parallax</div>
+
+                <p class="letter-paragraph">
+                    Durante mucho tiempo mi mirada estuvo dirigida hacia el interior.
+                </p>
+
+                <p class="letter-paragraph">
+                    Así nació <em>Love Myself</em>, una serie de cartas que me acompañó durante tres etapas fundamentales de mi vida y que terminó convirtiéndose en el mapa de mi propia reconstrucción. A través de ellas recorrí mis recuerdos, mis heridas, mis amistades, mis primeros amores, mis pérdidas y mis sueños. Fue un viaje largo que comenzó con una pregunta muy sencilla, pero inmensamente difícil de responder:
+                </p>
+
+                <div class="quote-box">
+                    "¿Quién soy?"
+                </div>
+
+                <p class="letter-paragraph">
+                    Al final comprendí que la respuesta nunca consistió en encontrar una definición perfecta sobre mí mismo, sino en aprender a aceptarme con mis luces y mis sombras. Descubrí que el primer acto de valentía no era cambiar para ser suficiente, sino aprender a amarme incluso mientras seguía construyéndome.
+                </p>
+
+                <p class="letter-paragraph">
+                    Sin embargo, cuando terminé ese viaje apareció una nueva pregunta:
+                </p>
+
+                <div class="quote-box">
+                    "¿Qué ocurre después de encontrarse a uno mismo?"
+                </div>
+
+                <p class="letter-paragraph">
+                    Porque entender quién eres no significa comprender el mundo en el que habitas. Significa, apenas, haber encontrado el punto de partida.
+                </p>
+
+                <div class="section-heading">El Desplazamiento Universitario</div>
+
+                <p class="letter-paragraph">
+                    Ingresar a la universidad significó exactamente eso: abandonar el universo conocido para entrar en uno completamente distinto. Personas diferentes, ideas desconocidas, responsabilidades inéditas y desafíos que jamás imaginé comenzaron a cambiar la posición desde la cual observaba la realidad. Poco a poco entendí que cada libro, cada conversación, cada error, cada lugar recorrido, cada investigación y cada persona que conocía funcionaban como un pequeño desplazamiento de mi propia mirada.
+                </p>
+
+                <p class="letter-paragraph">
+                    Y con cada uno de esos movimientos, el universo parecía transformarse. Pero quizás era yo quien estaba aprendiendo a verlo de otra manera.
+                </p>
+
+                <p class="letter-paragraph">
+                    Así nació <strong style="color: #ff0080;">PARALLAX: Beyond the Self</strong>.
+                </p>
+
+                <p class="letter-paragraph">
+                    Si <em>Love Myself</em> fue un viaje hacia el centro de mi propio universo, <strong>PARALLAX</strong> será un viaje por las constelaciones que lo rodean. No solo hablará de mi vida universitaria, sino también de la ciencia, la filosofía, la psicología, el arte, la historia y de todas aquellas experiencias que, de una forma u otra, modifican la manera en que entendemos nuestra existencia.
+                </p>
+
+                <p class="letter-paragraph">
+                    Porque he descubierto que aprender no consiste únicamente en acumular conocimientos. Aprender también es cambiar la posición desde la cual observamos el mundo. Y cuando cambia nuestra perspectiva, cambia también el universo que somos capaces de contemplar.
+                </p>
+
+                <div class="quote-box" style="border-left-color: #00f2fe; background: rgba(0, 242, 254, 0.05);">
+                    Quizá crecer nunca consistió en encontrar todas las respuestas.<br>
+                    Quizá crecer sea aprender a formular mejores preguntas.
+                </div>
+
+                <p class="letter-paragraph">
+                    Te doy la bienvenida a <strong>PARALLAX: Beyond the Self</strong>. Emprenderemos un viaje para descubrir todo aquello que podemos llegar a comprender cuando nos atrevemos a mirar el universo desde una nueva perspectiva.
+                </p>
+
+                <p class="letter-paragraph" style="text-align: center; font-weight: 700; color: #00f2fe; margin: 25px 0;">
+                    "Cambiar de perspectiva no cambia el universo; cambia el universo que somos capaces de ver."
+                </p>
+
+                <p class="letter-paragraph">
+                    A lo mejor el universo nunca fue simple. Quizá siempre fue un mundo multivariable. La diferencia es que ahora, por primera vez, estoy aprendiendo a observar todas sus variables.
+                </p>
+
+            </div>
+
+            <div class="letter-footer">
+                <span style="font-size: 11px; color: rgba(255,255,255,0.4);">Prólogo</span>
+                <a href="C1.html" class="back-btn" style="border-color: #ff0080; color: #ff0080; background: rgba(255, 0, 128, 0.05);">Carta 1 →</a>
+            </div>
+        </section>
+
+        <!-- 3. REPRODUCTOR SCROLLABLE CON OPCIÓN DE OCULTAR GIF -->
+        <aside class="holo-panel spotify-scroll-panel">
+            
+            <div class="canvas-hero" id="canvasHero">
+                <!-- Botón de Toggle GIF -->
+                <button class="toggle-visual-btn" id="toggleVisualBtn" onclick="toggleVisual()">👁 Ocultar Visual</button>
+
+                <img src="../img/200.webp" 
+                     onerror="this.src='https://media.giphy.com/media/fdpYd553gEH16/giphy.gif'" 
+                     class="canvas-bg-gif" 
+                     id="canvasGif"
+                     alt="Canvas Loop">
+
+                <div class="canvas-overlay">
+                    <div class="track-meta">
+                        <div class="track-title" id="trackTitle">All The Way Live</div>
+                        <div class="track-artist" id="trackArtist">Metro Boomin, Future, Lil Uzi Vert</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="ctrl-btn" onclick="prevTrack()" title="Anterior">⏮</button>
+                        <button class="play-main-btn" id="playBtn" onclick="togglePlay()" title="Reproducir / Pausar">▶</button>
+                        <button class="ctrl-btn" onclick="nextTrack()" title="Siguiente">⏭</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Pistas de esta Carta</div>
+                <div class="track-list" id="trackList"></div>
+            </div>
+
+            <audio id="localAudio" preload="metadata"></audio>
+        </aside>
+
+    </main>
+
+    <script>
+    // =========================================================================
+    // BASE DE CONOCIMIENTOS DE G.W.E.N. (AMIGABLE, CÁLIDA Y DIDÁCTICA)
+    // =========================================================================
+    const knowledgeBase = {
+        'ayuda': `
+            <span class="gwen-badge">✨ GUÍA DE NAVEGACIÓN</span>
+            <h3>¡Hola! Soy G.W.E.N., tu asistente galáctica</h3>
+            <p>Estoy aquí para acompañarte a explorar los conceptos, reflexiones y matemáticas de este viaje. Puedes preguntarme sobre cualquier tema o palabra clave, por ejemplo:</p>
+            <ul>
+                <li><b>Parallax:</b> El cambio de perspectiva al observar el cosmos y la vida.</li>
+                <li><b>Multivariable:</b> Cómo pasamos de sistemas simples a realidades complejas.</li>
+                <li><b>Love Myself:</b> Las cartas del pasado y el origen de todo esto.</li>
+                <li><b>Universidad:</b> El punto de inflexión y cambio de coordenadas.</li>
+                <li><b>Estrellas:</b> Viajes en el tiempo, luz lejana y percepción.</li>
+                <li><b>Preguntas:</b> Por qué aprender a preguntar es mejor que buscar respuestas fijas.</li>
+                <li><b>Propósito:</b> Hacia dónde se dirige PARALLAX: Beyond the Self.</li>
+            </ul>
+            <p><i>Tip: Escribe "limpiar" si quieres vaciar nuestra conversación. ¿De qué te gustaría charlar hoy?</i></p>`,
+
+        'parallax': `
+            <span class="gwen-badge">🌌 FENÓMENO PARALLAX</span>
+            <h3>El cambio de perspectiva</h3>
+            <p>En astronomía, el <b>paralaje</b> ocurre cuando miramos una estrella desde dos puntos distintos en la órbita de la Tierra y parece cambiar de lugar. Pero la estrella en realidad jamás se movió... ¡nos movimos nosotros!</p>
+            <p><b>Aplica a tu vida:</b> Cuando sientes que un lugar, un recuerdo o una persona ha cambiado de pronto, muchas veces no son ellos. Eres tú, que ahora los observas desde un punto de vista más maduro y con mayor altura.</p>`,
+
+        'multivariable': `
+            <span class="gwen-badge">📐 PENSAMIENTO MULTIVARIABLE</span>
+            <h3>Entender la complejidad</h3>
+            <p>Al inicio, solemos ver la vida en una sola dimensión: una causa produce un efecto lineal. Pero la realidad y las matemáticas avanzadas nos enseñan que vivimos en un <b>sistema multivariable</b>.</p>
+            <p>Crecer no significa simplificar el mundo a la fuerza, sino aprender a navegar con calma entre múltiples variables, incertidumbres y dimensiones a la vez.</p>`,
+
+        'love myself': `
+            <span class="gwen-badge">📜 ARCHIVO ORIGEN</span>
+            <h3>Proyecto "Love Myself"</h3>
+            <p>Esta es la trilogía de cartas escritas en etapas anteriores. Fue un viaje puramente introspectivo para responder a la pregunta fundamental: <i>"¿Quién soy?"</i>.</p>
+            <p>Antes de poder mapear el universo exterior, era necesario comprender el universo interno. <b>Love Myself</b> fue el cimiento que permitió dar el salto hacia <i>PARALLAX</i>.</p>`,
+
+        'universidad': `
+            <span class="gwen-badge">🎓 DESPLAZAMIENTO DE COORDENADAS</span>
+            <h3>El catalizador universitario</h3>
+            <p>Entrar a la universidad (FES Acatlán) funciona como una transformación de coordenadas espaciales y mentales.</p>
+            <p>Cada materia, conversación, cálculo o desafío actúa como un pequeño vector que te desplaza suavemente, expandiendo tu horizonte visual más allá de lo conocido.</p>`,
+
+        'estrellas': `
+            <span class="gwen-badge">✨ TIEMPO DE MIRADA ATRÁS</span>
+            <h3>Arqueología de la luz</h3>
+            <p>¿Sabías que cuando miras al cielo nocturno estás viajando al pasado? Como la luz tarda tiempo en viajar, estamos viendo cómo eran las estrellas hace cientos o miles de años.</p>
+            <p>Esto nos recuerda algo muy humano: muchas de las cosas que percibimos hoy son reflexiones procesadas del pasado, permitiéndonos aprender de lo que fue.</p>`,
+
+        'preguntas': `
+            <span class="gwen-badge">💡 FILOSOFÍA DE INDAGACIÓN</span>
+            <h3>Aprender a formular preguntas</h3>
+            <p>A veces nos obsesionamos con encontrar la "respuesta correcta", pero en matemáticas y en la vida, quedarse fijo en una sola respuesta nos estanca.</p>
+            <p>Crecer no es acumular certezas, sino aprender a formular <b>mejores preguntas</b> que abran nuevos caminos y soluciones.</p>`,
+
+        'proposito': `[G.W.E.N. CORE]
+            <span class="gwen-badge">🚀 MISIÓN BEYOND THE SELF</span>
+            <h3>El mapa de vuelo de PARALLAX</h3>
+            <p>La misión de esta plataforma es evolucionar desde la introspección hacia la exploración de constelaciones externas: matemáticas aplicadas, neurociencia computacional, filosofía, historia local y arte.</p>
+            <p>Es un lienzo en constante construcción para integrar la ciencia con la sensibilidad humana.</p>`
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const termInput = document.getElementById('termInput');
+
+    function handleTerminalSubmit(event) {
+        event.preventDefault();
+        const rawInput = termInput.value.trim();
+        if (!rawInput) return;
+
+        const queryLower = rawInput.toLowerCase();
+
+        // 1. Mostrar mensaje del usuario
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg msg-user';
+        userMsg.innerText = `> ${rawInput}`;
+        chatBox.appendChild(userMsg);
+
+        termInput.value = '';
+
+        // 2. Procesamiento fluido con pequeña respuesta simulada
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'chat-msg msg-ai';
+
+            // Comando directo para limpiar pantalla
+            if (queryLower === 'limpiar' || queryLower === 'clear') {
+                chatBox.innerHTML = '';
+                return;
+            }
+
+            // Mapeo de sinónimos para mayor flexibilidad
+            const keyAliases = {
+                'ayuda': ['ayuda', 'help', 'comandos', 'menu', 'directorio', 'que puedes hacer', 'hola', 'gwen'],
+                'parallax': ['parallax', 'paralaje', 'desplazamiento', 'perspectiva', 'mirada'],
+                'multivariable': ['multivariable', 'variable', 'calculo', 'matematica', 'sistema', 'vectores'],
+                'love myself': ['love myself', 'love', 'myself', 'pasado', 'quien soy', 'cartas'],
+                'universidad': ['universidad', 'escuela', 'facultad', 'carrera', 'estudios', 'acatlan', 'unam'],
+                'estrellas': ['estrella', 'estrellas', 'cielo', 'universo', 'luz', 'fotones', 'espacio'],
+                'preguntas': ['pregunta', 'preguntas', 'respuesta', 'respuestas', 'crecer', 'duda'],
+                'proposito': ['proposito', 'objetivo', 'beyond', 'parallax: beyond', 'meta']
+            };
+
+            let foundKeys = [];
+            for (let mainKey in keyAliases) {
+                const aliases = keyAliases[mainKey];
+                if (aliases.some(alias => queryLower.includes(alias))) {
+                    foundKeys.push(mainKey);
+                }
+            }
+
+            if (foundKeys.length > 0) {
+                // Generar contenido estructurado en HTML amigable
+                let responseContent = foundKeys.map(k => knowledgeBase[k]).join('<hr style="border:0; border-top:1px solid rgba(0,242,254,0.15); margin:12px 0;">');
+                aiMsg.innerHTML = responseContent;
+            } else {
+                // Respuesta amigable cuando no entiende la consulta
+                aiMsg.innerHTML = `
+                    <span class="gwen-badge">🛰️ ASISTENTE G.W.E.N.</span>
+                    <p>No logré encontrar ese término en los registros de la nave, pero ¡no te preocupes!</p>
+                    <p>Puedes probar preguntándome sobre <b>parallax</b>, <b>multivariable</b>, <b>estrellas</b>, <b>universidad</b> o escribir <b>"ayuda"</b> para mostrarte todo lo que podemos explorar juntos.</p>`;
+            }
+
+            chatBox.appendChild(aiMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 180);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // =========================================================================
+    // LÓGICA DE OCULTAR / MOSTRAR VISUAL DEL REPRODUCTOR
+    // =========================================================================
+    let isVisualHidden = false;
+    const canvasHero = document.getElementById('canvasHero');
+    const toggleVisualBtn = document.getElementById('toggleVisualBtn');
+
+    function toggleVisual() {
+        isVisualHidden = !isVisualHidden;
+        if (isVisualHidden) {
+            canvasHero.classList.add('compact');
+            toggleVisualBtn.innerText = '👁 Mostrar Visual';
+        } else {
+            canvasHero.classList.remove('compact');
+            toggleVisualBtn.innerText = '👁 Ocultar Visual';
+        }
+    }
+
+    // =========================================================================
+    // REPRODUCTOR DE MÚSICA LOCAL
+    // =========================================================================
+    const playlist = [
+        { 
+            id: 0, 
+            title: "All The Way Live", 
+            artist: "Metro Boomin, Future, Lil Uzi Vert", 
+            file: "../audio/All%20The%20Way%20Live.mp3" 
+        },
+        { 
+            id: 1, 
+            title: "Annihilate", 
+            artist: "Metro Boomin, Swae Lee, Lil Wayne, Offset", 
+            file: "../audio/Annihilate%20.mp3" 
+        }
+    ];
+
+    let currentTrackIndex = 0;
+
+    const audio = document.getElementById('localAudio');
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const trackTitleEl = document.getElementById('trackTitle');
+    const trackArtistEl = document.getElementById('trackArtist');
+    const trackListEl = document.getElementById('trackList');
+
+    function loadTrack(index) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        trackTitleEl.innerText = track.title;
+        trackArtistEl.innerText = track.artist;
+        audio.src = track.file;
+        renderPlaylist();
+    }
+
+    function renderPlaylist() {
+        trackListEl.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.onclick = () => selectAndPlayTrack(index);
+
+            item.innerHTML = `
+                <span class="item-num">${index + 1}</span>
+                <div class="item-info">
+                    <div class="item-name">${track.title}</div>
+                    <div class="item-artist">${track.artist}</div>
+                </div>
+            `;
+            trackListEl.appendChild(item);
+        });
+    }
+
+    function selectAndPlayTrack(index) {
+        loadTrack(index);
+        audio.play().then(() => {
+            playBtn.innerText = "❚❚";
+        }).catch(err => {
+            console.log("Error al reproducir pista:", err);
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                playBtn.innerText = "❚❚";
+            }).catch(err => {
+                alert(`No se pudo cargar la pista. Verifica la ruta: ${playlist[currentTrackIndex].file}`);
+            });
+        } else {
+            audio.pause();
+            playBtn.innerText = "▶";
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = progress;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.innerText = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    seekBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+        }
+    });
+
+    function prevTrack() {
+        const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    function nextTrack() {
+        const newIndex = (currentTrackIndex + 1) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    loadTrack(0);
+
+    // =========================================================================
+    // FONDO INTERACTIVO CON THREE.JS
+    // =========================================================================
+    const canvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 2500;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color1 = new THREE.Color('#00f2fe');
+    const color2 = new THREE.Color('#ff0080');
+
+    for(let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 15;
+        positions[i+1] = (Math.random() - 0.5) * 15;
+        positions[i+2] = (Math.random() - 0.5) * 15;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i] = mixedColor.r;
+        colors[i+1] = mixedColor.g;
+        colors[i+2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.5 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        points.rotation.y += 0.0003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+    </body>
+</html>

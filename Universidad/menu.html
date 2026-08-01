@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond The Self - Mapa Estelar Interactivo</title>
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Librerías Externas de Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+</head>
+<body>
+
+    <canvas id="spaceCanvas"></canvas>
+
+    <!-- Título Principal de la Interfaz -->
+    <header class="main-title-header">
+        <h1>PARALLAX: Beyond The Self</h1>
+    </header>
+
+    <!-- Theme Selection Bar + Fullscreen Button -->
+    <div class="theme-panel">
+        <button id="theme-cyberpunk" class="theme-btn active" onclick="setGalaxyTheme('cyberpunk')">Ciberpunk</button>
+        <button id="theme-nebula" class="theme-btn" onclick="setGalaxyTheme('nebula')">Cian y Neón</button>
+        <button id="theme-eclipse" class="theme-btn" onclick="setGalaxyTheme('eclipse')">Fuego y Sangre</button>
+        
+        <!-- BOTÓN PANTALLA COMPLETA -->
+        <button id="fullscreenToggle" class="theme-btn fullscreen-btn" onclick="toggleFullScreen()" title="Pantalla Completa">
+            ⛶ Fullscreen
+        </button>
+    </div>
+
+    <!-- UI Panel Izquierdo -->
+    <aside class="panel-left">
+        <h3>Explorador Estelar</h3>
+        <nav class="navigation-list">
+            <button id="btn-global" class="nav-btn active" onclick="resetToGlobalView()">Vista General</button>
+            <button id="btn-node-0" class="nav-btn" onclick="selectNodeIndex(0)">Semestre I: Un Nuevo Comienzo</button>
+            <button id="btn-node-1" class="nav-btn" onclick="selectNodeIndex(1)">Semestre II</button>
+            <button id="btn-node-2" class="nav-btn" onclick="selectNodeIndex(2)">Semestre III</button>
+            <button id="btn-node-3" class="nav-btn" onclick="selectNodeIndex(3)">Semestre IV</button>
+            <button id="btn-node-4" class="nav-btn" onclick="selectNodeIndex(4)">Semestre V</button>
+            <button id="btn-node-5" class="nav-btn" onclick="selectNodeIndex(5)">Semestre VI</button>
+        </nav>
+
+        <!-- Music Control Panel -->
+        <div class="music-panel">
+            <div class="info-label" style="margin-bottom: 8px;">Soundtrack</div>
+            <button id="music1" class="music-btn" onclick="toggleMusic('music1')">Call of Silence</button>
+            <button id="music2" class="music-btn" onclick="toggleMusic('music2')">Interstellar</button>
+        </div>
+    </aside>
+
+    <!-- UI Panel Derecho Dinámico para N Cartas -->
+    <main id="detailPanel" class="panel-right">
+        
+        <!-- 1. SEMESTRE Y TÍTULO DINÁMICO DE LA CARTA SELECCIONADA -->
+        <div class="node-header-group">
+            <h3 id="nodeTitle" class="node-title">SEMESTRE I</h3>
+            <div id="cardDynamicTitle" class="card-dynamic-title">PRÓLOGO: A NEW PERSPECTIVE</div>
+        </div>
+
+        <!-- 2. CARRUSEL DE PESTAÑAS (GENERADO DINÁMICAMENTE POR MAIN.JS) -->
+        <div class="card-tabs-wrapper">
+            <button class="scroll-arrow left" onclick="scrollTabs(-1)" aria-label="Desplazar izquierda">&#10094;</button>
+            
+            <div id="cardTabsContainer" class="card-tabs-container">
+                <!-- Se inyecta dinámicamente según las cartas del semestre -->
+            </div>
+
+            <button class="scroll-arrow right" onclick="scrollTabs(1)" aria-label="Desplazar derecha">&#10095;</button>
+        </div>
+
+        <!-- 3. IMAGEN DESCRIPTIVA DINÁMICA -->
+        <div class="node-image-container">
+            <img id="nodeImage" src="" alt="Vista de la Carta">
+        </div>
+
+        <!-- 4. SINOPSIS DINÁMICA -->
+        <div class="info-group">
+            <div class="info-label">Sinopsis</div>
+            <div id="nodeDesc" class="info-value"></div>
+        </div>
+
+        <!-- 5. ENLACE DIRECTO HACIA LA CARTA CORRESPONDIENTE -->
+        <a id="nodeLink" href="#" style="margin-top: auto; display: block; text-decoration: none;">
+            <button class="nav-btn active portal-btn">
+                Abrir Carta / Portal ↗
+            </button>
+        </a>
+    </main>
+
+    <footer class="footer-signature">
+        Desarrollado por Dany con HTML, CSS y JavaScript | MAC, FES Acatlán UNAM
+    </footer>
+
+    <!-- Lógica de Pantalla Completa -->
+    <script>
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error al activar pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const fsBtn = document.getElementById('fullscreenToggle');
+            if (fsBtn) {
+                const isActive = !!document.fullscreenElement;
+                fsBtn.classList.toggle('active', isActive);
+                fsBtn.innerHTML = isActive ? '⛶ Salir' : '⛶ Fullscreen';
+            }
+        });
+    </script>
+
+    <!-- Carga del Motor Principal 3D y Lógica Dinámica -->
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARALLAX: Beyond the Self - Carta 1</title>
+    
+    <!-- Librería Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #010005;
+            color: #ffffff;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* --- CABECERA --- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(1,0,5,0.95) 0%, rgba(1,0,5,0) 100%);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transform: translateX(-3px);
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.6);
+            color: #fff;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .portal-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            gap: 20px;
+            width: 100vw;
+            height: calc(100vh - 65px);
+            margin-top: 65px;
+            padding: 10px 25px 20px 25px;
+        }
+
+        .holo-panel {
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            max-height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. G.W.E.N. TERMINAL (IZQUIERDA) --- */
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #ff0080 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .ai-info-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-info-status {
+            font-size: 9.5px;
+            color: #00fa9a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+        }
+
+        .chat-box {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+            margin-bottom: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 95%;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .msg-ai {
+            align-self: flex-start;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            color: rgba(255, 255, 255, 0.92);
+            border-top-left-radius: 2px;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: rgba(255, 0, 128, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            color: #fff;
+            border-top-right-radius: 2px;
+            font-family: monospace;
+        }
+
+        .terminal-input-wrapper {
+            display: flex;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            padding: 6px 10px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: #00f2fe;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 11px;
+            font-family: monospace;
+        }
+
+        .terminal-btn {
+            background: none;
+            border: none;
+            color: #ff0080;
+            cursor: pointer;
+            font-size: 12px;
+            transition: transform 0.2s;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- 2. CARTA CENTRAL --- */
+        .letter-panel {
+            position: relative;
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        .letter-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .letter-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff0080;
+            font-weight: 700;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .letter-body {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 15px;
+            font-size: 14.5px;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.88);
+            user-select: text;
+        }
+
+        .letter-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        .letter-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .letter-paragraph {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .section-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f2fe;
+            margin: 24px 0 12px 0;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,242,254,0.4) 0%, rgba(0,242,254,0) 100%);
+        }
+
+        .highlight-text {
+            color: #ffffff;
+            font-weight: 600;
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, rgba(255, 0, 128, 0.15) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .quote-box {
+            border-left: 3px solid #ff0080;
+            padding: 12px 18px;
+            margin: 20px 0;
+            background: rgba(255, 0, 128, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #f1f1f1;
+        }
+
+        .letter-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* --- 3. REPRODUCTOR CON OPCIÓN DE OCULTAR VISUAL (DERECHA) --- */
+        .spotify-scroll-panel {
+            padding: 0;
+            position: relative;
+            overflow-y: auto;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .spotify-scroll-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .spotify-scroll-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f2fe 0%, #ff0080 100%);
+            border-radius: 4px;
+        }
+
+        .canvas-hero {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: height 0.4s ease, background 0.4s ease;
+            background: #05050d;
+        }
+
+        /* Estado compacto (GIF oculto) */
+        .canvas-hero.compact {
+            height: 180px;
+            background: linear-gradient(180deg, rgba(15, 15, 30, 0.9) 0%, rgba(5, 5, 12, 0.98) 100%);
+        }
+
+        .canvas-bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.85);
+            transition: opacity 0.4s ease, filter 0.3s ease;
+        }
+
+        .canvas-hero.compact .canvas-bg-gif {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Botón Toggle GIF */
+        .toggle-visual-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: #00f2fe;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .toggle-visual-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 12, 0.7) 45%, rgba(1, 0, 5, 0.98) 100%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .track-meta {
+            margin-bottom: 12px;
+        }
+
+        .track-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: monospace;
+        }
+
+        .seek-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00f2fe;
+            box-shadow: 0 0 10px #00f2fe;
+            cursor: pointer;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ctrl-btn:hover {
+            color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        .play-main-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe 0%, #ff0080 100%);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .play-main-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(255, 0, 128, 0.8);
+        }
+
+        .playlist-section {
+            padding: 18px;
+            background: rgba(5, 5, 12, 0.95);
+        }
+
+        .playlist-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00f2fe;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .track-item:hover {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateX(2px);
+        }
+
+        .track-item.active {
+            background: rgba(255, 0, 128, 0.15);
+            border-color: rgba(255, 0, 128, 0.4);
+        }
+
+        .item-num {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+            width: 14px;
+        }
+
+        .track-item.active .item-num {
+            color: #ff0080;
+            font-weight: bold;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-artist {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- CABECERA -->
+    <header class="header-bar">
+        <a href="../menu.html" class="back-btn">← Regresar a la Galaxia</a>
+        <div class="brand-title">PARALLAX: Beyond the Self</div>
+    </header>
+
+    <main class="portal-container">
+
+        <!-- 1. TERMINAL G.W.E.N. -->
+        <aside class="holo-panel">
+            <div class="ai-header">
+                <div class="ai-avatar">G</div>
+                <div>
+                    <div class="ai-info-name">G.W.E.N. • Terminal</div>
+                    <div class="ai-info-status"><span style="font-size:8px;">●</span> Global Web Exploration Network</div>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg msg-ai">
+                    [SISTEMA G.W.E.N. v3.0 ONLINE]<br><br>
+                    Bienvenido a la Carta 3: Más allá del horizonte. Escribe una palabra clave o comando para acceder al banco de datos de esta bitácora.<br>
+                    Escribe <strong>ayuda</strong> para desplegar los comandos disponibles.
+                </div>
+            </div>
+
+            <form onsubmit="handleTerminalSubmit(event)" class="terminal-input-wrapper">
+                <span class="terminal-prompt">&gt;</span>
+                <input type="text" id="termInput" class="terminal-input" placeholder="Ingresa comando o palabra..." autocomplete="off">
+                <button type="submit" class="terminal-btn">↵</button>
+            </form>
+        </aside>
+
+        <!-- 2. CARTA CENTRAL -->
+        <section class="holo-panel letter-panel">
+            <div class="letter-header">
+                <span class="letter-tag">Semestre I • Carta 3</span>
+                <h1 class="letter-title">MÁS ALLÁ DEL HORIZONTE</h1>
+            </div>
+
+            <div class="letter-body">
+                
+                <p class="letter-paragraph" style="text-align: center; font-style: italic; color: #00f2fe; font-size: 1.1em; margin-bottom: 25px;">
+                    ¿Qué ocurre cuando, por primera vez, dejamos de ser los más preparados de la habitación?
+                </p>
+
+                <p class="letter-paragraph">
+                    Existe un fenómeno en psicología conocido como el <strong style="color: #00f2fe;">efecto Dunning-Kruger</strong>. En términos generales, explica que cuando comenzamos a aprender sobre un tema solemos sobreestimar cuánto sabemos. Sin embargo, conforme profundizamos en él, ocurre algo inesperado: el conocimiento empieza a mostrarnos todo aquello que ignorábamos.
+                </p>
+
+                <p class="letter-paragraph">
+                    Paradójicamente, aprender primero nos hace sentir inteligentes... y después profundamente ignorantes. No porque sepamos menos que antes, sino porque, por primera vez, somos capaces de contemplar el verdadero tamaño de la montaña.
+                </p>
+
+                <div class="quote-box">
+                    "Con el tiempo comprendí que la universidad no destruyó la confianza que tenía en mí. Simplemente me mostró un horizonte mucho más amplio del que alguna vez imaginé."
+                </div>
+
+                <div class="section-heading">Agosto de 2024</div>
+
+                <p class="letter-paragraph">
+                    Después de aquella conversación con Karla, algo comenzó a cambiar. No fue un cambio repentino ni mucho menos milagroso. No desperté un día convertido en una persona extrovertida. En realidad, fue un proceso lento, construido conversación tras conversación.
+                </p>
+
+                <p class="letter-paragraph">
+                    Gracias a ella me animé a hablar con más personas del grupo. Cada pequeño intercambio hacía que la facultad se sintiera un poco menos ajena. Poco a poco dejé de recorrer los pasillos completamente solo y empecé a descubrir que detrás de cada pupitre había una historia distinta. Sin darme cuenta, ya no solo estaba conociendo compañeros: estaba conociendo mundos.
+                </p>
+
+                <p class="letter-paragraph">
+                    Fue entonces cuando apareció el segundo gran descubrimiento de mi vida universitaria. Y, al mismo tiempo, el más duro.
+                </p>
+
+                <p class="letter-paragraph">
+                    Conforme fui conviviendo con los integrantes del antiguo <strong>grupo 1154</strong>, empecé a comprender el enorme nivel académico que existía dentro del salón:
+                </p>
+
+                <p class="letter-paragraph">
+                    <strong>Enrique</strong>, un chico que venía de Xochimilco y dominaba Linux y la robótica con una naturalidad que me impresionaba. Escucharlo hablar era asomarme a un universo tecnológico completamente desconocido para mí.
+                </p>
+
+                <p class="letter-paragraph">
+                    <strong>Ana</strong>, una chica que tenía una capacidad de aprendizaje extraordinaria. Comprendía conceptos con una rapidez que parecía desafiar el tiempo.
+                </p>
+
+                <p class="letter-paragraph">
+                    <strong>Héctor</strong>, un chico que resolvía algoritmos con una lógica admirable. <strong>Tonalli</strong>, otro chico que ya tenía experiencia estudiando Actuaría. Había un recursador que parecía moverse con absoluta comodidad dentro del cálculo. Otros dominaban Álgebra Superior y programación desde antes de entrar a la carrera. Incluso recuerdo a un compañero que una vez memorizó más de cincuenta decimales del número $\pi$ gracias a una actividad en clase.
+                </p>
+
+                <p class="letter-paragraph">
+                    Y, operando casi siempre desde las sombras, estaba <strong>Germán</strong>, un genio en toda la extensión de la palabra. Aún no lo sabía, pero con el tiempo terminaría convirtiéndose en una de las personas que más influirían en mi manera de pensar. Por ahora, en este semestre no estará presente.
+                </p>
+
+                <p class="letter-paragraph">
+                    La mayoría provenía de CCH o de preparatorias de la propia UNAM. Muchos ya se conocían, otros llevaban años programando y algunos parecían hablar un idioma que yo apenas comenzaba a escuchar. Cada conversación despertaba en mí una enorme admiración, pero, al mismo tiempo, hacía cada vez más pequeña la imagen que tenía de mí.
+                </p>
+
+                <div class="section-heading">La Caída de la Ilusión</div>
+
+                <p class="letter-paragraph">
+                    En la preparatoria nunca fui un estudiante de excelencia, pero tampoco fui un mal estudiante. Con esfuerzo había logrado crecer muchísimo durante los últimos semestres. Sentía que había avanzado en matemáticas, que la neurociencia comenzaba a apasionarme, que el estado de <em>Flow</em> había cambiado mi forma de estudiar y que, poco a poco, estaba construyendo una versión más capaz de mí mismo.
+                </p>
+
+                <p class="letter-paragraph">
+                    Sin embargo, llegar a Matemáticas Aplicadas y Computación provocó una sensación completamente distinta. Era como si todo aquello que había construido durante años se redujera a cenizas frente a la inmensidad de lo que todavía desconocía. Por primera vez sentí que no sabía absolutamente nada.
+                </p>
+
+                <p class="letter-paragraph">
+                    Las semanas siguieron avanzando y con ellas también lo hizo la dificultad. Las clases que durante los primeros días parecían claras comenzaron a transformarse. El Álgebra Superior dejó de parecer matemáticas y empezó a sentirse como un idioma completamente diferente. El cálculo, la materia en la que más confianza tenía, comenzó a volverse gris. La programación, que al principio parecía sencilla, terminó convirtiéndose en un rompecabezas que me dejaba pensando durante horas.
+                </p>
+
+                <p class="letter-paragraph">
+                    Recuerdo pasar tardes enteras intentando terminar prácticas de laboratorio. Casi siempre era de los últimos en salir. En ocasiones ni siquiera lograba terminarlas antes de que terminara el horario de evaluación. Mientras tanto, observaba cómo muchos de mis compañeros avanzaban con una facilidad que yo era incapaz de comprender. Y, sin quererlo, comencé a compararme. Cada clase parecía confirmar la misma idea: <em>«Estoy quedándome atrás.»</em>
+                </p>
+
+                <div class="section-heading">El Primer Impacto: 1.9</div>
+
+                <p class="letter-paragraph">
+                    El golpe definitivo llegó con el primer examen parcial de Álgebra Superior. Nunca olvidaré aquel día.
+                </p>
+
+                <p class="letter-paragraph">
+                    Cuando el profesor comenzó a repartir los exámenes todavía conservaba una pequeña esperanza. Pensé que quizá no me había ido bien; tal vez un seis, tal vez un cinco. Cuando el examen llegó a mis manos vi un número escrito con tinta roja:
+                </p>
+
+                <div class="quote-box" style="border-left-color: #ff0080; background: rgba(255, 0, 128, 0.08); text-align: center; font-size: 2em; font-weight: bold; color: #ff0080;">
+                    1.9
+                </div>
+
+                <p class="letter-paragraph">
+                    Durante unos segundos me quedé observándolo. No sentí enojo. No sentí tristeza. Sentí silencio. Un silencio extraño, como si la imagen que había construido de mí durante los últimos años acabara de fracturarse con un solo número.
+                </p>
+
+                <p class="letter-paragraph">
+                    Recuerdo mirar alrededor. Muchos también habían reprobado: algunos obtuvieron cinco, otros alcanzaron un seis o un siete. Pero, en ese momento, mi mente no fue capaz de ver eso. Lo único que veía era aquel 1.9 y una voz dentro de mí que repetía una y otra vez: <em>«Creo que soy el único tan malo como para sacar esto.»</em>
+                </p>
+
+                <p class="letter-paragraph">
+                    Hoy sé que esa percepción probablemente estaba distorsionada por el miedo, pero en aquel momento era completamente real.
+                </p>
+
+                <div class="section-heading">Desaparición y Cuestionamiento</div>
+
+                <p class="letter-paragraph">
+                    Después del primer parcial ocurrió algo que terminó de desestabilizarme: varios compañeros abandonaron la carrera. Entre ellos estaba Karla, la única persona con la que había construido una amistad durante aquellas primeras semanas. Un día simplemente dejó de asistir. No hubo despedidas, no hubo explicaciones; solo desapareció. Y, de pronto, me encontré otra vez caminando solo por los pasillos de la facultad.
+                </p>
+
+                <p class="letter-paragraph">
+                    Fue entonces cuando comenzaron a aparecer preguntas que jamás me había hecho:
+                </p>
+
+                <ul style="list-style: none; padding-left: 0; color: #e0e0e0; font-style: italic; margin-bottom: 25px; line-height: 1.8;">
+                    <li>— «¿Elegí la carrera correcta?»</li>
+                    <li>— «¿De verdad pertenezco aquí?»</li>
+                    <li>— «¿Y si entrar a la UNAM solo fue cuestión de suerte?»</li>
+                    <li>— «¿Y si este lugar nunca fue para alguien como yo?»</li>
+                </ul>
+
+                <p class="letter-paragraph">
+                    Con el tiempo descubriría que muchas de esas preguntas no nacían de las matemáticas: nacían del miedo. Porque existe una diferencia enorme entre no saber algo y creer que jamás serás capaz de aprenderlo. En aquel momento todavía era incapaz de distinguir una cosa de la otra. Y, sin saberlo, estaba comenzando el verdadero examen de mi vida universitaria.
+                </p>
+
+                <p class="letter-paragraph" style="text-align: center; font-weight: 700; color: #00f2fe; margin: 30px 0;">
+                    Hay estrellas cuya luz tarda años en llegar hasta nosotros. Cuando atravesamos una noche especialmente oscura, es fácil creer que el universo entero se ha quedado sin ellas. Pero la realidad es otra: la luz ya viene en camino, solo necesita tiempo para alcanzarnos. Yo todavía no podía verla, pero, en algún lugar del mundo, una melodía ya había comenzado su viaje hacia mí y estaba a punto de cambiar, para siempre, la forma en que entendía mi propia historia.
+                </p>
+
+            </div>
+
+            <div class="letter-footer">
+                <a href="C2.html" class="back-btn" style="border-color: #00f2fe; color: #00f2fe; background: rgba(0, 242, 254, 0.05);">← Carta 2</a>
+                <a href="C4.html" class="back-btn" style="border-color: #ff0080; color: #ff0080; background: rgba(255, 0, 128, 0.05);">Carta 4 →</a>
+            </div>
+        </section>
+
+        <!-- 3. REPRODUCTOR SCROLLABLE -->
+        <aside class="holo-panel spotify-scroll-panel">
+            
+            <div class="canvas-hero" id="canvasHero">
+                <button class="toggle-visual-btn" id="toggleVisualBtn" onclick="toggleVisual()">👁 Ocultar Visual</button>
+
+                <img src="../img/AOT2.gif" 
+                     onerror="this.src='https://media.giphy.com/media/fdpYd553gEH16/giphy.gif'" 
+                     class="canvas-bg-gif" 
+                     id="canvasGif"
+                     alt="Canvas Loop">
+
+                <div class="canvas-overlay">
+                    <div class="track-meta">
+                        <div class="track-title" id="trackTitle">All The Way Live</div>
+                        <div class="track-artist" id="trackArtist">Metro Boomin, Future, Lil Uzi Vert</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100">
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button class="ctrl-btn" onclick="prevTrack()" title="Anterior">⏮</button>
+                        <button class="play-main-btn" id="playBtn" onclick="togglePlay()" title="Reproducir / Pausar">▶</button>
+                        <button class="ctrl-btn" onclick="nextTrack()" title="Siguiente">⏭</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-section">
+                <div class="playlist-title">🎵 Pistas de esta Carta</div>
+                <div class="track-list" id="trackList"></div>
+            </div>
+
+            <audio id="localAudio" preload="metadata"></audio>
+        </aside>
+
+    </main>
+
+    <script>
+    // =========================================================================
+    // BASE DE CONOCIMIENTOS DE G.W.E.N. ADAPTADA PARA LA CARTA 3
+    // =========================================================================
+    const knowledgeBase = {
+        'ayuda': `
+            <span class="gwen-badge">✨ GUÍA DE NAVEGACIÓN - CARTA 3</span>
+            <h3>Comandos y Términos de la Carta 3</h3>
+            <p>Puedes hacerme preguntas o ingresar palabras clave sobre esta bitácora:</p>
+            <ul>
+                <li><b>Dunning-Kruger:</b> El fenómeno psicológico de percepción del conocimiento.</li>
+                <li><b>Grupo 1154:</b> La plantilla inicial de compañeros (Enrique, Ana, Héctor, Tonalli, Germán).</li>
+                <li><b>Examen 1.9:</b> El primer parcial de Álgebra Superior y el choque de realidad.</li>
+                <li><b>Karla:</b> La deserción escolar y el retorno a la soledad de los pasillos.</li>
+                <li><b>Impostor:</b> Las preguntas sobre pertenencia, la suerte y el miedo al fracaso.</li>
+                <li><b>Luz de estrella:</b> La metáfora de la melodía en camino.</li>
+            </ul>
+            <p><i>Tip: Escribe "limpiar" si quieres vaciar el historial.</i></p>`,
+
+        'dunning-kruger': `
+            <span class="gwen-badge">📊 COGNICIÓN & SESGOS</span>
+            <h3>Efecto Dunning-Kruger</h3>
+            <p>Sesgo cognitivo según el cual los individuos con escasa habilidad en un dominio sobreestiman su habilidad. Al profundizar, la curva cae al "Valle de la Desesperanza" al dimensionar el tamaño real del conocimiento.</p>
+            <p><b>Reflexión:</b> No es que sepas menos, es que ahora puedes medir el tamaño de la montaña.</p>`,
+
+        'grupo 1154': `
+            <span class="gwen-badge">👥 GRUPO ACADÉMICO 1154</span>
+            <h3>Compañeros del Primer Semestre</h3>
+            <p>Comunidad heterogénea caracterizada por un alto nivel técnico preliminar:</p>
+            <ul>
+                <li><b>Enrique:</b> Robótica y sistemas Linux.</li>
+                <li><b>Ana:</b> Velocidad excepcional de procesamiento conceptual.</li>
+                <li><b>Héctor & Tonalli:</b> Lógica algorítmica y formación actuarial.</li>
+                <li><b>Germán:</b> Genio analítico silencioso de alta influencia futura.</li>
+            </ul>`,
+
+        'examen 1.9': `
+            <span class="gwen-badge">📉 ÁLGEBRA SUPERIOR</span>
+            <h3>La Calificación 1.9</h3>
+            <p>Primer choque evaluativo en la carrera. Representa la fractura del autoconcepto académico previo y la entrada en la parálisis por comparación social en situaciones bajo tensión.</p>`,
+
+        'karla': `
+            <span class="gwen-badge">🚪 DESERCIÓN ESCOLAR</span>
+            <h3>Abandono de la carrera</h3>
+            <p>Karla deja de asistir sin aviso previo tras el primer filtro evaluativo, exponiendo la alta tasa de deserción inicial en ciencias exactas y dejando un vacío en el esquema social recién construido.</p>`,
+
+        'impostor': `
+            <span class="gwen-badge">🧠 SÍNDROME DEL IMPOSTOR</span>
+            <h3>Dudas sobre la pertenencia</h3>
+            <p>Aparición de narrativas de autoinvalidación: atribución del éxito al azar (<i>"fue cuestión de suerte"</i>) y la confusión entre ignorar un tema y la incapacidad intrínseca de aprenderlo.</p>`,
+
+        'luz de estrella': `
+            <span class="gwen-badge">🌌 METÁFORA DE LA LUZ</span>
+            <h3>La melodía en camino</h3>
+            <p>Cierre poético que anticipa un catalizador externo (música/arte) cuya influencia ya se encuentra en tránsito para reestructurar la perspectiva emocional en momentos de penumbra.</p>`
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const termInput = document.getElementById('termInput');
+
+    function handleTerminalSubmit(event) {
+        event.preventDefault();
+        const rawInput = termInput.value.trim();
+        if (!rawInput) return;
+
+        const queryLower = rawInput.toLowerCase();
+
+        // 1. Mostrar mensaje del usuario
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg msg-user';
+        userMsg.innerText = `> ${rawInput}`;
+        chatBox.appendChild(userMsg);
+
+        termInput.value = '';
+
+        // 2. Procesamiento
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'chat-msg msg-ai';
+
+            if (queryLower === 'limpiar' || queryLower === 'clear') {
+                chatBox.innerHTML = '';
+                return;
+            }
+
+            const keyAliases = {
+                'ayuda': ['ayuda', 'help', 'comandos', 'menu', 'que puedes hacer', 'hola', 'gwen'],
+                'dunning-kruger': ['dunning', 'kruger', 'efecto', 'montaña', 'psicologia', 'conocimiento', 'ignorante'],
+                'grupo 1154': ['1154', 'grupo', 'enrique', 'ana', 'hector', 'tonalli', 'german', 'compañeros', 'linux', 'pi'],
+                'examen 1.9': ['1.9', 'examen', 'parcial', 'algebra', 'reprobar', 'rojo', 'tinta', 'calificacion'],
+                'karla': ['karla', 'desaparecio', 'desercion', 'abandono', 'amiga', 'pasillos'],
+                'impostor': ['impostor', 'suerte', 'miedo', 'preguntas', 'pertenezco', 'carrera', 'correcto'],
+                'luz de estrella': ['estrella', 'luz', 'melodia', 'musica', 'camino', 'oscura']
+            };
+
+            let foundKeys = [];
+            for (let mainKey in keyAliases) {
+                const aliases = keyAliases[mainKey];
+                if (aliases.some(alias => queryLower.includes(alias))) {
+                    foundKeys.push(mainKey);
+                }
+            }
+
+            if (foundKeys.length > 0) {
+                let responseContent = foundKeys.map(k => knowledgeBase[k]).join('<hr style="border:0; border-top:1px solid rgba(0,242,254,0.15); margin:12px 0;">');
+                aiMsg.innerHTML = responseContent;
+            } else {
+                aiMsg.innerHTML = `
+                    <span class="gwen-badge">🛰️ ASISTENTE G.W.E.N.</span>
+                    <p>No encontré registros exactos para esa búsqueda en esta carta.</p>
+                    <p>Prueba buscando: <b>dunning-kruger</b>, <b>1154</b>, <b>1.9</b>, <b>karla</b>, <b>impostor</b> o escribe <b>"ayuda"</b>.</p>`;
+            }
+
+            chatBox.appendChild(aiMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 180);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // =========================================================================
+    // LÓGICA DE OCULTAR / MOSTRAR VISUAL DEL REPRODUCTOR
+    // =========================================================================
+    let isVisualHidden = false;
+    const canvasHero = document.getElementById('canvasHero');
+    const toggleVisualBtn = document.getElementById('toggleVisualBtn');
+
+    function toggleVisual() {
+        isVisualHidden = !isVisualHidden;
+        if (isVisualHidden) {
+            canvasHero.classList.add('compact');
+            toggleVisualBtn.innerText = '👁 Mostrar Visual';
+        } else {
+            canvasHero.classList.remove('compact');
+            toggleVisualBtn.innerText = '👁 Ocultar Visual';
+        }
+    }
+
+    // =========================================================================
+    // REPRODUCTOR DE MÚSICA LOCAL
+    // =========================================================================
+    const playlist = [
+        { 
+            id: 0, 
+            title: "SHOCK", 
+            artist: "Yuko Ando", 
+            file: "../audio/AOT3.mp3" 
+        },
+        { 
+            id: 1, 
+            title: "Call Your Name", 
+            artist: "Hiroyuki Sawano", 
+            file: "../audio/AOT2.mp3" 
+        }
+    ];
+
+    let currentTrackIndex = 0;
+
+    const audio = document.getElementById('localAudio');
+    const playBtn = document.getElementById('playBtn');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const trackTitleEl = document.getElementById('trackTitle');
+    const trackArtistEl = document.getElementById('trackArtist');
+    const trackListEl = document.getElementById('trackList');
+
+    function loadTrack(index) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        trackTitleEl.innerText = track.title;
+        trackArtistEl.innerText = track.artist;
+        audio.src = track.file;
+        renderPlaylist();
+    }
+
+    function renderPlaylist() {
+        trackListEl.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.onclick = () => selectAndPlayTrack(index);
+
+            item.innerHTML = `
+                <span class="item-num">${index + 1}</span>
+                <div class="item-info">
+                    <div class="item-name">${track.title}</div>
+                    <div class="item-artist">${track.artist}</div>
+                </div>
+            `;
+            trackListEl.appendChild(item);
+        });
+    }
+
+    function selectAndPlayTrack(index) {
+        loadTrack(index);
+        audio.play().then(() => {
+            playBtn.innerText = "❚❚";
+        }).catch(err => {
+            console.log("Error al reproducir pista:", err);
+        });
+    }
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function togglePlay() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                playBtn.innerText = "❚❚";
+            }).catch(err => {
+                alert(`No se pudo cargar la pista: ${playlist[currentTrackIndex].file}`);
+            });
+        } else {
+            audio.pause();
+            playBtn.innerText = "▶";
+        }
+    }
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            seekBar.value = progress;
+            currentTimeEl.innerText = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        durationEl.innerText = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    seekBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+        }
+    });
+
+    function prevTrack() {
+        const newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    function nextTrack() {
+        const newIndex = (currentTrackIndex + 1) % playlist.length;
+        selectAndPlayTrack(newIndex);
+    }
+
+    loadTrack(0);
+
+    // =========================================================================
+    // FONDO INTERACTIVO CON THREE.JS
+    // =========================================================================
+    const canvas = document.getElementById('bgCanvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 2500;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const color1 = new THREE.Color('#00f2fe');
+    const color2 = new THREE.Color('#ff0080');
+
+    for(let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 15;
+        positions[i+1] = (Math.random() - 0.5) * 15;
+        positions[i+2] = (Math.random() - 0.5) * 15;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i] = mixedColor.r;
+        colors[i+1] = mixedColor.g;
+        colors[i+2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.5 });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        points.rotation.y += 0.0003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+</body>
+</html>
