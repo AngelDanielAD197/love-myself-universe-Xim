@@ -6,14 +6,14 @@ const universoCartas = {
     'intro1': {
         titulo: "Intro: Serendipity",
         canciones: "Serendipity (Jimin)",
-        spotifyId: "61RvEx7GLYRHQhG7ldjJo1", // ID Real de Serendipity
+        spotifyId: "61RvEx7GLYRHQhG7ldjJo1",
         rutaHTML: "universo-del-alma/intro-serendipity.html",
         texto: "<p><strong>Love Myself: The Universe of the Soul</strong></p><p>Se le conoce como 'Serendipia' a el hallazgo afortunado, valioso o inesperado que se produce de una forma accidental, pero que es muy significativo.</p>"
     },
     'carta-1': {
         titulo: "Carta 1: El Inicio de un Viaje",
         canciones: "Inner Child (V)",
-        spotifyId: "25MHcbjvSdcfTiFgbKJiZF", // ID Real de Inner Child
+        spotifyId: "25MHcbjvSdcfTiFgbKJiZF",
         rutaHTML: "universo-del-alma/carta1-inicio.html",
         texto: "<p><strong>Love Myself: The Universe of the Soul</strong></p><p>'Amnesia Infantil', en la psicologia cognitiva es un fenomeno que se debe a la maduración biologica del cerebro, donde no recordamos nuestros primeros años de vida.</p>"
     },
@@ -43,7 +43,7 @@ const universoCartas = {
     'like-crazy': {
         titulo: "Intro: Like Crazy",
         canciones: "Like Crazy (Jimin)",
-        spotifyId: "3Ua0m0YmEjrMi9XErKcNiR", // ID de Like Crazy
+        spotifyId: "3Ua0m0YmEjrMi9XErKcNiR",
         rutaHTML: "sombras-y-lagrimas/intro-likecrazy.html",
         texto: "<p><strong>Love Myself: Shadows, Selves & Tears</strong></p><p>Aquí comienza el viaje hacia el interior. El encuentro con la sombra, el aislamiento y el peso de las primeras máscaras inconscientes que construimos para encajar en el mundo social.</p>"
     },
@@ -103,7 +103,7 @@ const universoCartas = {
     'Interlude': {
         titulo: "Interlude: Black Swan Orchestral",
         canciones: "Black Swan Orchestral (BTS)",
-        spotifyId: "6wH3AP7b01vpzKYRJhreMy", // Black Swan
+        spotifyId: "6wH3AP7b01vpzKYRJhreMy",
         rutaHTML: "momento-bello/interludio-beautiful.html",
         texto: "<p>¿Qué es la Felicidad? Los fuegos artificiales aparecen en la oscuridad, detonan en colores e iluminan la noche para luego desvanecerse. La rutina es el telón de fondo necesario para que esos momentos brillen.</p>"
     },
@@ -159,18 +159,18 @@ const universoCartas = {
         texto: "<p>Mensaje de cierre para ti tras meses de redacción y meditación. Un registro de gratitud a mi yo del pasado que resistió sin saber por qué. <em>'Sigue adelante, incluso cuando tengas miedo.'</em></p>"
     },
 
-    // --- UNIVERSIDAD ---
+    // --- UNIVERSIDAD (PORTAL AL NUEVO PROYECTO) ---
     'rumbos-univ': {
-        titulo: "Nuevos Rumbos Universitarios (Proximamente)",
-        canciones: "Intro: Persona (BTS)",
-        spotifyId: null,
-        rutaHTML: "universidad.html",
-        texto: "<p>La inmersión total en las Matemáticas Aplicadas, la Computación, la Inteligencia Artificial y el reencuentro con la propia esencia desde la perspectiva de la adultez temprana.</p>"
+        titulo: "PARALLAX: Beyond The Self",
+        canciones: "Another Dimension",
+        spotifyId: "0qiYnY0y5P9gqq6THGzhaI",
+        rutaHTML: "./Universidad/menu.html",
+        texto: "<p><strong>🌀 PORTAL DIMENSIONAL: FES Acatlán</strong></p><p>La inmersión total en las Matemáticas Aplicadas, la Computación, la Inteligencia Artificial y el reencuentro con la propia esencia desde la perspectiva de la adultez temprana.</p><p><em>Haz clic en el botón de abajo para cruzar al siguiente universo.</em></p>"
     }
 };
 
 // ==========================================================================
-// 2. MAPEO TOTAL DE NODOS (PLANETAS)
+// 2. MAPEO TOTAL DE NODOS
 // ==========================================================================
 const nodos = new vis.DataSet([
     { id: 'era-soul', label: 'Era 1: The Universe\nof the Soul', group: 'eras', size: 24 },
@@ -205,7 +205,14 @@ const nodos = new vis.DataSet([
     { id: 'last-letter', label: 'Carta Final: Demian', group: 'forever' },
     { id: 'wings-outro', label: 'Outro: WINGS', group: 'forever' },
 
-    { id: 'rumbos-univ', label: 'Nuevos Rumbos\n(FES Acatlán)', group: 'universidad', size: 20 }
+    // NODO ESPECIAL: PORTAL DIMENSIONAL
+    { 
+        id: 'rumbos-univ', 
+        label: '\n\n🌀 PORTAL\nNuevos Rumbos\n(FES Acatlán)', 
+        group: 'wormhole', 
+        size: 30,
+        font: { color: '#00f5d4', size: 12, face: 'Comfortaa', bold: true }
+    }
 ]);
 
 const enlaces = new vis.DataSet([
@@ -234,7 +241,15 @@ const enlaces = new vis.DataSet([
     { from: 'carta-11', to: 'carta-12' },
     { from: 'carta-12', to: 'last-letter' },
     { from: 'last-letter', to: 'wings-outro' },
-    { from: 'wings-outro', to: 'rumbos-univ', dashes: true }
+    
+    // ENLACE LUMINOSO DE HAZ GRAVITACIONAL
+    { 
+        from: 'wings-outro', 
+        to: 'rumbos-univ', 
+        dashes: [6, 3], 
+        width: 3, 
+        color: { color: '#ff007f', highlight: '#00f5d4' } 
+    }
 ]);
 
 // ==========================================================================
@@ -263,7 +278,16 @@ const opciones = {
         tbmil1: { color: { background: '#641220', border: '#e01e37' } },
         tbmil2: { color: { background: '#3c096c', border: '#9d4edd' } },
         forever: { color: { background: '#134647', border: '#48cae4' } },
-        universidad: { color: { background: '#5a3e2b', border: '#d97706' } }
+        wormhole: { 
+            shape: 'dot',
+            color: { 
+                background: 'rgba(0,0,0,0)', // Fondo transparente para evitar la mancha negra al hacer zoom out
+                border: 'rgba(0,0,0,0)',
+                highlight: { background: 'rgba(0,0,0,0)', border: 'rgba(0,0,0,0)' }
+            },
+            borderWidth: 0,
+            shadow: { enabled: false }
+        }
     },
     interaction: { hover: true, dragNodes: true },
     physics: {
@@ -277,7 +301,90 @@ const redGrafos = new vis.Network(contenedor, datos, opciones);
 window.network = redGrafos;
 
 // ==========================================================================
-// 4. LÓGICA DE INTERACCIÓN LIMPIA (SIN BUCLES NI EVENTOS DUPLICADOS)
+// ANIMACIÓN CANVAS EN TIEMPO REAL: VÓRTICE / AGUJERO DE GUSANO FLUIDO
+// ==========================================================================
+let anguloGiro = 0;
+
+const particulasPortal = Array.from({ length: 18 }, () => ({
+    distancia: 12 + Math.random() * 30,
+    angulo: Math.random() * Math.PI * 2,
+    velocidad: 0.02 + Math.random() * 0.03,
+    tamano: 1 + Math.random() * 2.5
+}));
+
+redGrafos.on("beforeDrawing", function (ctx) {
+    const posNodo = redGrafos.getPositions(['rumbos-univ'])['rumbos-univ'];
+    if (!posNodo) return;
+
+    const x = posNodo.x;
+    const y = posNodo.y;
+    anguloGiro += 0.025;
+
+    ctx.save();
+
+    // 1. Resplandor exterior expansivo
+    const pulso = Math.sin(anguloGiro * 2) * 5;
+    const gradienteExterior = ctx.createRadialGradient(x, y, 2, x, y, 45 + pulso);
+    gradienteExterior.addColorStop(0, 'rgba(0, 245, 212, 0.9)');
+    gradienteExterior.addColorStop(0.3, 'rgba(114, 9, 183, 0.6)');
+    gradienteExterior.addColorStop(0.7, 'rgba(255, 0, 127, 0.3)');
+    gradienteExterior.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.beginPath();
+    ctx.arc(x, y, 50 + pulso, 0, Math.PI * 2);
+    ctx.fillStyle = gradienteExterior;
+    ctx.fill();
+
+    // 2. Anillos espirales en rotación opuesta
+    const dibujaEspiral = (radio, color, sentido, lineDash) => {
+        ctx.beginPath();
+        ctx.lineWidth = 1.8;
+        ctx.strokeStyle = color;
+        ctx.setLineDash(lineDash);
+        ctx.arc(x, y, radio, sentido * anguloGiro, sentido * anguloGiro + Math.PI * 2);
+        ctx.stroke();
+    };
+
+    dibujaEspiral(30, 'rgba(0, 245, 212, 0.8)', 1, [12, 8]);
+    dibujaEspiral(22, 'rgba(255, 0, 127, 0.75)', -1.3, [8, 6]);
+    dibujaEspiral(14, 'rgba(114, 9, 183, 0.9)', 1.8, [4, 4]);
+
+    // 3. Partículas orbitando hacia el centro
+    particulasPortal.forEach(p => {
+        p.angulo += p.velocidad;
+        p.distancia -= 0.15;
+        if (p.distancia < 4) p.distancia = 35;
+
+        const px = x + Math.cos(p.angulo) * p.distancia;
+        const py = y + Math.sin(p.angulo) * p.distancia;
+
+        ctx.beginPath();
+        ctx.arc(px, py, p.tamano, 0, Math.PI * 2);
+        ctx.fillStyle = p.distancia > 18 ? 'rgba(0, 245, 212, 0.9)' : 'rgba(255, 0, 127, 0.9)';
+        ctx.fill();
+    });
+
+    // 4. Centro del portal traslúcido y brillante (Sin parche negro sólido)
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(13, 2, 33, 0.85)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#00f5d4';
+    ctx.stroke();
+
+    ctx.restore();
+});
+
+// Renderizado continuo
+function animarPortal() {
+    redGrafos.redraw();
+    requestAnimationFrame(animarPortal);
+}
+animarPortal();
+
+// ==========================================================================
+// 4. LÓGICA DE INTERACCIÓN Y NAVEGACIÓN
 // ==========================================================================
 redGrafos.on("click", function (params) {
     if (params.nodes.length > 0) {
@@ -302,7 +409,6 @@ redGrafos.on("click", function (params) {
 });
 
 redGrafos.on("dragEnd", function (params) {
-    // Esto asegura que al soltar el ratón, el nodo se quede en su lugar y no se pegue al cursor
     redGrafos.storePositions();
 });
 
@@ -367,7 +473,7 @@ document.getElementById('terminal-input').addEventListener('keydown', function(e
 function procesarComando(comandoCompleto) {
     if (!comandoCompleto) return;
 
-    let partes = comandoCompleto.split(' '); // Quitamos el toLowerCase global para no arruinar IDs
+    let partes = comandoCompleto.split(' ');
     let accion = partes[0].toLowerCase();
     let argumento = partes.slice(1).join(' ').replace(/['"]/g, '').trim();
 
@@ -380,16 +486,15 @@ function procesarComando(comandoCompleto) {
         case 'clear':
             tituloCarta.innerText = "✨ Visor Libre";
             contenidoCarta.innerHTML = `<p style="color: #aaa; font-style: italic;">Consola despejada. Selecciona un nodo en el grafo o usa 'open [id-carta]' para decodificar una nueva memoria.</p>`;
-            actualizarReproductorSpotify(null); // Quita la canción actual
+            actualizarReproductorSpotify(null);
             break;
         
         case 'open':
             if (!argumento) {
-                alert("Error: Especifica el ID de la carta. Ej: open intro1, open carta-1, open like-crazy");
+                alert("Error: Especifica el ID de la carta. Ej: open intro1, open carta-1, open rumbos-univ");
                 break;
             }
             
-            // Ahora la terminal busca en tu base de datos real (universoCartas)
             let cartaSeleccionada = universoCartas[argumento];
 
             if (cartaSeleccionada) {
@@ -408,11 +513,9 @@ function procesarComando(comandoCompleto) {
                 `;
                 
                 actualizarReproductorSpotify(cartaSeleccionada.spotifyId);
-                
-                // Efecto visual: Enfocar la cámara de vis.js en el nodo que abriste
                 redGrafos.focus(argumento, { scale: 1.2, animation: { duration: 800, easingFunction: "easeInOutQuad" } });
             } else {
-                alert(`No se encontró ninguna carta con el ID: '${argumento}'. Usa los IDs exactos (ej: carta-1, intro1).`);
+                alert(`No se encontró ninguna carta con el ID: '${argumento}'. Usa los IDs exactos (ej: carta-1, intro1, rumbos-univ).`);
             }
             break;
 
@@ -466,7 +569,7 @@ function procesarComando(comandoCompleto) {
             contenidoCarta.innerHTML = `
                 <div style="font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6; padding-bottom: 20px;">
                     <p style="color: #5cf2bd; margin-bottom: 8px; font-weight: bold;">[NAVEGACIÓN]</p>
-                    <p>• <strong>open [id-carta]</strong> - Carga la carta y su música (ej: open intro1, open carta-1).</p>
+                    <p>• <strong>open [id-carta]</strong> - Carga la carta y su música (ej: open intro1, open rumbos-univ).</p>
                     <p>• <strong>clear</strong> - Limpia el visor.</p>
                     
                     <p style="color: #48cae4; margin-top: 15px; margin-bottom: 8px; font-weight: bold;">[FILTROS CÓSMICOS]</p>
@@ -485,7 +588,7 @@ function procesarComando(comandoCompleto) {
 }
 
 // ==========================================================================
-// 7. REPRODUCTOR DE SPOTIFY (URL CORREGIDA Y OFICIAL)
+// 7. REPRODUCTOR DE SPOTIFY
 // ==========================================================================
 function actualizarReproductorSpotify(trackId) {
     const contenedorSpotify = document.getElementById('spotify-wrapper');
@@ -500,7 +603,6 @@ function actualizarReproductorSpotify(trackId) {
         return;
     }
 
-    // URL OFICIAL DE SPOTIFY EMBED (Soluciona el error de "Page not found")
     contenedorSpotify.innerHTML = `
         <iframe 
             src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=1"
