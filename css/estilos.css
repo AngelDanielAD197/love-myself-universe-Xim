@@ -8,11 +8,11 @@
 }
 
 body.dashboard-universo {
-    background-color: #111015; /* Fondo oscuro base por si acaso */
+    background-color: #111015; /* Fondo oscuro base */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     display: flex; 
-    overflow: hidden; /* Evita scrolls raros en el layout general */
+    overflow: hidden; /* Evita scrolls innecesarios en el layout general de desktop */
 }
 
 /* ==========================================================================
@@ -67,7 +67,7 @@ body.dashboard-universo {
 }
 
 /* ==========================================================================
-   1. BARRA LATERAL IZQUIERDA (Sidebar - Ahora integrada en el Grid)
+   1. BARRA LATERAL IZQUIERDA (Sidebar - Integrada en el Grid)
    ========================================================================== */
 .sidebar-usuario {
     grid-column: 1;
@@ -138,14 +138,14 @@ body.dashboard-universo {
 .header-grafo h1 {
     font-family: 'Comfortaa', sans-serif;
     font-size: 2.2rem;
-    color: #ffffff !important; /* El !important fuerza a Chrome a ignorar cualquier otra herencia */
+    color: #ffffff !important; 
     font-weight: 700;
-    background: transparent !important; /* Evita que intente renderizar fondos raros en otros motores */
-    -webkit-text-fill-color: #ffffff !important; /* Blindaje extra para navegadores WebKit/Chrome */
+    background: transparent !important; 
+    -webkit-text-fill-color: #ffffff !important; 
 }
 .header-grafo h2 {
     font-family: 'Comfortaa', sans-serif;
-    font-size: 1.4rem; /* Un tamaño menor para mantener la jerarquía de subtítulo */
+    font-size: 1.4rem; 
     font-weight: 700;
     color: #ffffff !important;
     background: transparent !important;
@@ -168,15 +168,15 @@ body.dashboard-universo {
     border-radius: 10px;
     z-index: 10;
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px); /* Añadido para soporte en Safari/Chrome viejo */
+    -webkit-backdrop-filter: blur(5px); 
     width: 180px;
     
     /* CONTROL DE DESBORDE CRUCIAL */
-    max-height: calc(100vh - 230px); /* Evita dinámicamente que baje hasta la terminal */
-    overflow-y: auto; /* Si el texto se desborda, genera un scrollbar interno */
+    max-height: calc(100vh - 230px); 
+    overflow-y: auto; 
 }
 
-/* Ocultar la barra de scroll del panel de filtros para que no rompa la estética mística */
+/* Ocultar la barra de scroll del panel de filtros */
 .panel-filtros::-webkit-scrollbar {
     width: 5px;
 }
@@ -261,8 +261,8 @@ body.dashboard-universo {
     padding: 25px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 150px); /* Ponle una altura fija con base en la pantalla para congelar su tamaño */
-    overflow: hidden; /* Evita que la tarjeta glass crezca infinitamente */
+    height: calc(100vh - 150px); 
+    overflow: hidden; 
 }
 .tarjeta-lectura-glass h2 {
     font-family: 'Comfortaa', sans-serif;
@@ -274,7 +274,7 @@ body.dashboard-universo {
 /* Espacio del Reproductor */
 .spotify-widget-container {
     width: 100%;
-    height: 80px; /* Espacio exacto para el reproductor compacto de Spotify */
+    height: 80px; 
     background: rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     margin-bottom: 20px;
@@ -293,7 +293,7 @@ body.dashboard-universo {
 /* Caja de scroll para el texto largo de las cartas */
 .cuerpo-carta-scroll {
     flex: 1;
-    overflow-y: auto !important; /* Fuerza el scrollbar vertical interno */
+    overflow-y: auto !important; 
     padding-right: 10px;
     font-size: 0.95rem;
     color: #d1ceda;
@@ -320,8 +320,8 @@ body.dashboard-universo {
 .footer-terminal {
     grid-column: 1 / span 3;
     grid-row: 2;
-    height: 90px; /* Forzamos explícitamente la altura de la caja */
-    min-height: 90px; /* Evita que el '1fr' de arriba la colapse a 0px */
+    height: 90px; 
+    min-height: 90px; 
     padding: 10px 30px;
     display: flex;
     flex-direction: column;
@@ -343,7 +343,7 @@ body.dashboard-universo {
     font-size: 0.85rem;
 }
 .prompt {
-    color: #5cf2bd; /* Verde terminal */
+    color: #5cf2bd; 
     margin-right: 10px;
     user-select: none;
 }
@@ -450,7 +450,110 @@ body.dashboard-universo {
 .dot.blanco-f { background-color: #ffffff; box-shadow: 0 0 8px #ffffff; }
 
 #spotify-wrapper iframe {
-    /* Esto le quita el brillo y satura los colores para que se vea más oscuro */
     filter: brightness(0.8) contrast(1.2); 
 }
 
+/* ==========================================================================
+   ADAPTACIÓN RESPONSIVA GRADUADA (DISPOSITIVOS MÓVILES, TABLETS Y MONITORES)
+   ========================================================================== */
+
+/* 1. TABLETS EN HORIZONTAL Y PANTALLAS MEDIANAS (900px a 1200px) */
+@media screen and (min-width: 901px) and (max-width: 1200px) {
+    .layout-principal {
+        /* Reduce la columna derecha a 320px para no apretar el grafo */
+        grid-template-columns: 120px 1fr 320px; 
+    }
+}
+
+/* 2. TELÉFONOS MÓVILES Y TABLETS EN VERTICAL (Menos de 900px) */
+@media screen and (max-width: 900px) {
+    
+    /* Desbloquea el scroll vertical */
+    body.dashboard-universo {
+        overflow-y: auto !important;
+        height: auto;
+    }
+
+    /* Transforma el Grid de 3 columnas a layout vertical apilado */
+    .layout-principal {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+        grid-template-rows: none;
+        min-height: 100vh;
+    }
+
+    /* Sidebar rediseñado como Header superior */
+    .sidebar-usuario {
+        width: 100%;
+        padding: 15px 20px;
+        flex-direction: row;
+        justify-content: space-between;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .icon-bts-laptop {
+        font-size: 1.8rem;
+        padding: 5px 10px;
+    }
+
+    .info-user {
+        margin-top: 0;
+        text-align: right;
+    }
+
+    /* Columna central y Grafo en pantalla completa móvil */
+    .columna-centro {
+        padding: 20px 15px;
+        width: 100%;
+    }
+
+    .header-grafo h1 {
+        font-size: 1.6rem !important;
+    }
+
+    .header-grafo h2 {
+        font-size: 1.1rem !important;
+    }
+
+    /* Ajuste de filtros para no flotar tapando el canvas */
+    .panel-filtros {
+        position: static;
+        width: 100%;
+        max-height: 180px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    #canvas-grafo {
+        height: 50vh;
+        min-height: 350px;
+    }
+
+    /* Tarjeta de lectura de cartas */
+    .columna-derecha {
+        padding: 15px;
+        width: 100%;
+    }
+
+    .tarjeta-lectura-glass {
+        height: auto;
+        max-height: 500px;
+    }
+
+    .cuerpo-carta-scroll {
+        max-height: 250px;
+    }
+
+    /* Terminal Linux inferior */
+    .footer-terminal {
+        height: auto;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .terminal-box {
+        font-size: 0.75rem;
+    }
+}
