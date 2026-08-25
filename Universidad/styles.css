@@ -1,4 +1,6 @@
-/* --- CSS Reset & Variables --- */
+/* ==========================================================================
+   1. RESET & VARIABLES GLOBALES
+   ========================================================================== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -16,16 +18,20 @@
 }
 
 body, html {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
     background: var(--bg-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     user-select: none;
     -webkit-user-select: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-/* --- Canvas de Fondo --- */
+/* ==========================================================================
+   2. ESTILOS DE ESCRITORIO (ESTRUCTURA BASE ORIGINAL)
+   ========================================================================== */
+
+/* --- Canvas 3D de Fondo --- */
 canvas {
     position: absolute;
     top: 0;
@@ -75,52 +81,7 @@ canvas {
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
-.theme-btn {
-    background: transparent;
-    border: 1px transparent solid;
-    color: rgba(255, 255, 255, 0.6);
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.8px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.theme-btn:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.theme-btn.active {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-}
-
-/* Botón de Pantalla Completa integrado en la barra de temas */
-.fullscreen-btn {
-    border: 1px solid rgba(0, 242, 254, 0.4) !important;
-    color: var(--cyan-accent) !important;
-    margin-left: 6px;
-}
-
-.fullscreen-btn:hover {
-    background: rgba(0, 242, 254, 0.2) !important;
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
-}
-
-.fullscreen-btn.active {
-    background: rgba(255, 0, 128, 0.2) !important;
-    border-color: var(--pink-accent) !important;
-    color: var(--pink-accent) !important;
-    box-shadow: 0 0 12px rgba(255, 0, 128, 0.4);
-}
-
-/* --- Paneles UI Lateral Izquierdo / Derecho --- */
+/* --- Paneles UI Lateral Izquierdo y Derecho --- */
 .panel-left {
     position: absolute;
     top: 65px;
@@ -164,7 +125,7 @@ canvas {
     opacity: 0;
     transform: translateX(40px);
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .panel-right.active {
@@ -173,7 +134,78 @@ canvas {
     pointer-events: all;
 }
 
-/* --- Encabezados Internos --- */
+/* --- PROTECCIÓN DE IMÁGENES (Evita que se deformen o cambien feo) --- */
+.node-image-container {
+    width: 100%;
+    height: 160px; /* Altura fija para proteger la estructura */
+    min-height: 160px;
+    max-height: 160px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    margin-bottom: 12px;
+    background: #000;
+    flex-shrink: 0; /* Previene que la caja se aplaste si hay mucho texto */
+}
+
+.node-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajuste perfecto sin estirar */
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.node-image-container:hover img {
+    transform: scale(1.05);
+}
+
+/* --- Componentes de Botones y Estilos Internos --- */
+.theme-btn {
+    background: transparent;
+    border: 1px transparent solid;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.theme-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.theme-btn.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.fullscreen-btn {
+    border: 1px solid rgba(0, 242, 254, 0.4) !important;
+    color: var(--cyan-accent) !important;
+    margin-left: 6px;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(0, 242, 254, 0.2) !important;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.fullscreen-btn.active {
+    background: rgba(255, 0, 128, 0.2) !important;
+    border-color: var(--pink-accent) !important;
+    color: var(--pink-accent) !important;
+    box-shadow: 0 0 12px rgba(255, 0, 128, 0.4);
+}
+
 h3 {
     font-size: 12px;
     font-weight: 900;
@@ -201,7 +233,6 @@ h3 {
     line-height: 1.3;
 }
 
-/* --- Navegación Izquierda --- */
 .navigation-list {
     display: flex;
     flex-direction: column;
@@ -250,7 +281,6 @@ h3 {
     box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
 }
 
-/* --- Agrupaciones de Información --- */
 .info-group {
     margin-bottom: 16px;
 }
@@ -270,7 +300,6 @@ h3 {
     font-weight: 400;
 }
 
-/* --- Controles del Panel de Música --- */
 .music-panel {
     margin-top: 12px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -301,14 +330,13 @@ h3 {
     color: var(--cyan-accent);
 }
 
-/* --- Encabezado del Nodo Seleccionado --- */
 .node-header-group {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 8px;
     margin-bottom: 12px;
 }
 
-/* --- CARRUSEL DE PESTAÑAS (ADAPTABLE A N CARTAS) --- */
+/* Carrusel de Pestañas */
 .card-tabs-wrapper {
     display: flex;
     align-items: center;
@@ -325,17 +353,16 @@ h3 {
     scroll-behavior: smooth;
     padding: 4px 2px;
     width: 100%;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .card-tabs-container::-webkit-scrollbar {
-    display: none; /* Oculta la barra en Chrome/Safari */
+    display: none;
 }
 
-/* Botón individual de Pestaña dentro del carrusel */
 .card-tab-btn {
-    flex: 0 0 95px; /* Ancho fijo para garantizar el scroll horizontal */
+    flex: 0 0 95px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
@@ -383,7 +410,6 @@ h3 {
     opacity: 1;
 }
 
-/* Flechas de desplazamiento del carrusel */
 .scroll-arrow {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(0, 242, 254, 0.3);
@@ -407,33 +433,24 @@ h3 {
     box-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
-.scroll-arrow:active {
-    transform: scale(0.92);
+.footer-signature {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+    z-index: 100;
+    pointer-events: none;
+    letter-spacing: 0.6px;
+    text-align: center;
+    background: rgba(1, 0, 5, 0.5);
+    padding: 3px 12px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
-/* --- Contenedor de Imagen de la Carta --- */
-.node-image-container {
-    width: 100%;
-    height: 150px;
-    overflow: hidden;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 242, 254, 0.3);
-    margin-bottom: 12px;
-    background: #000;
-}
-
-.node-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.node-image-container:hover img {
-    transform: scale(1.05);
-}
-
-/* --- Scrollbar Personalizado para Paneles --- */
 .panel-left::-webkit-scrollbar,
 .panel-right::-webkit-scrollbar {
     width: 5px;
@@ -452,21 +469,155 @@ h3 {
     box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
 }
 
-/* --- Footer / Firma Inferior --- */
-.footer-signature {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.45);
-    z-index: 100;
-    pointer-events: none;
-    letter-spacing: 0.6px;
-    text-align: center;
-    background: rgba(1, 0, 5, 0.5);
-    padding: 3px 12px;
-    border-radius: 12px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+/* ==========================================================================
+   3. ADAPTACIÓN MÓVIL (GALAXIA VISIBLE + PANEL DERECHO SOLO AL ACTIVAR)
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+
+    /* Permitimos el scroll vertical general */
+    html, body {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+        background: transparent !important;
+    }
+
+    /* Canvas de la Galaxia FIJO y visible en todo momento */
+    canvas {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 1 !important;
+        pointer-events: none;
+    }
+
+    /* 1. Header Título (Compacto Arriba) */
+    .main-title-header {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 90% !important;
+        max-width: none !important;
+        margin: 15px auto 10px auto !important;
+        text-align: center !important;
+        z-index: 10 !important;
+    }
+
+    .main-title-header h1 {
+        font-size: 14px !important;
+        letter-spacing: 1.5px !important;
+        white-space: normal !important;
+    }
+
+    /* 2. Selector de Temas */
+    .theme-panel {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        margin: 0 auto 15px auto !important;
+        width: 90% !important;
+        max-width: 380px !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        padding: 5px 8px !important;
+        z-index: 10 !important;
+        background: rgba(3, 2, 8, 0.4) !important; /* Cristal sutil para ver la galaxia detrás */
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+    }
+
+    .theme-btn {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+    }
+
+    /* 3. Pestaña de Navegación / Semestres */
+    .panel-left {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 auto 25px auto !important;
+        width: 88% !important;
+        max-width: 450px !important;
+        max-height: none !important;
+        overflow: visible !important;
+        z-index: 10 !important;
+        
+        background: rgba(5, 5, 15, 0.35) !important; 
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        border: 1px solid rgba(0, 242, 254, 0.3) !important;
+        box-shadow: 0 0 20px rgba(0, 242, 254, 0.15) !important;
+    }
+
+    .nav-btn {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(4px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        margin-bottom: 4px;
+    }
+
+    /* 4. Pestaña de las Cartas (HASTA ABAJO) */
+    .panel-right {
+        position: relative !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        margin: 0 auto 30px auto !important;
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        z-index: 10 !important;
+        
+        transform: none !important;
+        opacity: 0;
+
+        /* OCULTO POR DEFECTO */
+        display: none !important;
+
+        background: rgba(3, 2, 8, 0.75) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+    }
+
+    /* SOLO APARECE AL SELECCIONAR UNA PESTAÑA */
+    .panel-right.active {
+        display: flex !important;
+        flex-direction: column !important;
+        opacity: 1 !important;
+    }
+
+    /* Imagen de las cartas */
+    .node-image-container {
+        width: 100% !important;
+        height: 170px !important;
+        min-height: 170px !important;
+        max-height: 170px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .node-image-container img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* Firma al final */
+    .footer-signature {
+        position: relative !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        margin: 10px auto 30px auto !important;
+        display: table !important;
+        z-index: 10 !important;
+    }
 }
