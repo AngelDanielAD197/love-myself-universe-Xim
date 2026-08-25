@@ -605,6 +605,133 @@
             color: rgba(255, 255, 255, 0.5);
             margin-top: 2px;
         }
+/* ==========================================================================
+   ADAPTACIÓN MÓVIL REESTRUCTURADA (TODOS VISIBLES + ORDEN PERSONALIZADO)
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+
+    /* Habilitamos el scroll vertical general */
+    html, body {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+        background: #010005 !important;
+    }
+
+    /* Fondo 3D / Galaxia fijo */
+    #bgCanvas {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 1 !important;
+        pointer-events: none;
+    }
+
+    /* Cabecera compacta */
+    /* Ajustes para centrar el título en la cabecera móvil */
+    .header-bar {
+        position: relative !important;
+        padding: 12px 15px !important;
+        background: rgba(1, 0, 5, 0.85) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .brand-title {
+        font-size: 13px !important;
+        letter-spacing: 1px !important;
+        text-align: center !important; /* Centra el texto */
+        flex: 1 !important;            /* Ocupa el espacio disponible para alinearse bien */
+    }
+
+    .back-btn {
+        padding: 6px 12px !important;
+        font-size: 10px !important;
+    }
+
+    /* Contenedor Principal pasa a Flexcol para reorganizar el orden */
+    .portal-container {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        height: auto !important;
+        margin-top: 10px !important;
+        padding: 10px 15px 40px 15px !important;
+        gap: 20px !important;
+    }
+
+    /* --- REORDENAMIENTO DE PANELES --- */
+
+    /* 1. CARTA CENTRAL (PRIMERO) */
+    .letter-panel {
+        display: flex !important;
+        flex-direction: column !important;
+        order: 1 !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-height: none !important;
+        background: rgba(10, 10, 25, 0.85) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border: 1px solid rgba(0, 242, 254, 0.3) !important;
+    }
+
+    .letter-body {
+        max-height: 380px !important; /* Lectura cómoda con scroll propio */
+        padding-right: 8px !important;
+        font-size: 13.5px !important;
+    }
+
+    .letter-title {
+        font-size: 18px !important;
+    }
+
+    /* 2. G.W.E.N. TERMINAL (EN MEDIO) */
+    .portal-container > .holo-panel:first-child {
+        display: flex !important;
+        flex-direction: column !important;
+        order: 2 !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-height: none !important;
+        background: rgba(10, 10, 25, 0.8) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 0, 128, 0.25) !important;
+    }
+
+    .chat-box {
+        max-height: 220px !important;
+    }
+
+    /* 3. REPRODUCTOR DE MÚSICA (AL FINAL) */
+    .spotify-scroll-panel {
+        display: block !important; /* Forzamos la visibilidad */
+        order: 3 !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-height: none !important;
+        background: rgba(5, 5, 12, 0.9) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .canvas-hero {
+        height: 220px !important;
+    }
+
+    .canvas-hero.compact {
+        height: 130px !important;
+    }
+}
+
+        
     </style>
 </head>
 <body>
